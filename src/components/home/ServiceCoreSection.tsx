@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 /**
  * "서비스 핵심" — two traditional-window cards. The lattice shutters open on
  * hover/focus to reveal the label, echoing the mock-up's 창문 style.
@@ -16,18 +18,35 @@ export function ServiceCoreSection() {
       </p>
 
       <div className="service-core__windows">
-        <WindowCard label="각종 한국 이름 풀이" />
-        <WindowCard label="한국 이름의 작명 원리" />
+        <WindowCard label="각종 한국 이름 풀이" variant="names" />
+        <WindowCard label="한국 이름의 작명 원리" variant="principles" />
       </div>
     </section>
   );
 }
 
-function WindowCard({ label }: { label: string }) {
+function WindowCard({ label, variant }: { label: string; variant: "names" | "principles" }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [hasOpened, setHasOpened] = useState(false);
+
+  const open = () => setIsOpen(true);
+
   return (
-    <button className="window" aria-label={`${label} — 열어보기`}>
+    <button
+      className={`window window--${variant}${isOpen ? " is-open" : ""}${hasOpened ? " has-opened" : ""}`}
+      aria-label={`${label} — ${hasOpened ? "열림" : "열어보기"}`}
+      onMouseEnter={open}
+      onFocus={open}
+      onClick={open}
+    >
       <span className="window__label">{label}</span>
-      <span className="window__shutter window__shutter--left" aria-hidden="true" />
+      <span
+        className="window__shutter window__shutter--left"
+        aria-hidden="true"
+        onTransitionEnd={(event) => {
+          if (isOpen && event.propertyName === "transform") setHasOpened(true);
+        }}
+      />
       <span className="window__shutter window__shutter--right" aria-hidden="true" />
     </button>
   );

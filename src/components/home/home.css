@@ -419,26 +419,11 @@
   background: var(--color-warm-beige);
   transition: background-color var(--ease), color var(--ease), border-color var(--ease);
 }
-.design-chip:hover {
-  background: color-mix(in srgb, var(--color-primary) 8%, #fff);
-}
-.design-chip--filled {
+.design-chip:hover,
+.design-chip:focus-visible {
   background: var(--color-button-navy);
-  color: var(--color-surface);
-  border-color: var(--color-button-navy);
-}
-.design-chip--filled:hover {
-  background: var(--color-button-navy-hover);
   color: var(--color-primary-foreground);
-  border-color: var(--color-button-navy-hover);
-}
-.design-chip--soft {
-  background: var(--color-warm-beige);
-  color: var(--color-button-navy);
   border-color: var(--color-button-navy);
-}
-.design-chip--soft:hover {
-  background: color-mix(in srgb, var(--color-warm-beige) 88%, var(--color-button-navy));
 }
 
 @media (max-width: 860px) {
@@ -484,22 +469,30 @@
   position: relative;
   display: block;
   width: 100%;
-  aspect-ratio: 1.82 / 1;
-  border: clamp(8px, 1vw, 12px) solid var(--color-border-accent);
+  aspect-ratio: 2048 / 1165;
+  border: 0;
   border-radius: 6px;
   overflow: hidden;
-  background: linear-gradient(180deg, #f3ece0, #eee3d2);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   box-shadow: var(--shadow-card);
   perspective: 900px;
   transform-style: preserve-3d;
 }
-/* Label stays centred and visible on top of the panel, matching the mock-up. */
+.window--names {
+  background-image: url("/images/common/hanok-window-names-bg.png");
+}
+.window--principles {
+  background-image: url("/images/common/hanok-window-principles-bg.png");
+}
+/* Keep each title readable over the closed doors and the revealed content. */
 .window__label {
   position: absolute;
   inset: 0;
   display: grid;
   place-items: center;
-  z-index: 0;
+  z-index: 2;
   font-family: var(--font-serif);
   font-weight: 700;
   font-size: clamp(18px, 2.2vw, 30px);
@@ -507,7 +500,8 @@
   padding: 20px;
   text-align: center;
   text-shadow: 0 1px 0 rgb(255 255 255 / 70%);
-  opacity: 1;
+  pointer-events: none;
+  transition: opacity var(--ease);
 }
 .window__shutter {
   position: absolute;
@@ -516,10 +510,10 @@
   width: 50%;
   z-index: 1;
   opacity: 1;
-  border: 2px solid var(--color-border-accent);
+  border: 0;
   /* Both shutters show one shared door image, cropped into exact left/right
      halves. This keeps the lattice continuous across the centre while closed. */
-  background-image: url("/images/common/hanok-door.svg");
+  background-image: url("/images/common/hanok-window.png");
   background-repeat: no-repeat;
   background-size: 200% 100%;
   backface-visibility: hidden;
@@ -545,19 +539,20 @@
     inset 10px 0 16px rgb(90 60 25 / 8%),
     -2px 0 0 rgb(93 62 31 / 20%);
 }
-.window:hover .window__shutter--left,
-.window:focus-visible .window__shutter--left {
+.window.is-open .window__shutter--left {
   transform: rotateY(90deg);
   box-shadow:
     inset -18px 0 24px rgb(55 36 20 / 24%),
     8px 2px 16px rgb(65 42 20 / 16%);
 }
-.window:hover .window__shutter--right,
-.window:focus-visible .window__shutter--right {
+.window.is-open .window__shutter--right {
   transform: rotateY(-90deg);
   box-shadow:
     inset 18px 0 24px rgb(55 36 20 / 24%),
     -8px 2px 16px rgb(65 42 20 / 16%);
+}
+.window.has-opened .window__label {
+  opacity: 0;
 }
 
 /* ======================= MERCHANDISE ====================================== */

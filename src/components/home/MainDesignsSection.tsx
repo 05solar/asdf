@@ -47,10 +47,10 @@ export function MainDesignsSection() {
             <img className="design-group__img" src={SEC2_PORTRAIT} alt="주요 디자인 예시" />
           </div>
           <div className="design-group__buttons">
-            <Link className="design-chip design-chip--soft" to="/apply?designId=visitor-01">
+            <Link className="design-chip" to="/apply?designId=visitor-01">
               방문증 신청
             </Link>
-            <Link className="design-chip design-chip--filled" to="/apply?designId=student-01">
+            <Link className="design-chip" to="/apply?designId=student-01">
               학생증 신청
             </Link>
           </div>
