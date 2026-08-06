@@ -30,3 +30,4 @@ npx netlify deploy --prod --dir=dist
   이 Netlify 도메인을 `Access-Control-Allow-Origin` 에 허용하고
   `Access-Control-Allow-Credentials: true` 로 설정해야 로그인/인증이 동작합니다.
 - OAuth(구글/네이버) 리다이렉트 URL 도 백엔드에 새 프론트 도메인을 등록해야 합니다.
+- .. 
