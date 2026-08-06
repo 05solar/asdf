@@ -486,6 +486,69 @@
 .window--principles {
   background-image: url("/images/common/hanok-window-principles-bg.png");
 }
+.window__name-scroll {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  padding-inline: clamp(14px, 2vw, 28px);
+  background: transparent;
+  pointer-events: none;
+}
+.window__name-track {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  animation: name-results-scroll 400s linear infinite;
+  will-change: transform;
+}
+.window__name-group {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+}
+.window__name-row {
+  display: flex;
+  flex: none;
+  align-items: baseline;
+  gap: clamp(7px, 1vw, 14px);
+  height: clamp(24px, 2.15vw, 31px);
+  color: var(--color-text-title);
+  font-size: clamp(10px, .82vw, 13px);
+  font-weight: 500;
+  line-height: 1;
+  text-shadow:
+    0 1px 1px var(--color-background),
+    0 0 4px var(--color-background),
+    0 0 7px var(--color-background);
+  white-space: nowrap;
+}
+.window__name-row b {
+  flex: none;
+  color: var(--color-text-title);
+  font-size: 1.2em;
+}
+.window__name-row i,
+.window__name-row em {
+  flex: none;
+  color: var(--color-brown);
+  font-style: normal;
+}
+.window__name-row > span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+@keyframes name-results-scroll {
+  from { transform: translateY(-50%); }
+  to { transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .window__name-track {
+    animation-duration: 400s !important;
+    animation-iteration-count: infinite !important;
+  }
+}
 /* Keep each title readable over the closed doors and the revealed content. */
 .window__label {
   position: absolute;
@@ -553,6 +616,9 @@
 }
 .window.has-opened .window__label {
   opacity: 0;
+}
+.window.has-opened .window__shutter {
+  display: none;
 }
 
 /* ======================= MERCHANDISE ====================================== */

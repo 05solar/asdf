@@ -1,4 +1,5 @@
 import { useState } from "react";
+import nameResults from "../../data/nameResults.json";
 
 /**
  * "서비스 핵심" — two traditional-window cards. The lattice shutters open on
@@ -39,6 +40,24 @@ function WindowCard({ label, variant }: { label: string; variant: "names" | "pri
       onFocus={open}
       onClick={open}
     >
+      {variant === "names" && (
+        <span className="window__name-scroll" aria-hidden="true">
+          <span className="window__name-track">
+            {[0, 1].map((copy) => (
+              <span className="window__name-group" key={copy}>
+                {nameResults.map((result) => (
+                  <span className="window__name-row" key={`${copy}-${result.number}`}>
+                    <b>{result.name}</b>
+                    <i>{result.hanja}</i>
+                    <em>{result.english}</em>
+                    <span>{result.meaning}</span>
+                  </span>
+                ))}
+              </span>
+            ))}
+          </span>
+        </span>
+      )}
       <span className="window__label">{label}</span>
       <span
         className="window__shutter window__shutter--left"
