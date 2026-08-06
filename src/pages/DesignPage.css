@@ -1,0 +1,250 @@
+/* Design page styles. */
+.design__hero {
+  padding-block: clamp(40px, 6vw, 76px) clamp(20px, 3vw, 36px);
+}
+.design__title {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  color: var(--color-wordmark);
+  font-size: clamp(26px, 3.2vw, 38px);
+  margin: 10px 0 8px;
+}
+/* Lead line "한국의 결을 따라…" in brand navy, with a long rule beneath it. */
+.design__lead {
+  color: var(--color-text-secondary);
+}
+.design__lead-line {
+  height: 2px;
+  background: var(--color-surface-soft);
+  margin-top: clamp(16px, 2.4vw, 26px);
+}
+
+.design__cat {
+  /* Horizontal gap between cards — also feeds the inner-width maths below. */
+  --card-gap: 24px;
+  padding-block: clamp(30px, 5vw, 60px);
+  scroll-margin-top: 120px;
+}
+/* Inner block sizes to the (reduced) card group so the title, rule and footer
+   all line up with the cards' outer left/right edges. */
+.design__cat-inner {
+  margin-inline: auto;
+  /* Every category — including the portrait ones (학생증·방문증) — spans the
+     landscape card width so the title rule and pager line up across all
+     sections. */
+  max-width: calc(380px * 3 + var(--card-gap) * 2);
+}
+
+.design__cat-head {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+}
+.design__cat-title {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  color: var(--color-text-title);
+  font-size: clamp(22px, 2.8vw, 34px);
+}
+
+/* Rule below the category title with the pager pinned to its right. */
+.design__cat-bar {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin: 16px 0 clamp(24px, 3vw, 40px);
+}
+.design__cat-line {
+  flex: 1;
+  height: 2px;
+  background: var(--color-surface-soft);
+}
+.design__pager {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: none;
+}
+.design__pager-arrow {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  color: var(--color-text-secondary);
+  transition: color var(--ease), background-color var(--ease);
+}
+.design__pager-arrow:hover:not(:disabled) {
+  color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-surface-soft) 55%, transparent);
+}
+.design__pager-arrow:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.design__pager-count {
+  font-family: var(--font-serif);
+  font-size: clamp(15px, 1.5vw, 19px);
+  letter-spacing: 0.14em;
+  white-space: nowrap;
+}
+.design__pager-count b {
+  font-weight: inherit;
+  color: var(--color-text-secondary);
+}
+.design__pager-count i,
+.design__pager-count em {
+  font-style: normal;
+  color: var(--color-text-muted);
+}
+.design__pager-count i {
+  margin: 0 6px;
+  opacity: 0.7;
+}
+
+.design__cat-foot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  gap: 18px;
+  margin-top: clamp(20px, 3vw, 34px);
+}
+.design__note {
+  color: var(--color-text-muted);
+  font-size: 13px;
+  line-height: 1;
+}
+.design__apply-btn {
+  background: var(--color-primary);
+  color: var(--color-primary-foreground);
+  padding: 12px 28px;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: background-color var(--ease);
+}
+.design__apply-btn:hover {
+  background: var(--color-primary-hover);
+  color: var(--color-primary-foreground);
+}
+
+/* ---- Carousel ------------------------------------------------------------ */
+/* Cards fill the inner width in even columns; the inner width is sized so the
+   columns land at ~380px (landscape) / ~320px (portrait) with a tight gap. */
+.carousel__track {
+  display: grid;
+  gap: var(--card-gap);
+}
+.carousel__track--landscape {
+  grid-template-columns: repeat(3, 1fr);
+}
+/* 명예 한국인증·명예 시민증: keep the section's outer alignment while making
+   each card slightly smaller and redistributing the freed width as spacing. */
+.design__cat--honorary-korean .carousel__track--landscape,
+.design__cat--honorary-citizen .carousel__track--landscape {
+  grid-template-columns: repeat(3, minmax(0, 350px));
+  justify-content: space-between;
+}
+/* Portrait: front + reading pairs flow across the row (front1·reading1·front2·
+   reading2) so the section fills the same wide width as the ID cards above. */
+.carousel__track--portrait {
+  grid-template-columns: repeat(4, 1fr);
+  align-items: start;
+}
+/* 방문증: reduce all four cards while preserving the row's outer edges and
+   redistribute the freed width as equal space between cards. */
+.design__cat--visitor .carousel__track--portrait {
+  grid-template-columns: repeat(4, minmax(0, 220px));
+  justify-content: space-between;
+}
+.carousel__track--portrait .carousel__slide {
+  display: contents;
+}
+.carousel__slide {
+  display: grid;
+  gap: clamp(18px, 2vw, 28px);
+  align-content: start;
+}
+
+/* 학생증: a wide landscape pair over a portrait quartet. */
+.carousel--student {
+  display: grid;
+  gap: clamp(26px, 3.4vw, 48px);
+}
+.carousel__row {
+  display: grid;
+  gap: var(--card-gap);
+  align-items: start;
+}
+.carousel__row--wide {
+  /* 가로 두 장은 크기를 더 줄이고(최대 360px) 두 장 사이 간격은 조금 더 넓혀 가운데로 모음. */
+  grid-template-columns: repeat(2, minmax(0, 360px));
+  justify-content: center;
+  gap: clamp(28px, 3.6vw, 56px);
+}
+.carousel__row--narrow {
+  /* 세로 네 장은 크기를 줄이고(최대 220px) 남는 공간을 간격으로 벌려,
+     양 끝 카드는 전체 너비 좌우 끝에 그대로 유지. */
+  grid-template-columns: repeat(4, minmax(0, 220px));
+  justify-content: space-between;
+}
+
+/* Card + colour-overlay wrapper (overlay driven by the active page). */
+.carousel__frame {
+  position: relative;
+  display: block;
+}
+.carousel__tint {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-card);
+  pointer-events: none;
+  transition: background var(--ease);
+}
+
+@media (max-width: 900px) {
+  .design__cat-inner {
+    max-width: calc(380px * 2 + var(--card-gap));
+  }
+  .carousel__track--landscape {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .design__cat--honorary-korean .carousel__track--landscape,
+  .design__cat--honorary-citizen .carousel__track--landscape {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  /* Pairs stack: one slot (front | reading) per row. */
+  .carousel__track--portrait {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .design__cat--visitor .carousel__track--portrait {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .carousel__row--narrow {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 620px) {
+  .design__cat-inner {
+    max-width: 420px;
+  }
+  .carousel__track--landscape {
+    grid-template-columns: 1fr;
+  }
+  .design__cat--honorary-korean .carousel__track--landscape,
+  .design__cat--honorary-citizen .carousel__track--landscape {
+    grid-template-columns: 1fr;
+  }
+  .carousel__track--portrait {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .carousel__row--wide {
+    grid-template-columns: 1fr;
+    gap: var(--card-gap);
+  }
+  .carousel__row--narrow {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .design__cat-foot {
+    justify-content: space-between;
+  }
+}

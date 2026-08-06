@@ -1,0 +1,65 @@
+/*
+ * Design tokens — the SINGLE source of truth for colours.
+ *
+ * Values come from the manager's black-labelled colour chips (not eyedropper
+ * values) and the green annotations on the mock-ups. Do NOT hard-code hex
+ * values anywhere else in the codebase — reference these variables instead.
+ */
+:root {
+  /* Surfaces */
+  --color-background: #f5f1ea;      /* flat page background */
+  --color-bg-top: #f8f3ec;          /* lighter top of the header→zodiac gradient */
+  --color-surface: #f5f1ea;         /* card / panel surface */
+  --color-warm-beige: #f2e9df;      /* explicitly beige sections / controls */
+  --color-surface-soft: #e5d8cd;    /* soft card bg, dividers, inactive */
+  --color-surface-cream: #f0e9e0;   /* lightest cream */
+  --color-surface-beige: #e3d9ce;   /* secondary beige */
+
+  /* Borders */
+  --color-border-accent: #bc996e;   /* card border, input accent (brown) */
+  --color-border-soft: #d8c9b6;     /* subtle borders */
+
+  /* Text */
+  --color-text-primary: #504f33;    /* headings, footer logo text (olive) */
+  --color-text-title: #594635;      /* deep brown titles */
+  --color-text-secondary: #4d453e;  /* sub-headings, footer menu */
+  --color-text-muted: #90867d;      /* body copy, page numbers, inactive */
+  --color-text-faint: #8e877e;      /* faintest grey */
+  --color-text-subtitle: #8e837b;   /* home-section supporting copy */
+
+  /* Brand navy */
+  --color-primary: #263d5b;         /* buttons, links, active menu */
+  --color-primary-hover: #324a66;   /* button / dropdown hover */
+  --color-primary-foreground: #f7f0e9; /* text on navy (cream) */
+  --color-button-navy: #2b3c59;     /* main-design action buttons */
+  --color-button-navy-hover: #263d58;
+
+  /* Accents */
+  --color-icon-accent: #91683f;     /* check icons, accent icons (brown) */
+  --color-brown: #8a6945;
+  --color-sejong-ink: #5d4533;      /* 세종대왕 line-art ink — 건곤감리 marks */
+  --color-wordmark: #5d4533;        /* 한글과 세종 wordmark, footer 사명, SNS glyphs */
+  --color-title-accent: #8f6943;    /* 히어로 타이틀 + 아이브로 외곽선 */
+
+  /* Layout */
+  --page-max: 1440px;
+  --page-gutter: 20px;
+  --header-height: 92px;
+  --radius-card: 4px;
+  --radius-panel: 8px;
+  --radius-pill: 999px;
+
+  /* Elevation — cards should look "lifted", never heavily shadowed */
+  --shadow-card: 0 8px 22px rgb(80 79 51 / 8%);
+  --shadow-card-hover: 0 10px 24px rgb(80 79 51 / 11%);
+  --shadow-panel: 0 12px 34px rgb(80 79 51 / 10%);
+
+  /* Typography — Pretendard site-wide. */
+  --font-sans: "Pretendard", system-ui, -apple-system, "Apple SD Gothic Neo",
+    "Malgun Gothic", sans-serif;
+  /* Display / brand headings — 은평사가독서체 calligraphy face (falls back to
+     Pretendard). Body copy stays on --font-sans. */
+  --font-serif: "EunpyeongSagaDokseo", var(--font-sans);
+
+  --ease: 180ms ease;
+}

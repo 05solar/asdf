@@ -1,0 +1,121 @@
+// Site footer: menus, company details, and social links.
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import clsx from "clsx";
+import { Logo } from "../brand/Logo";
+import { footerNav } from "../../config/navigation";
+import { companyInfo } from "../../config/company";
+import { policyDocuments, type PolicyType } from "../../data/policies";
+import { Modal } from "../ui/Modal";
+import { SocialLinks } from "./SocialLinks";
+import "./Footer.css";
+import { useLanguage } from "../../features/i18n/LanguageContext";
+
+const policyOrder: Exclude<PolicyType, "sitemap">[] = ["privacy", "terms", "email"];
+
+export function Footer() {
+  const { t } = useLanguage();
+  const [policy, setPolicy] = useState<Exclude<PolicyType, "sitemap"> | null>(null);
+  const [sitemapOpen, setSitemapOpen] = useState(false);
+
+  const active = policy ? policyDocuments[policy] : null;
+  const idx = policy ? policyOrder.indexOf(policy) : -1;
+
+  return (
+    <footer className="footer">
+      <div className="footer__inner page-container">
+        {/* Row 1: menu + policy links */}
+        <div className="footer__top">
+          <nav className="footer__menu" aria-label="푸터 메뉴">
+            {footerNav.map((item) => (
+              <Link key={item.to} to={item.to} className="footer__menu-link">
+                {t(item.label)}
+              </Link>
+            ))}
+          </nav>
+
+          <div className="footer__policies">
+            {policyOrder.map((p) => (
+              <button key={p} className="footer__policy" onClick={() => setPolicy(p)}>
+                {t(policyDocuments[p].title)}
+              </button>
+            ))}
+            <div className="sitemap">
+              <button
+                className="footer__policy"
+                aria-expanded={sitemapOpen}
+                onClick={() => setSitemapOpen((v) => !v)}
+                onMouseEnter={() => setSitemapOpen(true)}
+                onMouseLeave={() => setSitemapOpen(false)}
+              >
+                {t("사이트맵")}
+              </button>
+              <div
+                className={clsx("sitemap__panel", sitemapOpen && "sitemap__panel--open")}
+                onMouseEnter={() => setSitemapOpen(true)}
+                onMouseLeave={() => setSitemapOpen(false)}
+              >
+                {footerNav.map((item) => (
+                  <Link key={item.to} to={item.to} className="sitemap__link">
+                    {t(item.label)}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Row 2: logo + company info + SNS */}
+        <div className="footer__main">
+          <div className="footer__brand">
+            <Logo size="sm" />
+          </div>
+
+          <address className="footer__info">
+            <p>{companyInfo.address}</p>
+            <p>
+              <span>대표전화 {companyInfo.phone}</span>
+              <i aria-hidden="true">|</i>
+              <span>팩스 {companyInfo.fax}</span>
+              <i aria-hidden="true">|</i>
+              <span>
+                {companyInfo.representativeTitle} {companyInfo.representative}
+              </span>
+              <i aria-hidden="true">|</i>
+              <span>사업자등록번호 {companyInfo.registrationNumber}</span>
+            </p>
+            <p>
+              <span>
+                {companyInfo.businessHours} {companyInfo.businessHoursNote}
+              </span>
+              <i aria-hidden="true">|</i>
+              <span>특허출원번호 {companyInfo.patentNumber}</span>
+            </p>
+          </address>
+
+          <SocialLinks />
+        </div>
+
+        <p className="footer__copyright">{companyInfo.copyright}</p>
+
+        <p className="footer__font-license">
+          본 사이트는 ‘은평구’에서 2025년 작성하여 공공누리 제1유형(출처표시)으로 개방한 ‘은평사가독서체’를
+          이용하였으며, 해당 저작물은 ‘공유마당, gongu.copyright.or.kr’에서 무료로 내려받으실 수 있습니다.
+          {" "}OFL: 폰트 파일의 수정·복제·배포 및 유료 판매 모두 금지.
+        </p>
+      </div>
+
+      <Modal
+        open={active !== null}
+        onClose={() => setPolicy(null)}
+        title={active?.title ?? ""}
+        onPrev={idx > 0 ? () => setPolicy(policyOrder[idx - 1]) : undefined}
+        onNext={idx >= 0 && idx < policyOrder.length - 1 ? () => setPolicy(policyOrder[idx + 1]) : undefined}
+      >
+        {active?.paragraphs.map((para, i) => (
+          <p key={i}>{para}</p>
+        ))}
+      </Modal>
+    </footer>
+  );
+}

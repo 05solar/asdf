@@ -1,0 +1,856 @@
+/* Home page styles: hero (건곤감리 trigrams, zodiac band), 주요 디자인, 서비스 핵심. */
+.home {
+  /* NOTE: no overflow clipping here — it would crop the corner trigrams that
+     extend above the hero into the header. */
+}
+
+/* Tagline strip: flush under the header, led by a horizontal rule. */
+.home-tagline {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 1.4vw, 20px);
+  padding-top: clamp(6px, 1vw, 12px);
+  padding-bottom: clamp(2px, 0.6vw, 6px);
+  font-size: clamp(13px, 1.2vw, 16px);
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+.home-tagline::before {
+  content: "";
+  flex: none;
+  width: clamp(44px, 4.4vw, 84px);
+  height: 1.5px;
+  background: var(--color-border-accent);
+}
+
+.home > section {
+  padding-block: clamp(48px, 7vw, 96px);
+}
+
+/* ======================= HERO ============================================= */
+.hero {
+  position: relative;
+  padding-top: clamp(28px, 4vw, 56px) !important;
+  /* Tighter gap down to the 주요 디자인 section below. */
+  padding-bottom: clamp(14px, 1.8vw, 30px) !important;
+  /* Clip only the horizontal axis so trigrams that tuck past the side edges on
+     narrow screens never add page scroll; vertical stays visible so the top
+     trigrams can still overlap up into the header. */
+  overflow-x: clip;
+  /* Shared geometry for the 건곤감리 marks:
+     --tri-gap grows with the viewport (bigger clearance on wide screens, tighter
+     as it narrows, never zero). --tri-edge is the single left/right COLUMN both
+     the top and bottom marks share, parked just outside the header content. */
+  --tri-w: clamp(48px, 4.4vw, 74px);
+  --tri-gap: clamp(6px, 1.6vw, 28px);
+  --tri-edge: calc((100vw - min(100vw - 168px, 1440px)) / 2 - var(--tri-gap) - var(--tri-w));
+  --zodiac-edge: calc((100vw - min(100vw - 40px, 1600px)) / 2);
+  /* A 90°-rotated mark's visual edge sits ~0.154·width inside its layout box;
+     shift the rotated ones by this so each pair's visual edges line up. */
+  --tri-rot-shift: calc(var(--tri-w) * 0.154);
+  /* Distance from the inner's bottom down to the TOP edge of the zodiac band
+     (= the band's margin-top + the band::before top inset). The scenery and
+     세종 extend down by this so they meet the band edge exactly. */
+  --band-gap: calc(clamp(30px, 5vw, 64px) + clamp(30px, 3.6vw, 56px));
+}
+
+/* Background decoration layer — trigrams overlap the header (z above it),
+   very faint so they read as background. */
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+}
+/* All four are the SAME size and SAME colour; each is the same mark rotated 90°
+   further, so they read as one shape spun around the hero. */
+.hero__tri {
+  position: absolute;
+  width: var(--tri-w);
+  height: auto;
+  /* Same ink as the 세종대왕 line-art, kept very faint. */
+  fill: var(--color-sejong-ink);
+  opacity: 0.26;
+  pointer-events: none;
+  z-index: 0;
+}
+/* Horizontal anchor for ALL four = the zodiac (1600) container edge, so the top
+   and bottom marks line up in one vertical column on each side — level with the
+   first / last animal and clear of the narrower logo / header actions. */
+/* Level with the logo top, on the shared --tri-edge column just outside the
+   header content — so a top mark and the bottom mark below it stay left/right
+   aligned, with a viewport-scaled gap from the logo / actions (never overlaps). */
+.hero__tri--tl {
+  /* 건 ☰ — horizontal. */
+  top: -101px;
+  left: var(--tri-edge);
+}
+.hero__tri--tr {
+  /* 감 ☵ — vertical (rotated), shifted so its visual edge matches 곤 below. */
+  top: -101px;
+  right: calc(var(--tri-edge) - var(--tri-rot-shift));
+  transform: rotate(90deg);
+}
+/* Bottom pair sit above the zodiac band, sharing one bottom line; the right one
+   tucks right on top of the top-right label (touching, not overlapping). */
+.hero__ztri {
+  top: 0;
+}
+/* Same --tri-edge column as the top marks (converted to be relative to the
+   zodiac container), so each left/right pair is vertically aligned. */
+.hero__ztri--l {
+  /* 리 ☲ — vertical (rotated), shifted so its visual edge matches 건 above. */
+  left: calc(var(--tri-edge) - var(--zodiac-edge) - var(--tri-rot-shift));
+  transform: translateY(calc(-100% - 15px)) rotate(90deg);
+}
+.hero__ztri--r {
+  /* 곤 ☷ — horizontal, just above the label. */
+  right: calc(var(--tri-edge) - var(--zodiac-edge));
+  transform: translateY(calc(-100% - 4px));
+}
+/* Hidden once the header collapses to the hamburger (≤1080px); above that the
+   reserved header gutters keep room for them. The bottom pair stay everywhere. */
+@media (max-width: 1080px) {
+  .hero__tri--tl,
+  .hero__tri--tr {
+    display: none;
+  }
+}
+.hero__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(24px, 4vw, 56px);
+  align-items: center;
+  /* Own stacking context so the scenery layers below sit behind the copy /
+     cards but above the page background. */
+  position: relative;
+  z-index: 0;
+}
+/* Full-bleed scenery filling the hero ABOVE the zodiac (the inner's own box
+   ends above the animal band): a faint 한글 letter texture (::before) softened
+   by a light shade (::after). Extends up behind the tagline / header padding. */
+.hero__inner::before,
+.hero__inner::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  /* Both reach down to meet the TOP edge of the zodiac band exactly. */
+  bottom: calc(-1 * var(--band-gap));
+  pointer-events: none;
+}
+.hero__inner::before {
+  z-index: -3;
+  /* Reaches up behind the transparent header. Smaller letter texture, tiled. */
+  top: -200px;
+  background: url("/images/background/main-bg-letter.png") center top / 40% auto repeat;
+  opacity: 0.1;
+}
+.hero__inner::after {
+  z-index: -2;
+  /* Full-width light wash that begins flush at the very top of the header. */
+  top: calc(-125px - clamp(28px, 4vw, 56px));
+  background: url("/images/background/main-bg-shade.png") center top / 100% auto no-repeat;
+  opacity: 0.55;
+}
+/* 세종대왕 — behind the copy / cards, left of centre. The source PNG has ~144px
+   (12.8%) of transparent padding below the figure, so drop the box by that
+   fraction of its width to seat the figure exactly on the zodiac band top. */
+.hero__sejong {
+  --sejong-w: clamp(320px, 38vw, 600px);
+  position: absolute;
+  z-index: -1;
+  bottom: calc(-1 * (var(--band-gap) + var(--sejong-w) * 0.092));
+  left: 37%;
+  transform: translateX(-50%);
+  width: var(--sejong-w);
+  aspect-ratio: 1560 / 1122;
+  background: url("/images/background/sejong.png") center bottom / contain no-repeat;
+  opacity: 0.5;
+  pointer-events: none;
+}
+.hero__eyebrow {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: clamp(21px, 2.4vw, 33px);
+  margin-bottom: 16px;
+  /* Outlined text: transparent fill inside, coloured stroke only. */
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 1px var(--color-title-accent);
+  text-stroke: 1px var(--color-title-accent);
+}
+.hero__title {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  color: var(--color-title-accent);
+  font-size: clamp(25px, 3.5vw, 47px);
+  /* Wider spacing between the two title lines. */
+  line-height: 1.42;
+  letter-spacing: -0.015em;
+  word-break: keep-all;
+}
+/* Lead + patent: identical type size; tight to each other but pushed further
+   down from the title above. */
+/* Lead + patent stay on Pretendard (not the 은평사가독서체 display face). */
+.hero__lead {
+  margin-top: clamp(30px, 3.4vw, 46px);
+  font-family: var(--font-sans);
+  font-size: clamp(14px, 1.3vw, 18px);
+  color: var(--color-text-secondary);
+}
+.hero__patent {
+  margin-top: 3px;
+  font-family: var(--font-sans);
+  font-size: clamp(14px, 1.3vw, 18px);
+  /* Same colour as the lead line above. */
+  color: var(--color-text-secondary);
+}
+
+.hero__stage {
+  position: relative;
+  min-height: 320px;
+}
+.hero__cards {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  /* Bottom-align both cards to the 방문증 card's baseline. */
+  align-items: flex-end;
+  justify-content: flex-end;
+  gap: clamp(14px, 2.2vw, 30px);
+  padding-top: clamp(20px, 4vw, 48px);
+}
+
+/* Two cards: one landscape (명예한국인증), one portrait (방문증), offset down. */
+.hero__card {
+  min-width: 0;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+  /* Soft drop shadow underneath so each card reads as "floating". */
+  box-shadow: 0 20px 30px -12px rgb(74 58 38 / 30%);
+  animation: card-float 6s ease-in-out infinite;
+}
+.hero__card--landscape {
+  width: clamp(230px, 28vw, 385px);
+}
+.hero__card--portrait {
+  width: clamp(140px, 16.5vw, 225px);
+  animation-delay: 0.6s;
+}
+@keyframes card-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+/* Zodiac band: top-right label, larger bottom-left echo, and the 12 signs
+   stretched edge-to-edge inside a band a touch wider than the main content. */
+.hero__zodiac {
+  margin-top: clamp(30px, 5vw, 64px);
+  padding-block: clamp(16px, 2.4vw, 34px);
+  position: relative;
+  z-index: 0;
+}
+/* Deeper beige band that covers only the animal row — its top/bottom edges cut
+   through the MIDDLE of the top / bottom labels so each label straddles the
+   band (half on this band, half on the hero above / section below). */
+.hero__zodiac::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  top: clamp(30px, 3.6vw, 56px);
+  bottom: clamp(30px, 3.6vw, 56px);
+  background: var(--color-warm-beige);
+}
+/* Slightly wider than .page-container (1440) so the row hugs the gutters like
+   the mock-up; still centred and responsive. */
+.hero__zodiac-inner {
+  position: relative;
+  width: min(100% - (var(--page-gutter) * 2), 1600px);
+  margin-inline: auto;
+}
+.hero__zodiac-label {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--color-icon-accent);
+  white-space: nowrap;
+}
+/* Top and bottom labels share the SAME type size. */
+.hero__zodiac-label--top {
+  text-align: right;
+  font-size: clamp(14px, 1.7vw, 26px);
+  margin-bottom: clamp(6px, 1vw, 14px);
+}
+.hero__zodiac-label--bottom {
+  text-align: left;
+  font-size: clamp(14px, 1.7vw, 26px);
+  margin-top: clamp(6px, 1vw, 14px);
+}
+/* Each sign occupies a fixed FRACTION of the band width, so the sign-to-gap
+   ratio is identical at every screen size. space-between pins the first/last
+   sign to the gutters and shares the remaining space as equal gaps. */
+.hero__zodiac-row {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+.hero__zodiac-item {
+  flex: 0 0 6.2%;
+}
+.hero__zodiac-btn {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border-radius: 8px;
+}
+.hero__zodiac-btn img,
+.hero__zodiac-btn > span {
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+}
+
+/* ======================= 주요 디자인 ====================================== */
+/* Reduced top padding — tighter to the zodiac section above. */
+.main-designs {
+  padding-top: clamp(24px, 3vw, 44px) !important;
+}
+.main-designs__head {
+  text-align: center;
+  margin-bottom: clamp(24px, 3.4vw, 42px);
+}
+.main-designs__title {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  color: var(--color-text-title);
+  font-size: clamp(22px, 2.6vw, 32px);
+}
+.main-designs__all {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 3px;
+  color: var(--color-primary);
+  font-size: 17px;
+  font-weight: 500;
+}
+.main-designs__arrow {
+  display: inline-flex;
+  font-family: var(--font-sans);
+  font-size: 18px;
+  line-height: 1;
+  transition: transform var(--ease);
+}
+.main-designs__all:hover .main-designs__arrow {
+  transform: translateX(4px);
+}
+
+.main-designs__grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: clamp(20px, 3vw, 48px);
+  align-items: start;
+}
+.main-designs__divider {
+  width: 1px;
+  align-self: stretch;
+  background: var(--color-border-soft);
+}
+.design-group {
+  display: grid;
+  justify-items: center;
+  row-gap: 20px;
+}
+.design-group__label {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  color: var(--color-text-title);
+  font-size: clamp(17px, 1.8vw, 22px);
+}
+.design-group__card {
+  filter: drop-shadow(0 10px 18px rgb(80 70 55 / 16%));
+}
+.design-group__card--landscape {
+  width: min(100%, 420px);
+}
+.design-group__card--portrait {
+  width: min(100%, 232px);
+}
+.design-group__img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+  box-shadow: var(--shadow-card);
+}
+.design-group__buttons {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+.design-chip {
+  min-width: 148px;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-button-navy);
+  text-align: center;
+  white-space: nowrap;
+  border: 2px solid var(--color-button-navy);
+  border-radius: 6px;
+  padding: 11px 22px;
+  background: var(--color-warm-beige);
+  transition: background-color var(--ease), color var(--ease), border-color var(--ease);
+}
+.design-chip:hover {
+  background: color-mix(in srgb, var(--color-primary) 8%, #fff);
+}
+.design-chip--filled {
+  background: var(--color-button-navy);
+  color: var(--color-surface);
+  border-color: var(--color-button-navy);
+}
+.design-chip--filled:hover {
+  background: var(--color-button-navy-hover);
+  color: var(--color-primary-foreground);
+  border-color: var(--color-button-navy-hover);
+}
+.design-chip--soft {
+  background: var(--color-warm-beige);
+  color: var(--color-button-navy);
+  border-color: var(--color-button-navy);
+}
+.design-chip--soft:hover {
+  background: color-mix(in srgb, var(--color-warm-beige) 88%, var(--color-button-navy));
+}
+
+@media (max-width: 860px) {
+  .main-designs__grid {
+    grid-template-columns: 1fr;
+  }
+  .main-designs__divider {
+    width: auto;
+    height: 1px;
+  }
+  /* One row on desktop; allow wrapping only when the column gets narrow. */
+  .design-group__buttons {
+    flex-wrap: wrap;
+  }
+}
+
+/* ======================= SERVICE CORE ===================================== */
+.service-core__title {
+  margin: 18px 0 16px;
+  /* Smaller + one line. */
+  font-size: clamp(17px, 2.1vw, 30px);
+  white-space: nowrap;
+}
+.service-core__lead {
+  color: var(--color-text-muted);
+  font-size: clamp(17px, 1.55vw, 21px);
+  max-width: none;
+  white-space: nowrap;
+}
+.service-core > .eyebrow {
+  color: var(--color-text-secondary);
+}
+.service-core__windows {
+  margin-top: clamp(30px, 4vw, 52px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(20px, 3vw, 44px);
+  /* Much wider — span the full content width. */
+}
+/* Traditional window with lattice shutters that open on hover. */
+.window {
+  --door-duration: 2s;
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 1.82 / 1;
+  border: clamp(8px, 1vw, 12px) solid var(--color-border-accent);
+  border-radius: 6px;
+  overflow: hidden;
+  background: linear-gradient(180deg, #f3ece0, #eee3d2);
+  box-shadow: var(--shadow-card);
+  perspective: 900px;
+  transform-style: preserve-3d;
+}
+/* Label stays centred and visible on top of the panel, matching the mock-up. */
+.window__label {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  z-index: 0;
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: clamp(18px, 2.2vw, 30px);
+  color: var(--color-text-title);
+  padding: 20px;
+  text-align: center;
+  text-shadow: 0 1px 0 rgb(255 255 255 / 70%);
+  opacity: 1;
+}
+.window__shutter {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  z-index: 1;
+  opacity: 1;
+  border: 2px solid var(--color-border-accent);
+  /* Both shutters show one shared door image, cropped into exact left/right
+     halves. This keeps the lattice continuous across the centre while closed. */
+  background-image: url("/images/common/hanok-door.svg");
+  background-repeat: no-repeat;
+  background-size: 200% 100%;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  transition:
+    transform var(--door-duration) cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow var(--door-duration) cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+.window__shutter--left {
+  left: 0;
+  transform-origin: left center;
+  background-position: left center;
+  box-shadow:
+    inset -10px 0 16px rgb(90 60 25 / 8%),
+    2px 0 0 rgb(93 62 31 / 20%);
+}
+.window__shutter--right {
+  right: 0;
+  transform-origin: right center;
+  background-position: right center;
+  box-shadow:
+    inset 10px 0 16px rgb(90 60 25 / 8%),
+    -2px 0 0 rgb(93 62 31 / 20%);
+}
+.window:hover .window__shutter--left,
+.window:focus-visible .window__shutter--left {
+  transform: rotateY(90deg);
+  box-shadow:
+    inset -18px 0 24px rgb(55 36 20 / 24%),
+    8px 2px 16px rgb(65 42 20 / 16%);
+}
+.window:hover .window__shutter--right,
+.window:focus-visible .window__shutter--right {
+  transform: rotateY(-90deg);
+  box-shadow:
+    inset 18px 0 24px rgb(55 36 20 / 24%),
+    -8px 2px 16px rgb(65 42 20 / 16%);
+}
+
+/* ======================= MERCHANDISE ====================================== */
+.merch__top {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(24px, 4vw, 56px);
+  align-items: center;
+}
+.merch__gallery {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.merch__gallery-img {
+  width: 100%;
+  max-width: 480px;
+  height: auto;
+  object-fit: contain;
+}
+.merch__item {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+}
+.merch__thumb {
+  width: clamp(56px, 8vw, 96px);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--color-surface-soft) 40%, #fff);
+  border-radius: 14px;
+  box-shadow: var(--shadow-card);
+}
+.merch__emoji {
+  font-size: clamp(26px, 4vw, 44px);
+}
+.merch__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 8px;
+}
+.merch__name {
+  font-family: var(--font-serif);
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+.merch__desc {
+  margin: 24px 0 22px;
+  color: var(--color-text-muted);
+  font-size: clamp(18px, 1.7vw, 23px);
+}
+.merch__copy > .eyebrow {
+  margin-bottom: 24px;
+}
+.merch__features {
+  display: grid;
+  gap: 14px;
+}
+.merch__features li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: clamp(15px, 1.3vw, 18px);
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+.merch__features svg {
+  color: var(--color-icon-accent);
+  flex-shrink: 0;
+}
+
+.merch__cards {
+  margin-top: clamp(34px, 5vw, 60px);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr;
+  align-items: stretch;
+  gap: 8px;
+}
+.info-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-accent);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: clamp(22px, 3vw, 34px);
+  min-height: 160px;
+  display: grid;
+  align-items: center;
+  transition: border-color var(--ease), box-shadow var(--ease);
+}
+/* Hover: border colour only — no background / weight change. */
+.info-card:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-card-hover);
+}
+.info-card__text {
+  color: var(--color-text-secondary);
+  line-height: 1.8;
+}
+/* Image cards: let the black-box placeholder fill the card. */
+.info-card--image {
+  padding: 0;
+  border: none;
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+.info-card--image:hover {
+  box-shadow: var(--shadow-card-hover);
+}
+/* The middle dot between cards. */
+.merch__dot {
+  align-self: center;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-border-accent);
+}
+
+/* ======================= CONTACT ========================================== */
+.contact {
+  position: relative;
+  isolation: isolate;
+  padding-block: clamp(34px, 4.5vw, 60px) !important;
+}
+/* 50% background via alpha layer — keeps foreground fully opaque. */
+.contact::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--color-warm-beige);
+  opacity: 0.5;
+  z-index: -1;
+}
+.contact__title {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  font-size: clamp(20px, 2.4vw, 28px);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 30px;
+}
+.contact__title::after {
+  content: "";
+  flex: 1;
+  height: 2px;
+  background: var(--color-border-soft);
+}
+.contact__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(16px, 2vw, 32px);
+  padding-bottom: 30px;
+  border-bottom: 2px solid var(--color-border-soft);
+}
+.contact__item {
+  display: grid;
+  gap: 6px;
+  align-content: start;
+}
+.contact__icon {
+  color: var(--color-icon-accent);
+  display: inline-flex;
+  margin-bottom: 6px;
+}
+.contact__name {
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  font-size: clamp(16px, 1.4vw, 19px);
+}
+.contact__meta {
+  color: var(--color-text-muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+.contact__action {
+  margin-top: 8px;
+  color: var(--color-primary);
+  font-weight: 500;
+  font-size: 15px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  justify-self: start;
+}
+.contact__action:hover {
+  text-decoration: underline;
+}
+
+/* ======================= PARTNERS ========================================= */
+.partners__title {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  font-size: clamp(20px, 2.6vw, 32px);
+  margin-bottom: clamp(26px, 4vw, 44px);
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 2vw, 28px);
+}
+.partners__title::after {
+  content: "";
+  flex: 1;
+  height: 2px;
+  background: var(--color-border-soft);
+}
+.partners__grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  /* Tighter spacing. */
+  gap: clamp(2px, 0.5vw, 8px);
+}
+.partners__cell {
+  display: grid;
+  place-items: center;
+  /* Transparent, no border, smaller. */
+  background: transparent;
+  border: none;
+  height: 56px;
+  padding: 6px 8px;
+}
+.partners__logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.partners__chip {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  text-align: center;
+  line-height: 1.3;
+}
+
+/* ======================= RESPONSIVE ======================================= */
+@media (max-width: 1080px) {
+  /* Allow the one-line title/lead to wrap again on narrower screens. */
+  .service-core__title,
+  .service-core__lead {
+    white-space: normal;
+  }
+  .partners__grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+@media (max-width: 960px) {
+  .hero__inner,
+  .merch__top {
+    grid-template-columns: 1fr;
+  }
+  .service-core__windows {
+    grid-template-columns: 1fr;
+  }
+  .contact__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .partners__grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .merch__cards {
+    grid-template-columns: 1fr;
+  }
+  .merch__dot {
+    display: none;
+  }
+}
+@media (max-width: 560px) {
+  .contact__grid {
+    grid-template-columns: 1fr;
+  }
+  .partners__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  /* Two cards stay side by side and share the row width. */
+  .hero__cards {
+    justify-content: center;
+    gap: 14px;
+  }
+  .hero__card--landscape {
+    width: 52%;
+  }
+  .hero__card--portrait {
+    width: 34%;
+    margin-top: 28px;
+  }
+}
+
+/* This interaction is an intentional product demonstration. Keep its requested
+   timing even when the global reduced-motion safeguard shortens other motion. */
+@media (prefers-reduced-motion: reduce) {
+  .window__shutter {
+    transition-duration: var(--door-duration), var(--door-duration) !important;
+  }
+}

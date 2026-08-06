@@ -1,0 +1,77 @@
+/* Brand logo lockup: symbol mark, wordmark, and 이팝나무 tree. */
+.logo {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 6px;
+  flex-shrink: 0; /* never let the header squeeze / wrap the wordmark */
+}
+
+.logo__lockup {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+/* Symbol mark (delivered art, ~square). */
+.logo__mark {
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  background: url("/images/logo/logo.png") center / contain no-repeat;
+}
+.logo--sm .logo__mark {
+  width: 42px;
+  height: 42px;
+}
+
+.logo__words {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.08;
+}
+
+.logo__ko,
+.logo__en {
+  white-space: nowrap;
+}
+.logo__ko {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: clamp(18px, 1.7vw, 23px);
+  color: var(--color-wordmark);
+  letter-spacing: -0.01em;
+}
+.logo--sm .logo__ko {
+  font-size: 18px;
+}
+
+/* HANGUL & SEJONG: same ink as the 한글 wordmark, a touch larger, and its
+   tracking is tuned so the line spans roughly the same width as the 한글 line. */
+.logo__en {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: clamp(10px, 1.05vw, 13px);
+  letter-spacing: 0.3em;
+  color: var(--color-wordmark);
+  margin-top: 3px;
+}
+.logo--sm .logo__en {
+  font-size: 10.5px;
+  letter-spacing: 0.3em;
+}
+
+/* 이팝나무 tree (delivered art, landscape ~1.4:1). Crown rises a touch above the
+   mark; bottom aligns to the wordmark baseline. */
+.logo__tree {
+  width: 66px;
+  height: 47px;
+  flex-shrink: 0;
+  margin-left: 4px;
+  background: url("/images/logo/tree-logo.png") center bottom / contain no-repeat;
+  align-self: flex-end;
+  transform: translateY(-2px);
+}
+.logo--sm .logo__tree {
+  width: 60px;
+  height: 43px;
+}

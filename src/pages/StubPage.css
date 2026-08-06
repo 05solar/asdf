@@ -1,0 +1,25 @@
+/* Stub / placeholder page styles. */
+.stub {
+  padding-bottom: clamp(48px, 8vw, 96px);
+  min-height: 52vh;
+}
+.stub__title {
+  margin: 10px 0 8px;
+}
+.stub__note {
+  color: var(--color-text-muted);
+  font-size: clamp(15px, 1.4vw, 18px);
+  max-width: 46ch;
+  margin-right: auto;
+}
+.stub__frame {
+  margin-top: clamp(28px, 4vw, 48px);
+  display: grid;
+  place-items: center;
+  min-height: 260px;
+  border: 1.5px dashed var(--color-border-accent);
+  border-radius: var(--radius-panel);
+  color: var(--color-text-faint);
+  font-size: 18px;
+  background: color-mix(in srgb, var(--color-surface-soft) 30%, transparent);
+}
