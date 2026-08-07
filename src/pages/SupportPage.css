@@ -14,7 +14,8 @@
   position: absolute;
   z-index: 0;
   right: max(0px, calc((100% - 1180px) / 2));
-  bottom: calc(clamp(10px, 1.5vw, 20px) * -1);
+  /* 지원 hero는 마이페이지 hero보다 낮으므로, 이미지를 더 아래로 내려 위치를 맞춘다. */
+  bottom: calc(clamp(40px, 5vw, 72px) * -1);
   /* 마이페이지 hero 이미지(.mypage__hero-art)와 동일한 크기. */
   height: clamp(170px, 22vw, 280px);
   width: auto;
