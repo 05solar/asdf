@@ -16,7 +16,7 @@
   right: max(0px, calc((100% - 1180px) / 2));
   /* 지원 hero는 마이페이지 hero보다 낮다. 위치를 맞추되 아래 콘텐츠와 겹치지 않도록
      살짝 위로 올리고, 겹침은 아래 섹션의 padding-top으로 해소한다. */
-  bottom: calc(clamp(24px, 3vw, 48px) * -1);
+  bottom: calc(clamp(24px, 3vw, 49px) * -1);
   /* 마이페이지 hero 이미지(.mypage__hero-art)와 동일한 크기. */
   height: clamp(170px, 22vw, 280px);
   width: auto;
