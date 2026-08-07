@@ -35,7 +35,7 @@ export function StepReview({ draft, design, onSubmit, onPrev, onEdit }: StepRevi
         <Item label="신청 유형" value={typeLabel} />
         <Item label="카드 종류" value={cardLabel} />
         <Item label="발급 유형" value={issuanceLabel} />
-        <Item label="수량" value={`${draft.quantity}매`} />
+        {isOrg && <Item label="수량" value={`${draft.quantity}매`} />}
       </ReviewSection>
 
       <ReviewSection title="신청인 정보" onEdit={() => onEdit(1)}>

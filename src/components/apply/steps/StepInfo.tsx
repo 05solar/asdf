@@ -58,7 +58,7 @@ export function StepInfo({ draft, update, onNext, onPrev }: StepInfoProps) {
       <p className="step__eyebrow">{isOrg ? "법인·단체 신청" : "개인 신청"}</p>
       <h2 className="step__heading">정보 입력</h2>
 
-      <div className="form-grid">
+      <div className={`form-grid ${isOrg ? "" : "form-grid--single"}`}>
         <fieldset className="form-block">
           <legend className="form-block__legend">발급 유형 선택</legend>
           <div className="radio-row">
@@ -83,19 +83,22 @@ export function StepInfo({ draft, update, onNext, onPrev }: StepInfoProps) {
           </div>
         </fieldset>
 
-        <label className="field field--quantity">
-          <span className="field__label">신청 수량</span>
-          <div className="field__with-suffix">
-            <input
-              className="field__input"
-              type="number"
-              min={1}
-              value={draft.quantity}
-              onChange={(e) => update({ quantity: Math.max(1, Number(e.target.value) || 1) })}
-            />
-            <span className="field__suffix">매</span>
-          </div>
-        </label>
+        {/* 수량 선택은 법인·단체 신청에서만 노출한다. 개인 신청은 1매 고정. */}
+        {isOrg && (
+          <label className="field field--quantity">
+            <span className="field__label">신청 수량</span>
+            <div className="field__with-suffix">
+              <input
+                className="field__input"
+                type="number"
+                min={1}
+                value={draft.quantity}
+                onChange={(e) => update({ quantity: Math.max(1, Number(e.target.value) || 1) })}
+              />
+              <span className="field__suffix">매</span>
+            </div>
+          </label>
+        )}
       </div>
 
       <div className={`info-columns ${isPhysical ? "info-columns--two" : ""}`}>

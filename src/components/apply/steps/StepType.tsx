@@ -32,7 +32,7 @@ export function StepType({ draft, update, onNext }: StepTypeProps) {
               type="button"
               className={clsx("type-card", selected && "type-card--selected")}
               aria-pressed={selected}
-              onClick={() => update({ applicantType: opt.type })}
+              onClick={() => update({ applicantType: opt.type, quantity: opt.type === "personal" ? 1 : draft.quantity })}
             >
               {selected && (
                 <span className="type-card__check" aria-hidden="true">

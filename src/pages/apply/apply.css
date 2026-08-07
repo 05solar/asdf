@@ -206,6 +206,10 @@
   align-items: end;
   margin-bottom: 30px;
 }
+/* 개인 신청: 수량 칸이 없으므로 발급 유형만 단일 열로. */
+.form-grid--single {
+  grid-template-columns: 1fr;
+}
 .form-block {
   min-width: 0;
   margin: 0;
