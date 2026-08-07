@@ -14,8 +14,9 @@
   position: absolute;
   z-index: 0;
   right: max(0px, calc((100% - 1180px) / 2));
-  /* 지원 hero는 마이페이지 hero보다 낮으므로, 이미지를 더 아래로 내려 위치를 맞춘다. */
-  bottom: calc(clamp(40px, 5vw, 72px) * -1);
+  /* 지원 hero는 마이페이지 hero보다 낮다. 위치를 맞추되 아래 콘텐츠와 겹치지 않도록
+     살짝 위로 올리고, 겹침은 아래 섹션의 padding-top으로 해소한다. */
+  bottom: calc(clamp(24px, 3vw, 48px) * -1);
   /* 마이페이지 hero 이미지(.mypage__hero-art)와 동일한 크기. */
   height: clamp(170px, 22vw, 280px);
   width: auto;
@@ -32,6 +33,11 @@
 }
 .support__hero + .support__section {
   padding-top: clamp(10px, 1.5vw, 20px);
+}
+/* 고객지원 메인(SupportPage)만 hero에 이미지가 있다. 이미지가 아래로 내려오면서
+   구분선/공지사항과 겹치지 않도록 첫 섹션을 더 내린다. (공지사항 목록 .notices-page 제외) */
+.support:not(.notices-page) .support__hero + .support__section {
+  padding-top: clamp(64px, 7vw, 104px);
 }
 .support-rule {
   position: relative;
