@@ -7,7 +7,8 @@ import { CardCarousel } from "../components/gallery/CardCarousel";
 import { ChevronLeft, ChevronRight } from "../components/ui/icons";
 import "./DesignPage.css";
 
-const TOTAL_PAGES = 5;
+const PAIRS_PER_PAGE = 3; // 앞면 3 + 뒷면 3 = 한 페이지당 3쌍
+const STUDENT_PAGES = 5; // 학생증은 기존 방식(색상 변형) 유지
 
 export function DesignPage() {
   const { hash } = useLocation();
@@ -43,6 +44,10 @@ function DesignCategory({ cat }: { cat: CardCategory }) {
   const [page, setPage] = useState(1);
   const orientation = cat.cards[0].orientation;
   const firstId = cat.cards[0]?.id ?? "";
+  const isStudent = cat.cardType === "student";
+  // 학생증 외에는 카드 6쌍을 3쌍씩 페이지로 나눠 실제 이미지를 교체한다.
+  const totalPages = isStudent ? STUDENT_PAGES : Math.max(1, Math.ceil(cat.cards.length / PAIRS_PER_PAGE));
+  const pageCards = isStudent ? cat.cards : cat.cards.slice((page - 1) * PAIRS_PER_PAGE, page * PAIRS_PER_PAGE);
 
   return (
     <section
@@ -74,13 +79,13 @@ function DesignCategory({ cat }: { cat: CardCategory }) {
               <ChevronLeft width={18} height={18} />
             </button>
             <span className="design__pager-count">
-              <b>{String(page).padStart(2, "0")}</b> <i>/</i> <em>{String(TOTAL_PAGES).padStart(2, "0")}</em>
+              <b>{String(page).padStart(2, "0")}</b> <i>/</i> <em>{String(totalPages).padStart(2, "0")}</em>
             </span>
             <button
               type="button"
               className="design__pager-arrow"
-              onClick={() => setPage((p) => Math.min(TOTAL_PAGES, p + 1))}
-              disabled={page === TOTAL_PAGES}
+              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+              disabled={page === totalPages}
               aria-label="다음 페이지"
             >
               <ChevronRight width={18} height={18} />
@@ -89,10 +94,10 @@ function DesignCategory({ cat }: { cat: CardCategory }) {
         </div>
 
         <CardCarousel
-          cards={cat.cards}
+          cards={pageCards}
           orientation={orientation}
-          page={page}
-          layout={cat.cardType === "student" ? "student" : "default"}
+          page={isStudent ? page : 1}
+          layout={isStudent ? "student" : "default"}
         />
 
         <div className="design__cat-foot">

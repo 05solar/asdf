@@ -51,7 +51,7 @@ export function StepFiles({ draft, update, onNext, onPrev }: StepFilesProps) {
               />
             </div>
             <FileUploadBox
-              label="첨부파일 (학생 프로필 사진 · 사주 정보)"
+              label="첨부파일"
               accept=".zip,application/zip"
               hint="ZIP (학생별 프로필 사진과 사주 정보 파일)"
               variant="archive"
@@ -111,7 +111,7 @@ export function StepFiles({ draft, update, onNext, onPrev }: StepFilesProps) {
           </div>
 
           <FileUploadBox
-            label="첨부파일 (개인 프로필 사진 · 사주 정보)"
+            label="첨부파일"
             accept=".zip,application/zip"
             hint="ZIP (개인별 프로필 사진과 사주 정보 파일)"
             variant="archive"

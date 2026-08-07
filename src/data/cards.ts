@@ -40,6 +40,17 @@ export interface CardDesign {
 const df = (n: number) => `/images/cards/design%20front${n}.png`;
 const db = (n: number) => (n === 1 ? `/images/cards/design%20back%201.png` : `/images/cards/design%20back${n}.png`);
 
+// 신규 카드 이미지: 앞면 N.jpg / 뒷면 N-1.jpg. 폴더별 6쌍(앞 3 + 뒤 3 = 페이지당 3쌍, 2페이지).
+const seriesSlots = (folder: string) =>
+  Array.from({ length: 6 }, (_, i) => ({
+    front: `/images/card/${folder}/${i + 1}.jpg`,
+    back: `/images/card/${folder}/${i + 1}-1.jpg`,
+  }));
+// 명예한국인증은 2번 뒷면 파일명이 2-2.jpg 예외.
+const honorKoreanSlots = seriesSlots("honor-korean").map((s, i) =>
+  i === 1 ? { ...s, back: "/images/card/honor-korean/2-2.jpg" } : s,
+);
+
 const monkeyReading = {
   nameKo: "윤 은 재",
   nameHanja: "(尹 殷 齋)",
@@ -90,11 +101,7 @@ export const honoraryKoreanCards = makeSeries(
     issuer: "발행처 대한민국 고용노동부",
   },
   monkeyReading,
-  [
-    { front: df(1), back: db(1) },
-    { front: df(1), back: db(1) },
-    { front: df(1), back: db(1) },
-  ],
+  honorKoreanSlots,
 );
 
 // 명예시민증 — 3 columns: top row front2×3, bottom row back2×3.
@@ -124,11 +131,7 @@ export const honoraryCitizenCards = makeSeries(
       "밝게 빛나는 부유하고 명예로운 인생을 산다.",
     ],
   },
-  [
-    { front: df(2), back: db(2) },
-    { front: df(2), back: db(2) },
-    { front: df(2), back: db(2) },
-  ],
+  seriesSlots("honor-citizen"),
 );
 
 // 학생증 — 2 columns. Top row [front3, back3], bottom row [front4, back4].
@@ -192,10 +195,7 @@ export const visitorCards = makeSeries(
       "깊은 지혜로 모든 일이 밝고 그름을 따지고 조화로운 삶을 이룬다.",
     ],
   },
-  [
-    { front: df(5), back: db(5) },
-    { front: db(5), back: df(5) },
-  ],
+  seriesSlots("visit"),
 );
 
 export interface CardCategory {
