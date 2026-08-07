@@ -33,6 +33,7 @@
   --color-primary-foreground: #f7f0e9; /* text on navy (cream) */
   --color-button-navy: #2b3c59;     /* main-design action buttons */
   --color-button-navy-hover: #263d58;
+  --color-accent-bar: #263d58;      /* 제목 왼쪽 강조 바 (타이틀 액센트 바) */
 
   /* Accents */
   --color-icon-accent: #91683f;     /* check icons, accent icons (brown) */

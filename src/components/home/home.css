@@ -540,8 +540,8 @@
   text-overflow: ellipsis;
 }
 @keyframes name-results-scroll {
-  from { transform: translateY(-50%); }
-  to { transform: translateY(0); }
+  from { transform: translateY(0); }
+  to { transform: translateY(-50%); }
 }
 @media (prefers-reduced-motion: reduce) {
   .window__name-track {
