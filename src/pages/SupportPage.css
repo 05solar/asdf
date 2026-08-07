@@ -15,8 +15,9 @@
   z-index: 0;
   right: max(0px, calc((100% - 1180px) / 2));
   bottom: calc(clamp(10px, 1.5vw, 20px) * -1);
-  width: clamp(130px, 12vw, 180px);
-  max-height: 214px;
+  /* 마이페이지 hero 이미지(.mypage__hero-art)와 동일한 크기. */
+  height: clamp(170px, 22vw, 280px);
+  width: auto;
   object-fit: contain;
   opacity: .94;
   pointer-events: none;
@@ -390,7 +391,8 @@
   }
   .support__hero-art {
     right: 0;
-    width: 100px;
+    height: clamp(110px, 26vw, 150px);
+    width: auto;
     opacity: .55;
   }
   .notice-search {
