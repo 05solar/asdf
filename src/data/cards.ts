@@ -2,7 +2,7 @@
  * Card design catalogue.
  *
  * `front` = top slot image, `back` = bottom slot image in the design gallery.
- * Images are the temporary "design front/back" set in public/images/cards/.
+ * Images are served from public/images/cards/.
  */
 export type CardType = "honorary-korean" | "honorary-citizen" | "student" | "visitor";
 
@@ -35,10 +35,6 @@ export interface CardDesign {
   /** Bottom-slot image */
   back?: string;
 }
-
-// Provided image files (filenames contain spaces → URL-encoded).
-const df = (n: number) => `/images/cards/design%20front${n}.png`;
-const db = (n: number) => (n === 1 ? `/images/cards/design%20back%201.png` : `/images/cards/design%20back${n}.png`);
 
 // 신규 카드 이미지: 앞면 N.jpg / 뒷면 N-1.jpg. 폴더별 6쌍(앞 3 + 뒤 3 = 페이지당 3쌍, 2페이지).
 const seriesSlots = (folder: string) =>
@@ -134,7 +130,7 @@ export const honoraryCitizenCards = makeSeries(
   seriesSlots("honor-citizen"),
 );
 
-// 학생증 — 2 columns. Top row [front3, back3], bottom row [front4, back4].
+// 학생증 — 첫 줄 가로 2장, 둘째 줄 세로 4장.
 export const studentCards = makeSeries(
   "student",
   "portrait",
@@ -162,9 +158,18 @@ export const studentCards = makeSeries(
     ],
   },
   [
-    // 디자인별로 묶음: 1번은 가로(명예시민증+이름풀이), 2번은 세로(방문증+이름풀이).
-    { front: df(3), back: db(3) }, // 이소연 — 가로 한 쌍
-    { front: df(4), back: db(4) }, // 정재이 — 세로 한 쌍
+    {
+      front: "/images/cards/width/stu-chicken-front.png",
+      back: "/images/cards/width/stu-monkey-front.png",
+    },
+    {
+      front: "/images/cards/length/student-pig-front.png",
+      back: "/images/cards/length/student-monkey-front.png",
+    },
+    {
+      front: "/images/cards/length/student-dog-front.png",
+      back: "/images/cards/length/student-chicken-front.png",
+    },
   ],
 );
 
