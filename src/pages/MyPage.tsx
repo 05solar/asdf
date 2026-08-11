@@ -64,7 +64,7 @@ export function MyPage() {
 
       <MySection title="후기" action={<Link to="/reviews/new">후기 작성 ›</Link>}>
         <div className="mypage-list mypage-list--activity">
-          {myReviews.map((review) => <article key={review.id}><Link to={`/reviews/${encodeURIComponent(review.id)}`}><strong>{review.title}</strong></Link><time>{review.createdAt.replace(/-/g, ".")}</time></article>)}
+          {myReviews.map((review) => <article key={review.id}><Link to={`/reviews/${encodeURIComponent(review.id)}`}><strong>{review.title}</strong></Link><time>{review.createdAt.replace(/-/g, ".")}</time><Link className="mypage-list__edit" to={`/reviews/${encodeURIComponent(review.id)}/edit`} aria-label={`${review.title} 후기 수정`}>수정</Link></article>)}
           {myReviews.length === 0 && <p className="mypage-list__empty">작성한 후기가 없습니다.</p>}
         </div>
       </MySection>

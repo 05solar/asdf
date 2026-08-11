@@ -41,9 +41,11 @@
   gap: 20px;
 }
 .design__cat-title {
+  padding-left: 14px;
+  border-left: 5px solid var(--color-wordmark);
   font-family: var(--font-serif);
   font-weight: 300;
-  color: var(--color-text-title);
+  color: var(--color-wordmark);
   font-size: clamp(22px, 2.8vw, 34px);
 }
 
@@ -152,8 +154,9 @@
 }
 /* 방문증: 카드 크기를 줄이고 남는 폭을 카드 사이 간격으로 분배. */
 .design__cat--visitor .carousel__track--portrait {
-  grid-template-columns: repeat(3, minmax(0, 300px));
+  grid-template-columns: repeat(3, minmax(0, 220px));
   justify-content: space-between;
+  column-gap: clamp(48px, 8vw, 132px);
 }
 .carousel__slide {
   display: grid;
@@ -188,11 +191,13 @@
 .carousel__frame {
   position: relative;
   display: block;
+  overflow: hidden;
+  border-radius: var(--radius-card-preview);
 }
 .carousel__tint {
   position: absolute;
   inset: 0;
-  border-radius: var(--radius-card);
+  border-radius: var(--radius-card-preview);
   pointer-events: none;
   transition: background var(--ease);
 }

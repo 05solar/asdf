@@ -8,7 +8,6 @@ import { ChevronLeft, ChevronRight } from "../components/ui/icons";
 import "./DesignPage.css";
 
 const PAIRS_PER_PAGE = 3; // 앞면 3 + 뒷면 3 = 한 페이지당 3쌍
-const STUDENT_PAGES = 5; // 학생증은 기존 방식(색상 변형) 유지
 
 export function DesignPage() {
   const { hash } = useLocation();
@@ -37,17 +36,14 @@ export function DesignPage() {
   );
 }
 
-/** One card category. Its pagination (1–5) doesn't change which cards show —
- *  page 1 is the plain art; pages 2–5 tint the same cards a different colour
- *  (placeholder until the real variant art is delivered). */
+/** One card category. Each page displays the next three delivered card pairs. */
 function DesignCategory({ cat }: { cat: CardCategory }) {
   const [page, setPage] = useState(1);
   const orientation = cat.cards[0].orientation;
   const firstId = cat.cards[0]?.id ?? "";
   const isStudent = cat.cardType === "student";
-  // 학생증 외에는 카드 6쌍을 3쌍씩 페이지로 나눠 실제 이미지를 교체한다.
-  const totalPages = isStudent ? STUDENT_PAGES : Math.max(1, Math.ceil(cat.cards.length / PAIRS_PER_PAGE));
-  const pageCards = isStudent ? cat.cards : cat.cards.slice((page - 1) * PAIRS_PER_PAGE, page * PAIRS_PER_PAGE);
+  const totalPages = Math.max(1, Math.ceil(cat.cards.length / PAIRS_PER_PAGE));
+  const pageCards = cat.cards.slice((page - 1) * PAIRS_PER_PAGE, page * PAIRS_PER_PAGE);
 
   return (
     <section
@@ -96,7 +92,7 @@ function DesignCategory({ cat }: { cat: CardCategory }) {
         <CardCarousel
           cards={pageCards}
           orientation={orientation}
-          page={isStudent ? page : 1}
+          page={1}
           layout={isStudent ? "student" : "default"}
         />
 

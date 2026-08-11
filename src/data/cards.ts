@@ -36,16 +36,15 @@ export interface CardDesign {
   back?: string;
 }
 
-// 신규 카드 이미지: 앞면 N.jpg / 뒷면 N-1.jpg. 폴더별 6쌍(앞 3 + 뒤 3 = 페이지당 3쌍, 2페이지).
-const seriesSlots = (folder: string) =>
-  Array.from({ length: 6 }, (_, i) => ({
-    front: `/images/card/${folder}/${i + 1}.jpg`,
-    back: `/images/card/${folder}/${i + 1}-1.jpg`,
-  }));
-// 명예한국인증은 2번 뒷면 파일명이 2-2.jpg 예외.
-const honorKoreanSlots = seriesSlots("honor-korean").map((s, i) =>
-  i === 1 ? { ...s, back: "/images/card/honor-korean/2-2.jpg" } : s,
-);
+const widthPair = (name: string, extension: "jpg" | "png" = "jpg") => ({
+  front: `/images/cards/width/${name}-front.${extension}`,
+  back: `/images/cards/width/${name}-back.${extension}`,
+});
+
+const lengthPair = (name: string, frontExtension: "jpg" | "png", backExtension = frontExtension) => ({
+  front: `/images/cards/length/${name}-front.${frontExtension}`,
+  back: `/images/cards/length/${name}-back.${backExtension}`,
+});
 
 const monkeyReading = {
   nameKo: "윤 은 재",
@@ -80,7 +79,7 @@ function makeSeries(
   }));
 }
 
-// 명예한국인증 — 3 columns: top row front1×3, bottom row back1×3.
+// 명예한국인증 — 페이지당 앞면 3장과 각각 매칭되는 뒷면 3장.
 export const honoraryKoreanCards = makeSeries(
   "honorary-korean",
   "landscape",
@@ -97,10 +96,17 @@ export const honoraryKoreanCards = makeSeries(
     issuer: "발행처 대한민국 고용노동부",
   },
   monkeyReading,
-  honorKoreanSlots,
+  [
+    widthPair("kor-tiger"),
+    widthPair("kor-cow"),
+    widthPair("kor-cow2"),
+    widthPair("kor-rabbit"),
+    widthPair("kor-monkey"),
+    widthPair("kor-mouse"),
+  ],
 );
 
-// 명예시민증 — 3 columns: top row front2×3, bottom row back2×3.
+// 명예시민증 — 페이지당 앞면 3장과 각각 매칭되는 뒷면 3장.
 export const honoraryCitizenCards = makeSeries(
   "honorary-citizen",
   "landscape",
@@ -127,10 +133,17 @@ export const honoraryCitizenCards = makeSeries(
       "밝게 빛나는 부유하고 명예로운 인생을 산다.",
     ],
   },
-  seriesSlots("honor-citizen"),
+  [
+    widthPair("city-dragon2"),
+    widthPair("city-snake"),
+    widthPair("city-horse"),
+    widthPair("city-sheep"),
+    widthPair("city-snake2"),
+    widthPair("city-dog"),
+  ],
 );
 
-// 학생증 — 첫 줄 가로 2장, 둘째 줄 세로 4장.
+// 학생증 — 페이지마다 첫 줄 가로 1쌍, 둘째 줄 세로 2쌍.
 export const studentCards = makeSeries(
   "student",
   "portrait",
@@ -158,22 +171,19 @@ export const studentCards = makeSeries(
     ],
   },
   [
-    {
-      front: "/images/cards/width/stu-chicken-front.png",
-      back: "/images/cards/width/stu-monkey-front.png",
-    },
-    {
-      front: "/images/cards/length/student-pig-front.png",
-      back: "/images/cards/length/student-monkey-front.png",
-    },
-    {
-      front: "/images/cards/length/student-dog-front.png",
-      back: "/images/cards/length/student-chicken-front.png",
-    },
+    widthPair("stu-pig", "png"),
+    lengthPair("student-horse", "jpg", "png"),
+    lengthPair("student-dog", "png"),
+    widthPair("stu-dog", "png"),
+    lengthPair("student-sheep", "png"),
+    lengthPair("student-chicken", "png"),
+    widthPair("stu-chicken", "png"),
+    lengthPair("student-pig", "png"),
+    lengthPair("student-monkey", "png"),
   ],
 );
 
-// 방문증 — 2 columns, front5/back5 alternating (교차).
+// 방문증 — 페이지당 앞면 3장과 각각 매칭되는 뒷면 3장.
 export const visitorCards = makeSeries(
   "visitor",
   "portrait",
@@ -200,7 +210,17 @@ export const visitorCards = makeSeries(
       "깊은 지혜로 모든 일이 밝고 그름을 따지고 조화로운 삶을 이룬다.",
     ],
   },
-  seriesSlots("visit"),
+  [
+    lengthPair("visit-tiger", "jpg"),
+    lengthPair("visit-cow", "jpg"),
+    lengthPair("visit-rabbit", "jpg"),
+    lengthPair("visit-snake", "jpg"),
+    {
+      front: "/images/cards/length/visit-dragon-front.jpg",
+      back: "/images/cards/length/visit-dragron-back.jpg",
+    },
+    lengthPair("visit-mouse", "jpg"),
+  ],
 );
 
 export interface CardCategory {

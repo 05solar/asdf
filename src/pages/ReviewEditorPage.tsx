@@ -22,8 +22,8 @@ export function ReviewEditorPage() {
       <section className="review-write-page__login page-container"><h2>로그인이 필요한 서비스입니다.</h2><p>로그인한 회원만 후기를 작성할 수 있습니다.</p><Button to={`/login?returnTo=${encodeURIComponent(location.pathname)}`}>로그인하기</Button><Button variant="ghost" to="/reviews">목록으로</Button></section>
     </main>
   );
-  if (editing && !isAdmin) return <Navigate to="/reviews" replace />;
   if (editing && !review) return <Navigate to="/reviews" replace />;
+  if (editing && review && !isAdmin && review.authorEmail !== user.email) return <Navigate to="/mypage" replace />;
 
   const submit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

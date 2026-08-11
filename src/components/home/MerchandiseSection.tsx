@@ -17,32 +17,38 @@ const audienceItems = [
 
 interface InfoCardProps {
   index: number;
-  activeIndex: number | null;
+  active: boolean;
   onSelect: (index: number) => void;
   summary: React.ReactNode;
   children: React.ReactNode;
   label: string;
 }
 
-function InfoCard({ index, activeIndex, onSelect, summary, children, label }: InfoCardProps) {
-  const isActive = activeIndex === index;
+function InfoCard({ index, active, onSelect, summary, children, label }: InfoCardProps) {
   return (
     <button
       type="button"
-      className={`info-card${index > 0 ? " info-card--image-result" : ""}${isActive ? " is-active" : ""}`}
+      className={`info-card${index > 0 ? " info-card--image-result" : ""}${active ? " is-active" : ""}`}
       onClick={() => onSelect(index)}
-      aria-expanded={isActive}
+      aria-expanded={active}
       aria-label={label}
     >
       <span className="info-card__summary">{summary}</span>
-      <span className="info-card__result" aria-hidden={!isActive}>{children}</span>
+      <span className="info-card__result" aria-hidden={!active}>{children}</span>
     </button>
   );
 }
 
 export function MerchandiseSection() {
-  const [activeCard, setActiveCard] = useState<number | null>(null);
-  const selectCard = (index: number) => setActiveCard((current) => (current === index ? null : index));
+  const [activeCards, setActiveCards] = useState<Set<number>>(() => new Set());
+  const selectCard = (index: number) => {
+    setActiveCards((current) => {
+      const next = new Set(current);
+      if (next.has(index)) next.delete(index);
+      else next.add(index);
+      return next;
+    });
+  };
 
   return (
     <section className="merch page-container">
@@ -72,7 +78,7 @@ export function MerchandiseSection() {
       <div className="merch__cards">
         <InfoCard
           index={0}
-          activeIndex={activeCard}
+          active={activeCards.has(0)}
           onSelect={selectCard}
           label="외국인 방문객 한국이름 작명 대상 보기"
           summary={<>외국인 방문객<br />한국이름 작명 대상</>}
@@ -84,7 +90,7 @@ export function MerchandiseSection() {
 
         <InfoCard
           index={1}
-          activeIndex={activeCard}
+          active={activeCards.has(1)}
           onSelect={selectCard}
           label="디지털 카드 결과물 보기"
           summary={<>디지털<br />명예한국인증 · 명예시민증<br />학생증 · 방문증<br />결과물</>}
@@ -94,7 +100,7 @@ export function MerchandiseSection() {
 
         <InfoCard
           index={2}
-          activeIndex={activeCard}
+          active={activeCards.has(2)}
           onSelect={selectCard}
           label="실물 카드 결과물 보기"
           summary={<>실물<br />명예한국인증 · 명예시민증<br />학생증 · 방문증<br />결과물</>}

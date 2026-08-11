@@ -41,6 +41,8 @@
 .mypage-list__empty { padding: 34px 16px; border-bottom: 1px solid var(--color-border-soft); color: var(--color-text-muted); font-size: 13px; text-align: center; }
 .mypage-list--activity article { grid-template-columns: 1fr auto auto; gap: 24px; }
 .mypage-list--activity article a:hover strong { color: var(--color-primary); }
+.mypage-list article .mypage-list__edit { padding: 6px 13px; border: 1px solid var(--color-border-accent); border-radius: var(--radius-card); color: var(--color-wordmark); font-size: 12px; font-weight: 600; text-align: center; transition: background-color var(--ease), color var(--ease); }
+.mypage-list article .mypage-list__edit:hover { background: var(--color-wordmark); color: var(--color-primary-foreground); }
 .mypage--guest { min-height: 60vh; display: grid; place-content: center; justify-items: center; gap: 14px; text-align: center; }
 .mypage--guest h1 { color: var(--color-wordmark); font-family: var(--font-serif); font-size: 28px; }
 .mypage--guest p { color: var(--color-text-muted); }
@@ -53,5 +55,7 @@
   .mypage-list__head { display: none; }
   .mypage-list--production article, .mypage-list--activity article { grid-template-columns: 1fr auto; gap: 8px 16px; padding-block: 14px; }
   .mypage-list--production article span, .mypage-list--production article time { grid-column: 1; }
+  .mypage-list--activity article time { grid-column: 1; grid-row: 2; }
+  .mypage-list--activity article .mypage-list__edit { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
   .mypage-status { grid-column: 2; grid-row: 1; }
 }

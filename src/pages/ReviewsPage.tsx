@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Button } from "../components/ui/Button";
 import { showToast } from "../components/ui/toast";
 import { useAuth } from "../features/auth/AuthContext";
-import { loadReviews } from "../data/reviews";
+import { getReviewImageUrl, loadReviews } from "../data/reviews";
 import { cardTypeLabels, type CardType } from "../data/cards";
 import "./ContentPages.css";
 import "./SupportPage.css";
@@ -61,12 +61,15 @@ export function ReviewsPage() {
         </div>
 
         <div className="review-grid" aria-label="후기 목록">
-          {visibleReviews.length === 0 ? <p className="review-grid__empty">검색 결과가 없습니다.</p> : visibleReviews.map((review) => (
-            <Link className="review-card" key={review.id} to={`/reviews/${encodeURIComponent(review.id)}`} state={{ review }}>
-              <div className={`review-card__visual${review.imageUrl ? "" : " review-card__visual--empty"}`}>{review.imageUrl ? <img src={review.imageUrl} alt="" /> : <span>한글과 세종</span>}</div>
-              <div className="review-card__body"><div className="review-card__tags"><span>{review.applicantType === "organization" ? "단체" : "개인"}</span><span>{cardTypeLabels[review.cardType]}</span></div><h3>{review.title}</h3><p>{review.content}</p><footer><strong>{review.author}</strong><time dateTime={review.createdAt}>{review.createdAt.replace(/-/g, ".")}</time></footer></div>
-            </Link>
-          ))}
+          {visibleReviews.length === 0 ? <p className="review-grid__empty">검색 결과가 없습니다.</p> : visibleReviews.map((review) => {
+            const imageUrl = getReviewImageUrl(review);
+            return (
+              <Link className={`review-card${imageUrl ? "" : " review-card--text-only"}`} key={review.id} to={`/reviews/${encodeURIComponent(review.id)}`} state={{ review: { ...review, imageUrl } }}>
+                {imageUrl && <div className="review-card__visual"><img src={imageUrl} alt={`${review.title} 후기 이미지`} /></div>}
+                <div className="review-card__body"><div className="review-card__tags"><span>{review.applicantType === "organization" ? "단체" : "개인"}</span><span>{cardTypeLabels[review.cardType]}</span></div><h3>{review.title}</h3><p>{review.content}</p><footer><strong>{review.author}</strong><time dateTime={review.createdAt}>{review.createdAt.replace(/-/g, ".")}</time></footer></div>
+              </Link>
+            );
+          })}
         </div>
         <div className="reviews-board__footer"><nav className="support-pagination" aria-label="후기 페이지"><button aria-label="이전 페이지" disabled={page === 1} onClick={() => setPage((value) => Math.max(1, value - 1))}>‹</button>{Array.from({ length: totalPages }, (_, index) => index + 1).map((number) => <button className={number === page ? "is-current" : ""} aria-current={number === page ? "page" : undefined} key={number} onClick={() => setPage(number)}>{number}</button>)}<button aria-label="다음 페이지" disabled={page === totalPages} onClick={() => setPage((value) => Math.min(totalPages, value + 1))}>›</button></nav><div className="reviews-board__write">{user ? <Button to="/reviews/new">후기 작성</Button> : <Button onClick={() => showToast("로그인 후 이용할 수 있습니다.")}>후기 작성</Button>}</div></div>
         {!user && <p className="reviews-board__login">후기를 작성하려면 <Link to={`/login?returnTo=${encodeURIComponent("/reviews/new")}`}>로그인</Link>해 주세요.</p>}

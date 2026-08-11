@@ -1,13 +1,12 @@
 // Card-design gallery for one category on the design page.
-// All cards are shown at once; the `page` prop (1–5) only changes the colour
-// overlay tinting the cards — page 1 is the plain art.
+// Cards are supplied page-by-page by DesignPage.
 import type { CardDesign } from "../../data/cards";
 import { SampleCard } from "../brand/SampleCard";
 
 interface CardCarouselProps {
   cards: CardDesign[];
   orientation: "landscape" | "portrait";
-  /** Active page (1–5) — drives the colour overlay. Page 1 = no tint. */
+  /** Optional colour variant page. The design catalogue currently uses page 1. */
   page?: number;
   /** "student" = bespoke two-row mix: a wide landscape pair over a portrait quartet. */
   layout?: "default" | "student";
