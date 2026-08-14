@@ -64,6 +64,60 @@
   align-items: center;
   gap: 18px;
 }
+.lookup__downloads {
+  width: min(100%, 340px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+/* 메인페이지 신청 버튼(.design-chip)과 동일한 디자인. */
+.lookup__download-btn {
+  min-width: 148px;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-button-navy);
+  text-align: center;
+  white-space: nowrap;
+  border: 2px solid var(--color-button-navy);
+  border-radius: 6px;
+  padding: 11px 22px;
+  background: var(--color-warm-beige);
+  cursor: pointer;
+  transition: background-color var(--ease), color var(--ease), border-color var(--ease);
+}
+.lookup__download-btn:hover,
+.lookup__download-btn:focus-visible {
+  background: var(--color-button-navy);
+  color: var(--color-primary-foreground);
+  border-color: var(--color-button-navy);
+}
+.lookup__download-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+.lookup__download-split {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.lookup__download-link {
+  border: 0;
+  background: none;
+  color: var(--color-text-secondary);
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.lookup__download-link:hover {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+.lookup__download-sep {
+  color: var(--color-border-accent);
+}
 .lookup__reset {
   border: 0;
   background: none;

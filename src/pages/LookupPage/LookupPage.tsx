@@ -3,8 +3,10 @@
 import { useState } from "react";
 import { Button } from "../../components/ui/Button";
 import { FlipCard } from "../../components/ui/FlipCard";
+import { showToast } from "../../components/ui/toast";
 import { loadApplications } from "../../data/adminMock";
 import { api } from "../../services/api";
+import { downloadCompositeCard, downloadImageFile } from "../../lib/cardDownload";
 import "./LookupPage.css";
 
 type LookupMethod = "contact" | "card";
@@ -45,6 +47,7 @@ export function LookupPage() {
   const [cardNumber, setCardNumber] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [card, setCard] = useState<FoundCard | null>(null);
+  const [downloading, setDownloading] = useState(false);
 
   const changeMethod = (next: LookupMethod) => {
     setMethod(next);
@@ -54,6 +57,33 @@ export function LookupPage() {
   const resetLookup = () => {
     setCard(null);
     setError(null);
+  };
+
+  // 이미지 URL에서 확장자를 뽑아 파일명에 붙인다(없으면 png).
+  const extOf = (url: string) => (url.split("?")[0].match(/\.([a-z0-9]+)$/i)?.[1] ?? "png").toLowerCase();
+
+  // 앞·뒷면을 합친 한 장의 PNG로 다운로드.
+  const downloadComposite = async () => {
+    if (!card || downloading) return;
+    setDownloading(true);
+    try {
+      await downloadCompositeCard(card.frontUrl, card.backUrl, "모바일카드.png");
+    } catch {
+      showToast("이미지를 만드는 중 문제가 발생했습니다. 다시 시도해 주세요.");
+    } finally {
+      setDownloading(false);
+    }
+  };
+
+  // 앞면/뒷면 원본 이미지를 각각 다운로드.
+  const downloadSide = async (side: "front" | "back") => {
+    if (!card) return;
+    const url = side === "front" ? card.frontUrl : card.backUrl;
+    try {
+      await downloadImageFile(url, `모바일카드-${side === "front" ? "앞면" : "뒷면"}.${extOf(url)}`);
+    } catch {
+      showToast("다운로드 중 문제가 발생했습니다. 다시 시도해 주세요.");
+    }
   };
 
   const submit = async (event: React.FormEvent) => {
@@ -121,6 +151,20 @@ export function LookupPage() {
       {card ? (
         <div className="lookup__cardview">
           <FlipCard frontUrl={card.frontUrl} backUrl={card.backUrl} />
+          <div className="lookup__downloads">
+            <button type="button" className="lookup__download-btn" onClick={downloadComposite} disabled={downloading}>
+              {downloading ? "이미지 생성 중…" : "카드 이미지 다운로드"}
+            </button>
+            <div className="lookup__download-split">
+              <button type="button" className="lookup__download-link" onClick={() => downloadSide("front")}>
+                앞면 다운로드
+              </button>
+              <span className="lookup__download-sep" aria-hidden="true">·</span>
+              <button type="button" className="lookup__download-link" onClick={() => downloadSide("back")}>
+                뒷면 다운로드
+              </button>
+            </div>
+          </div>
           <button type="button" className="lookup__reset" onClick={resetLookup}>
             다른 카드 조회하기
           </button>
