@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "../features/auth/AuthContext";
 import { ContentAdminPanel, loadManagedContent, type ManagedContent } from "../components/admin/ContentAdminPanel";
+import { ImagePlaceholder } from "../components/ui/ImagePlaceholder";
+import { Modal } from "../components/ui/Modal";
 import "./ContentPages.css";
 import "./EventsPage.css";
 
@@ -11,23 +13,51 @@ const programs = [
   { tag: "현장 운영", title: "행사 연계 프로그램", text: "관광·교육·교류 행사 안에서 이름 체험과 카드 수령이 자연스럽게 이어지도록 설계합니다." },
 ];
 
-const process = ["상담 및 목적 확인", "프로그램 구성", "참가자 정보 접수", "이름·카드 제작", "현장 운영 및 전달"];
+const process = ["상담 및 목적 확인", "참가자 정보 접수", "이름·카드 제작", "현장 운영 및 전달"];
 
-const boothDetails = [
-  { image: "/images/events/booth-calligraphy.webp", title: "한국 이름 작명 상담", text: "참가자의 이야기를 듣고 이름의 소리와 의미를 함께 살펴보는 맞춤형 상담을 진행합니다." },
-  { image: "/images/events/booth-card-delivery.webp", title: "현장 카드 전달", text: "완성된 한국 이름과 카드의 의미를 설명하며 참가자에게 직접 전달합니다." },
-  { image: "/images/events/booth-display.webp", title: "전시와 체험 동선", text: "카드 견본과 전통 소재를 활용해 대기부터 수령까지 자연스럽게 이어지는 공간을 구성합니다." },
+interface FeedPost {
+  date: string;
+  title: string;
+  place: string;
+  host: string;
+  cardLabel: string;
+  text: string;
+  image?: string;
+}
+
+// 부스 운영 — 실제 부스를 운영한 기록을 게시글처럼 올린다.
+// 가장 최근 행사가 맨 위(크게), 지난 행사는 아래로 순서대로.
+// 본문 문구는 동일한 틀을 쓰고, 행사명·일자·장소·카드 종류만 바뀐다.
+const BOOTH_TEXT =
+  "부스를 찾은 방문객에게 한글 오행으로 지은 한국 이름과 카드를 현장에서 제작해 전달했습니다. 참가자와 함께한 인증 사진과 현장 후기를 이곳에 기록으로 남깁니다.";
+const boothPosts: FeedPost[] = [
+  { date: "2026. 12", title: "서울공예트렌드페어", place: "서울 코엑스 Hall C", host: "(재)한국공예·디자인문화진흥원", cardLabel: "명예한국인증 · 방문증", text: BOOTH_TEXT, image: "/images/events/booth-hero.webp" },
+  { date: "2026. 10", title: "한국전통문화박람회", place: "경주 화백컨벤션센터", host: "문화체육관광부", cardLabel: "명예한국인증 · 학생증", text: BOOTH_TEXT, image: "/images/events/booth-calligraphy.webp" },
+  { date: "2026. 08", title: "한글주간 문화행사", place: "국립한글박물관", host: "국립한글박물관", cardLabel: "방문증", text: BOOTH_TEXT, image: "/images/events/booth-display.webp" },
+  { date: "2026. 06", title: "부산국제관광전", place: "부산 벡스코", host: "부산광역시", cardLabel: "방문증", text: BOOTH_TEXT, image: "/images/events/booth-card-delivery.webp" },
+];
+const BOOTH_GALLERY = [
+  "/images/events/booth-hero.webp",
+  "/images/events/booth-calligraphy.webp",
+  "/images/events/booth-display.webp",
+  "/images/events/booth-card-delivery.webp",
 ];
 
-const collaborations = [
-  { image: "/images/events/collaboration-1.webp", mark: "H", title: "호텔·리조트", text: "체크인 경험과 연계한 한국 이름 웰컴 카드로 특별한 첫인상을 만듭니다." },
-  { image: "/images/events/collaboration-2.webp", mark: "U", title: "대학·교육기관", text: "외국인 학생 오리엔테이션과 교류 행사에 맞춘 학생증형 콘텐츠를 제공합니다." },
-  { image: "/images/events/collaboration-3.webp", mark: "S", title: "스포츠·선수단", text: "국제대회 참가자와 선수단을 위한 기념 카드와 문화 체험을 운영합니다." },
-  { image: "/images/events/collaboration-4.webp", mark: "T", title: "관광·여행", text: "관광 안내와 지역 방문 경험을 한국 이름 방문증으로 오래 남깁니다." },
-  { image: "/images/events/collaboration-5.webp", mark: "M", title: "박물관·문화기관", text: "전시와 교육 프로그램에 한글 작명과 카드 제작 체험을 결합합니다." },
-  { image: "/images/events/collaboration-6.webp", mark: "B", title: "뷰티·라이프스타일", text: "브랜드 팝업의 감도에 맞춘 이름 카드와 패키지형 기념품을 제안합니다." },
-  { image: "/images/events/collaboration-7.webp", mark: "C", title: "기업·컨퍼런스", text: "글로벌 임직원과 초청 고객을 위한 한국 문화 네트워킹 프로그램을 구성합니다." },
-  { image: "/images/events/collaboration-8.webp", mark: "F", title: "지역축제·지자체", text: "지역의 이야기와 발행 주체를 담은 맞춤 카드로 축제 참여 경험을 확장합니다." },
+// 법인·단체 협업 — 해외 선수단·단체에 한국 이름과 카드를 발급하고 협업 사실을 기록한다.
+const COLLAB_TEXT =
+  "해외 참가자에게 한글 이름을 지어 방문증·명예한국인증을 발급하고, 함께한 인증 사진으로 협업을 기록합니다. 발급한 카드와 참여 인원은 협업 단위로 관리됩니다.";
+const collabPosts: FeedPost[] = [
+  { date: "2026. 11", title: "국제 태권도 협회 초청 선수단", place: "○○ 태권도 협회", host: "세계태권도연맹", cardLabel: "명예한국인증 · 방문증", text: COLLAB_TEXT, image: "/images/events/collaboration-3.webp" },
+  { date: "2026. 09", title: "해외 대학 교류 사절단", place: "△△ 대학교", host: "△△ 대학교 국제교류처", cardLabel: "학생증", text: COLLAB_TEXT, image: "/images/events/collaboration-2.webp" },
+  { date: "2026. 07", title: "글로벌 기업 임직원 초청", place: "□□ 컨퍼런스", host: "□□ 그룹", cardLabel: "명예시민증", text: COLLAB_TEXT, image: "/images/events/collaboration-7.webp" },
+  { date: "2026. 05", title: "국제 문화교류 사절단", place: "◇◇ 문화교류협회", host: "◇◇ 문화교류협회", cardLabel: "명예한국인증", text: COLLAB_TEXT, image: "/images/events/collaboration-5.webp" },
+];
+const COLLAB_GALLERY = [
+  "/images/events/collaboration-1.webp",
+  "/images/events/collaboration-2.webp",
+  "/images/events/collaboration-3.webp",
+  "/images/events/collaboration-5.webp",
+  "/images/events/collaboration-7.webp",
 ];
 
 export function EventsPage() {
@@ -61,39 +91,6 @@ export function EventsPage() {
         </div>
       </section>
 
-      <section className="event-booth page-container">
-        <div className="content-section-head event-feature__head">
-          <p className="content-kicker">BOOTH OPERATION</p>
-          <h2>현장에서 완성되는 한국 이름 체험</h2>
-          <p>행사의 규모와 공간에 맞춰 상담, 작명, 카드 제작과 전달이 하나의 흐름으로 이어지는 부스를 운영합니다.</p>
-        </div>
-        <figure className="event-booth__hero">
-          <img src="/images/events/booth-hero.webp" alt="국제 문화 행사에서 운영 중인 한옥형 한국 이름 체험 부스" />
-          <figcaption><strong>공간 기획부터 현장 운영까지</strong><span>브랜드의 성격과 방문객 동선을 고려해 따뜻하고 정돈된 체험 환경을 만듭니다.</span></figcaption>
-        </figure>
-        <div className="event-booth__details">
-          {boothDetails.map((item) => <article key={item.title}><img src={item.image} alt={item.title} loading="lazy" /><h3>{item.title}</h3><p>{item.text}</p></article>)}
-        </div>
-      </section>
-
-      <section className="event-collaboration">
-        <div className="page-container">
-          <div className="content-section-head event-feature__head">
-            <p className="content-kicker">BRAND COLLABORATION</p>
-            <h2>브랜드의 경험에 한글의 이야기를 더합니다</h2>
-            <p>기업과 기관의 아이덴티티를 존중하면서 한국 이름과 카드가 자연스럽게 연결되는 협업 프로그램을 설계합니다.</p>
-          </div>
-          <div className="event-collaboration__grid">
-            {collaborations.map((item) => (
-              <article className="collaboration-card" key={item.title}>
-                <img src={item.image} alt={`${item.title} 브랜드 협업 예시`} loading="lazy" />
-                <div className="collaboration-card__copy"><span className="collaboration-card__mark" aria-hidden="true">{item.mark}</span><div><h3>{item.title}</h3><p>{item.text}</p></div></div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
       <section className="content-band">
         <div className="page-container">
           <div className="content-section-head">
@@ -108,6 +105,20 @@ export function EventsPage() {
         </div>
       </section>
 
+      <EventFeed
+        title="부스 운영"
+        tagline="현장에서 고객과 직접 만나 정성을 담은 서비스를 제공합니다"
+        posts={boothPosts}
+        gallery={BOOTH_GALLERY}
+      />
+
+      <EventFeed
+        title="법인·단체 협업"
+        tagline="현장에서 고객과 직접 만나 정성을 담은 서비스를 제공합니다"
+        posts={collabPosts}
+        gallery={COLLAB_GALLERY}
+      />
+
       <section className="event-inquiry page-container">
         <div>
           <p className="content-kicker">PARTNERSHIP</p>
@@ -116,6 +127,117 @@ export function EventsPage() {
         </div>
         <Link to="/support#contact">행사 상담 문의　→</Link>
       </section>
+    </div>
+  );
+}
+
+/** A single record card (photo on top, content below). */
+function EventCard({ post, onOpen, wide = false }: { post: FeedPost; onOpen: (post: FeedPost) => void; wide?: boolean }) {
+  return (
+    <article className={`event-card${wide ? " event-card--wide" : ""}`}>
+      <div className="event-card__media">
+        {post.image
+          ? <img src={post.image} alt={`${post.title} 사진`} loading="lazy" />
+          : <ImagePlaceholder label={`${post.title} 사진`} />}
+      </div>
+      <div className="event-card__body">
+        <h3>{post.title}</h3>
+        <div className="event-card__meta">
+          <time>{post.date}</time>
+          <span className="event-card__label">{post.cardLabel}</span>
+        </div>
+        <p className={`event-card__text${wide ? " event-card__text--full" : ""}`}>{post.text}</p>
+        <button type="button" className="event-card__more" onClick={() => onOpen(post)}>
+          자세히 보기<span aria-hidden="true"> →</span>
+        </button>
+      </div>
+    </article>
+  );
+}
+
+/**
+ * 부스 운영 / 법인·단체 협업 공통 피드.
+ * 대표 기록 1개를 상단에 사진 60% / 글 40% 와이드 카드로, 나머지는 한 행에 3개 카드로 배열한다.
+ * 카드 하단의 "자세히 보기"를 누르면 상세 팝업이 뜬다.
+ */
+function EventFeed({ title, tagline, posts, gallery }: {
+  title: string;
+  tagline: string;
+  posts: FeedPost[];
+  gallery: string[];
+}) {
+  const [active, setActive] = useState<FeedPost | null>(null);
+  const [featured, ...rest] = posts;
+
+  return (
+    <section className="event-feed page-container">
+      <header className="event-feed__head">
+        <h2 className="event-feed__title">{title}</h2>
+        <span className="event-feed__rule" aria-hidden="true" />
+        <p className="event-feed__tagline">{tagline}</p>
+      </header>
+
+      {featured && <EventCard post={featured} onOpen={setActive} wide />}
+
+      <div className="event-card-grid">
+        {rest.map((post) => <EventCard key={post.title} post={post} onOpen={setActive} />)}
+      </div>
+
+      <Modal open={active !== null} onClose={() => setActive(null)} title={active?.title ?? ""} className="event-modal">
+        {active && <EventDetail key={active.title} post={active} sectionLabel={title} gallery={gallery} />}
+      </Modal>
+    </section>
+  );
+}
+
+/** Detail popup content: gallery (main image + thumbnails) left, info right. */
+function EventDetail({ post, sectionLabel, gallery }: { post: FeedPost; sectionLabel: string; gallery: string[] }) {
+  const images = [post.image, ...gallery].filter((src, i, arr): src is string => Boolean(src) && arr.indexOf(src) === i);
+  const [index, setIndex] = useState(0);
+  const current = images[index];
+  const move = (delta: number) => setIndex((i) => (i + delta + images.length) % images.length);
+
+  return (
+    <div className="event-modal__grid">
+      <div className="event-modal__gallery">
+        <div className="event-modal__main">
+          {current
+            ? <img src={current} alt={`${post.title} 사진 ${index + 1}`} />
+            : <ImagePlaceholder label={`${post.title} 사진`} />}
+        </div>
+        {images.length > 1 && (
+          <div className="event-modal__thumbs">
+            <button type="button" className="event-modal__arrow" onClick={() => move(-1)} aria-label="이전 사진">‹</button>
+            <ul>
+              {images.map((src, i) => (
+                <li key={src}>
+                  <button
+                    type="button"
+                    className={`event-modal__thumb${i === index ? " is-active" : ""}`}
+                    onClick={() => setIndex(i)}
+                    aria-label={`${i + 1}번째 사진`}
+                    aria-current={i === index}
+                  >
+                    <img src={src} alt="" />
+                  </button>
+                </li>
+              ))}
+            </ul>
+            <button type="button" className="event-modal__arrow" onClick={() => move(1)} aria-label="다음 사진">›</button>
+          </div>
+        )}
+      </div>
+      <div className="event-modal__info">
+        <p className="event-modal__kicker">{sectionLabel}</p>
+        <h2 className="event-modal__title">{post.title}</h2>
+        <p className="event-modal__date">{post.date}</p>
+        <dl className="event-modal__table">
+          <div><dt>장소</dt><dd>{post.place}</dd></div>
+          <div><dt>주최</dt><dd>{post.host}</dd></div>
+          <div><dt>발급 카드</dt><dd>{post.cardLabel}</dd></div>
+        </dl>
+        <p className="event-modal__text">{post.text}</p>
+      </div>
     </div>
   );
 }

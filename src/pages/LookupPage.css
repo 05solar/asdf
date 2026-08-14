@@ -1,4 +1,9 @@
 /* Lookup page styles. */
+/* 조회 페이지는 상단 타이틀 구분선을 표시하지 않는다. */
+.subpage-hero.lookup__hero::before,
+.subpage-hero.lookup__hero::after {
+  content: none;
+}
 .lookup {
   padding-bottom: clamp(44px, 7vw, 88px);
   min-height: 60vh;
@@ -49,6 +54,27 @@
   font-size: 12.5px;
   color: var(--color-text-muted);
   line-height: 1.6;
+}
+/* Inline card view shown after a successful lookup. */
+.lookup__cardview {
+  margin-top: clamp(24px, 4vw, 40px);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+.lookup__reset {
+  border: 0;
+  background: none;
+  color: var(--color-primary);
+  font: inherit;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+}
+.lookup__reset:hover {
+  text-decoration: underline;
 }
 .lookup__result {
   margin-top: 28px;

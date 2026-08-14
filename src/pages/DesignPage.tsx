@@ -26,7 +26,6 @@ export function DesignPage() {
         <p className="eyebrow">디자인</p>
         <h1 className="design__title">카드 디자인</h1>
         <p className="section-lead design__lead">한국의 결을 따라 전통과 현재를 담다</p>
-        <div className="design__lead-line" />
       </header>
 
       {cardCategories.map((cat) => (

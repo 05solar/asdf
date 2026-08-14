@@ -254,7 +254,9 @@
 }
 .process-list {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  /* Evenly split across however many steps there are (currently 4). */
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
   border-block: 2px solid var(--color-surface-soft);
 }
 .process-list li {
@@ -290,11 +292,16 @@
     grid-template-columns: 1fr 1fr;
   }
   .process-list {
+    grid-auto-flow: row;
+    grid-auto-columns: auto;
     grid-template-columns: 1fr;
   }
   .process-list li {
     border-right: 0;
     border-bottom: 2px solid var(--color-surface-soft);
+  }
+  .process-list li:last-child {
+    border-bottom: 0;
   }
 }
 @media (max-width: 600px) {

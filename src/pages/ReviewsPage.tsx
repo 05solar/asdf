@@ -46,7 +46,6 @@ export function ReviewsPage() {
       </header>
 
       <section className="support__section page-container reviews-board">
-        <div className="support-rule" aria-hidden="true"><i /></div>
         <div className="reviews-board__heading"><h2 className="support__heading">후기</h2><p>총 {filteredReviews.length}개의 후기가 있습니다.</p></div>
 
         <div className="reviews-board__tools">

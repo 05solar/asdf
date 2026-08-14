@@ -31,7 +31,6 @@ export function NoticesPage() {
 
       <section className="support__section page-container">
         {isAdmin && <ContentAdminPanel label="공지사항" items={managedNotices} onChange={updateNotices} />}
-        <div className="support-rule" aria-hidden="true"><i /></div>
         <h2 className="support__heading">공지사항</h2>
 
         <form className="notice-search" onSubmit={(event) => event.preventDefault()}>

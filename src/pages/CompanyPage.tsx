@@ -1,4 +1,6 @@
+import { useRef } from "react";
 import { companyInfo } from "../config/company";
+import { useScrollReveal } from "../lib/useScrollReveal";
 import "./CompanyPage.css";
 
 const promises = [
@@ -36,14 +38,17 @@ const roadmap = [
 ];
 
 export function CompanyPage() {
+  const rootRef = useRef<HTMLDivElement>(null);
+  useScrollReveal(rootRef);
+
   return (
-    <div className="company-page">
+    <div className="company-page" ref={rootRef}>
       <header id="about" className="company-hero subpage-hero page-container anchor-section">
         <p className="eyebrow">회사 소개</p>
         <h1 className="subpage-hero__title">한글과 세종</h1>
       </header>
 
-      <section className="company-overview page-container">
+      <section className="company-overview page-container reveal">
         <div className="company-overview__lead">
           <h2>이름 하나로,<br />한국과 깊이 연결되도록</h2>
           <p>여행은 끝나도 이름은 남습니다.<br />저희는 한국을 찾은 한 분 한 분께 한글 오행에 기반한 한국 이름을 지어 드리고, 그 이름을 디지털 명예 시민증에 담아 오래도록 간직할 수 있는 기념으로 만들어 드립니다.</p>
@@ -64,30 +69,30 @@ export function CompanyPage() {
         </div>
       </section>
 
-      <section className="company-promises page-container">
-        <h2>저희가 드리는 약속</h2>
+      <section className="company-promises page-container reveal-group">
+        <h2 className="reveal-item">저희가 드리는 약속</h2>
         <div className="company-promises__list">
-          {promises.map((item) => <article key={item.title}><h3>{item.title}</h3><p>{item.text}</p></article>)}
+          {promises.map((item) => <article className="reveal-item" key={item.title}><h3>{item.title}</h3><p>{item.text}</p></article>)}
         </div>
       </section>
 
-      <section className="company-process page-container">
-        <h2>이름이 만들어지는 과정</h2>
-        <p>복잡한 절차 없이, 네 단계면 나만의 한국 이름과 명예한국인증·명예시민증·학생증·방문증</p>
+      <section className="company-process page-container reveal-group">
+        <h2 className="reveal-item">이름이 만들어지는 과정</h2>
+        <p className="reveal-item">복잡한 절차 없이, 네 단계면 나만의 한국 이름과 명예한국인증·명예시민증·학생증·방문증</p>
         <div className="company-process__grid">
-          {process.map((item, index) => <article key={item.title}><span>0{index + 1}</span><h3>{item.title}</h3><p>{item.text}</p></article>)}
+          {process.map((item, index) => <article className="reveal-item" key={item.title}><span>0{index + 1}</span><h3>{item.title}</h3><p>{item.text}</p></article>)}
         </div>
       </section>
 
-      <section className="company-roadmap page-container">
-        <div className="company-section-kicker">연혁 및 로드맵</div>
+      <section className="company-roadmap page-container reveal-group">
+        <div className="company-section-kicker reveal-item">연혁 및 로드맵</div>
         <div className="company-roadmap__columns">
           <Timeline title="걸어온 길" items={history} />
           <Timeline title="걸어갈 길" items={roadmap} />
         </div>
       </section>
 
-      <section className="company-tree">
+      <section className="company-tree reveal">
         <div className="company-tree__inner page-container">
           <img src="/images/logo/tree-logo.png" alt="흰 꽃이 핀 이팝나무" />
           <div>
@@ -100,7 +105,7 @@ export function CompanyPage() {
         </div>
       </section>
 
-      <section id="directions" className="company-location page-container anchor-section">
+      <section id="directions" className="company-location page-container anchor-section reveal">
         <div className="company-section-kicker">위치</div>
         <h2>찾아오시는 길</h2>
         <img
@@ -127,7 +132,7 @@ function Timeline({ title, items }: { title: string; items: typeof history }) {
     <div className="timeline">
       <h2>{title}</h2>
       <ol>
-        {items.map((item) => <li key={item.date}><strong>{item.date}</strong><h3>{item.title}</h3><p>{item.text}</p></li>)}
+        {items.map((item) => <li className="reveal-item" key={item.date}><strong>{item.date}</strong><h3>{item.title}</h3><p>{item.text}</p></li>)}
       </ol>
     </div>
   );

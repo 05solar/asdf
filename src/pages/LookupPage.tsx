@@ -1,16 +1,28 @@
-// Application lookup page with contact and issued-card-number lookup methods.
+// 조회 페이지: 회원가입 없이, 발급받은 본인의 모바일 카드만 확인하는 독립 페이지.
+// 전화번호+이메일 또는 카드번호를 입력하면 본인 카드가 표시되고, 클릭하면 뒤집혀 뒷면이 보인다.
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/Button";
+import { FlipCard } from "../components/ui/FlipCard";
 import { loadApplications } from "../data/adminMock";
-import "./LookupPage.css";
 import { api } from "../services/api";
+import "./LookupPage.css";
 
 type LookupMethod = "contact" | "card";
 
 const DEMO_PHONE = "01012345678";
 const DEMO_EMAIL = "qwer@gmail.com";
 const DEMO_CARD_NUMBER = "ROK-12345-6789";
+
+// 테스트용: 카드번호에 admin-test 를 입력하면 실제 발급 여부와 무관하게 데모 카드가 뜬다.
+// (실제 서비스에서는 API 조회 결과로 대체된다.)
+const TEST_CARD_NUMBER = "ADMIN-TEST";
+const DEMO_CARD_FRONT = "/images/cards/width/kor-mouse-front.jpg";
+const DEMO_CARD_BACK = "/images/cards/width/kor-mouse-back.jpg";
+
+interface FoundCard {
+  frontUrl: string;
+  backUrl: string;
+}
 
 function normalizePhone(value: string) {
   return value.replace(/\D/g, "");
@@ -20,43 +32,81 @@ function normalizeCardNumber(value: string) {
   return value.trim().toUpperCase().replace(/\s/g, "");
 }
 
+// 앞면 이미지 파일명(...-front.jpg)에서 매칭되는 뒷면(...-back.jpg) 경로를 유도한다.
+// API가 뒷면 URL을 따로 주지 않아도 앞면과 짝이 맞는 뒷면이 뜨도록 보장한다.
+function backFromFront(frontUrl: string) {
+  return frontUrl.replace(/-front(\.[^./]+)$/i, "-back$1");
+}
+
 export function LookupPage() {
-  const navigate = useNavigate();
   const [method, setMethod] = useState<LookupMethod>("contact");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [cardNumber, setCardNumber] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [card, setCard] = useState<FoundCard | null>(null);
 
   const changeMethod = (next: LookupMethod) => {
     setMethod(next);
     setError(null);
   };
 
+  const resetLookup = () => {
+    setCard(null);
+    setError(null);
+  };
+
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const contactMatches =
-      normalizePhone(phone) === DEMO_PHONE && email.trim().toLowerCase() === DEMO_EMAIL;
-    const savedApplicationMatches = loadApplications().some((application) => normalizePhone(application.phone) === normalizePhone(phone) && application.applicantEmail?.toLowerCase() === email.trim().toLowerCase());
-    const cardMatches = normalizeCardNumber(cardNumber) === DEMO_CARD_NUMBER;
 
+    // 1) 테스트 카드번호(admin-test)는 항상 데모 카드를 보여준다.
+    if (method === "card" && normalizeCardNumber(cardNumber) === TEST_CARD_NUMBER) {
+      setError(null);
+      setCard({ frontUrl: DEMO_CARD_FRONT, backUrl: DEMO_CARD_BACK });
+      return;
+    }
+
+    // 2) 실제 조회는 API로 처리한다. 발급 카드 이미지를 받아 그대로 표시한다.
     try {
-      const result = await api.lookupApplication({ method: method === "card" ? "card" : "application", keyValue: method === "card" ? cardNumber : phone, phone: phone || undefined, email: email || undefined });
-      sessionStorage.setItem("last-application-lookup", JSON.stringify(result));
-      navigate("/mobile-card", { state: { application: result } });
+      const result = await api.lookupApplication({
+        method: method === "card" ? "card" : "application",
+        keyValue: method === "card" ? cardNumber : phone,
+        phone: phone || undefined,
+        email: email || undefined,
+      });
+      const download = await api.getCardDownload(result.applicationId).catch(() => null);
+      const frontUrl = download?.cardFrontUrl || DEMO_CARD_FRONT;
+      setError(null);
+      setCard({
+        frontUrl,
+        // 뒷면 URL이 없으면 앞면과 매칭되는 뒷면을 유도해 사용한다.
+        backUrl: download?.cardBackUrl || backFromFront(frontUrl),
+      });
       return;
     } catch {
-      // Preserve mock data while the content APIs and local account system are pending.
+      // API 미연동 구간에서는 아래 로컬 데모 데이터로 폴백한다.
     }
+
+    // 3) 로컬 데모 데이터 폴백.
+    const contactMatches =
+      normalizePhone(phone) === DEMO_PHONE && email.trim().toLowerCase() === DEMO_EMAIL;
+    const savedApplicationMatches = loadApplications().some(
+      (application) =>
+        normalizePhone(application.phone) === normalizePhone(phone) &&
+        application.applicantEmail?.toLowerCase() === email.trim().toLowerCase(),
+    );
+    const cardMatches = normalizeCardNumber(cardNumber) === normalizeCardNumber(DEMO_CARD_NUMBER);
+
     if ((method === "contact" && (contactMatches || savedApplicationMatches)) || (method === "card" && cardMatches)) {
-      navigate("/mobile-card");
+      setError(null);
+      setCard({ frontUrl: DEMO_CARD_FRONT, backUrl: DEMO_CARD_BACK });
       return;
     }
 
     setError(
       method === "contact"
-        ? "입력하신 전화번호와 이메일에 해당하는 발급 내역을 찾을 수 없습니다."
-        : "입력하신 카드번호에 해당하는 발급 내역을 찾을 수 없습니다.",
+        ? "입력하신 전화번호와 이메일에 해당하는 발급 카드를 찾을 수 없습니다."
+        : "입력하신 카드번호에 해당하는 발급 카드를 찾을 수 없습니다.",
     );
   };
 
@@ -64,85 +114,94 @@ export function LookupPage() {
     <section className="lookup page-container">
       <header className="subpage-hero lookup__hero">
         <p className="eyebrow">조회</p>
-        <h1 className="subpage-hero__title">신청 조회</h1>
-        <p className="section-lead">발급 신청 정보 또는 카드번호로 모바일 카드를 확인할 수 있습니다.</p>
+        <h1 className="subpage-hero__title">모바일 카드 조회</h1>
+        <p className="section-lead">발급받은 본인의 모바일 카드를 확인할 수 있습니다.</p>
       </header>
 
-      <div className="lookup__panel">
-        <div className="lookup__tabs" role="tablist" aria-label="신청 조회 방법">
-          <button
-            type="button"
-            role="tab"
-            aria-selected={method === "contact"}
-            className={`lookup__tab${method === "contact" ? " lookup__tab--active" : ""}`}
-            onClick={() => changeMethod("contact")}
-          >
-            전화번호 · 이메일
-          </button>
-          <button
-            type="button"
-            role="tab"
-            aria-selected={method === "card"}
-            className={`lookup__tab${method === "card" ? " lookup__tab--active" : ""}`}
-            onClick={() => changeMethod("card")}
-          >
-            카드번호
+      {card ? (
+        <div className="lookup__cardview">
+          <FlipCard frontUrl={card.frontUrl} backUrl={card.backUrl} />
+          <button type="button" className="lookup__reset" onClick={resetLookup}>
+            다른 카드 조회하기
           </button>
         </div>
+      ) : (
+        <div className="lookup__panel">
+          <div className="lookup__tabs" role="tablist" aria-label="모바일 카드 조회 방법">
+            <button
+              type="button"
+              role="tab"
+              aria-selected={method === "contact"}
+              className={`lookup__tab${method === "contact" ? " lookup__tab--active" : ""}`}
+              onClick={() => changeMethod("contact")}
+            >
+              전화번호 · 이메일
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={method === "card"}
+              className={`lookup__tab${method === "card" ? " lookup__tab--active" : ""}`}
+              onClick={() => changeMethod("card")}
+            >
+              카드번호
+            </button>
+          </div>
 
-        <form className="lookup__form" onSubmit={submit}>
-          {method === "contact" ? (
-            <>
+          <form className="lookup__form" onSubmit={submit}>
+            {method === "contact" ? (
+              <>
+                <label className="field">
+                  <span className="field__label">전화번호<span className="req">*</span></span>
+                  <input
+                    className="field__input"
+                    value={phone}
+                    onChange={(event) => setPhone(event.target.value)}
+                    type="tel"
+                    inputMode="tel"
+                    autoComplete="tel"
+                    placeholder="010-1234-5678"
+                    required
+                  />
+                </label>
+                <label className="field">
+                  <span className="field__label">이메일<span className="req">*</span></span>
+                  <input
+                    className="field__input"
+                    type="email"
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
+                    autoComplete="email"
+                    placeholder="hong@example.com"
+                    required
+                  />
+                </label>
+              </>
+            ) : (
               <label className="field">
-                <span className="field__label">전화번호<span className="req">*</span></span>
+                <span className="field__label">발급 카드번호<span className="req">*</span></span>
                 <input
                   className="field__input"
-                  value={phone}
-                  onChange={(event) => setPhone(event.target.value)}
-                  type="tel"
-                  inputMode="tel"
-                  autoComplete="tel"
-                  placeholder="010-1234-5678"
+                  value={cardNumber}
+                  onChange={(event) => setCardNumber(event.target.value)}
+                  placeholder="ROK-12345-6789"
+                  autoComplete="off"
                   required
                 />
               </label>
-              <label className="field">
-                <span className="field__label">이메일<span className="req">*</span></span>
-                <input
-                  className="field__input"
-                  type="email"
-                  value={email}
-                  onChange={(event) => setEmail(event.target.value)}
-                  autoComplete="email"
-                  placeholder="hong@example.com"
-                  required
-                />
-              </label>
-            </>
-          ) : (
-            <label className="field">
-              <span className="field__label">발급 카드번호<span className="req">*</span></span>
-              <input
-                className="field__input"
-                value={cardNumber}
-                onChange={(event) => setCardNumber(event.target.value)}
-                placeholder="ROK-12345-6789"
-                autoComplete="off"
-                required
-              />
-            </label>
-          )}
+            )}
 
-          {error && <p className="field-error" role="alert">{error}</p>}
+            {error && <p className="field-error" role="alert">{error}</p>}
 
-          <Button type="submit" block>모바일 카드 확인</Button>
-          <p className="lookup__note">
-            {method === "contact"
-              ? "전화번호와 이메일이 신청 정보와 모두 일치해야 조회할 수 있습니다."
-              : "발급받은 카드에 표시된 카드번호를 입력해 주세요."}
-          </p>
-        </form>
-      </div>
+            <Button type="submit" block>모바일 카드 확인</Button>
+            <p className="lookup__note">
+              {method === "contact"
+                ? "발급 시 등록한 전화번호와 이메일을 모두 입력해 주세요."
+                : "발급받은 카드에 표시된 카드번호를 입력해 주세요."}
+            </p>
+          </form>
+        </div>
+      )}
     </section>
   );
 }

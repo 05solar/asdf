@@ -54,7 +54,7 @@ export function MyPage() {
         <Button type="submit">저장</Button>
       </form>}
 
-      <MySection title="제작 내역" action={<Link to="/lookup">신청 조회 ›</Link>}>
+      <MySection id="production" title="제작 내역">
         <div className="mypage-list mypage-list--production">
           <div className="mypage-list__head"><span>신청번호</span><span>카드 종류</span><span>신청일</span><span>상태</span></div>
           {myApplications.map((application) => <article key={application.applicationNumber}><strong>{application.applicationNumber}</strong><span>{application.cardType}</span><time>{application.submittedAt.replace(/-/g, ".")}</time><b className="mypage-status">{adminStatusLabels[application.status]}</b></article>)}
@@ -79,9 +79,9 @@ export function MyPage() {
   );
 }
 
-function MySection({ title, action, children }: { title: string; action: React.ReactNode; children: React.ReactNode }) {
+function MySection({ id, title, action, children }: { id?: string; title: string; action?: React.ReactNode; children: React.ReactNode }) {
   return (
-    <section className="mypage__section page-container">
+    <section id={id} className="mypage__section page-container">
       <div className="mypage__rule" aria-hidden="true" />
       <header><h2>{title}</h2>{action}</header>
       {children}

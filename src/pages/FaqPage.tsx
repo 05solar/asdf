@@ -23,7 +23,6 @@ export function FaqPage() {
 
       <section className="support__section page-container">
         {isAdmin && <ContentAdminPanel label="FAQ" items={managedFaqs} onChange={updateFaqs} />}
-        <div className="support-rule" aria-hidden="true"><i /></div>
         <h2 className="support__heading support__heading--plain">자주 묻는 질문</h2>
         <p className="faq__intro">
           자주 문의하시는 내용을 정리했습니다.<br />

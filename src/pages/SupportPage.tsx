@@ -65,7 +65,6 @@ export function SupportPage() {
       </header>
 
       <section id="notice" className="support__section page-container">
-        <SectionRule />
         <div className="notice-summary__head">
           <h2>공지사항</h2>
           <button onClick={() => navigate("/notices")}>더보기 <span aria-hidden="true">›</span></button>

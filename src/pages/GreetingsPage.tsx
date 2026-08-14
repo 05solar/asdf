@@ -1,3 +1,5 @@
+import { useRef } from "react";
+import { useScrollReveal } from "../lib/useScrollReveal";
 import "./ContentPages.css";
 import "./GreetingsPage.css";
 
@@ -36,8 +38,11 @@ const messages = [
 ];
 
 export function GreetingsPage() {
+  const rootRef = useRef<HTMLDivElement>(null);
+  useScrollReveal(rootRef);
+
   return (
-    <div className="content-page greetings-page">
+    <div className="content-page greetings-page" ref={rootRef}>
       <header className="greetings-hero subpage-hero page-container">
         <p className="eyebrow">회사 소개 · 인사말</p>
         <h1 className="subpage-hero__title">한글과 세종</h1>
@@ -45,16 +50,16 @@ export function GreetingsPage() {
 
       <div className="greetings-page__messages page-container">
         {messages.map((message) => (
-          <section className="greeting-block" key={message.role}>
-            <h2 className="greeting-block__label">{message.sectionTitle}</h2>
+          <section className="greeting-block reveal-group" key={message.role}>
+            <h2 className="greeting-block__label reveal-item">{message.sectionTitle}</h2>
             <div className="greeting-block__body">
-              <div className="greeting-block__photo">
+              <div className="greeting-block__photo reveal-item">
                 <img src={message.photo} alt={message.photoAlt} />
               </div>
               <div className="greeting-block__copy">
-                <h3>{message.title}</h3>
-                {message.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-                <div className="greeting-block__signature">
+                <h3 className="reveal-item">{message.title}</h3>
+                {message.paragraphs.map((paragraph) => <p className="reveal-item" key={paragraph}>{paragraph}</p>)}
+                <div className="greeting-block__signature reveal-item">
                   <strong>{message.organization}</strong>
                   <span>{message.name}</span>
                 </div>

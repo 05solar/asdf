@@ -1,19 +1,12 @@
-.mobile-card-page {
-  min-height: 68vh;
-  padding-block: clamp(42px, 7vw, 84px);
+/* Flip card: front/back mobile-card viewer with a 3D flip interaction. */
+.flipcard-wrap {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;
 }
-.mobile-card-page__header {
-  margin-bottom: clamp(28px, 5vw, 44px);
-}
-.mobile-card-page__header .section-lead {
-  margin-top: 10px;
-}
-.mobile-card {
-  width: min(92%, 560px);
+.flipcard {
+  width: min(92%, 620px);
   aspect-ratio: 686 / 452;
   padding: 0;
   border: 0;
@@ -24,7 +17,7 @@
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
-.mobile-card__inner {
+.flipcard__inner {
   position: relative;
   display: block;
   width: 100%;
@@ -37,10 +30,10 @@
      transform-style to `flat`, which breaks backface-visibility and makes the
      flipped card show a mirrored front instead of the back face. */
 }
-.mobile-card--flipped .mobile-card__inner {
+.flipcard--flipped .flipcard__inner {
   transform: rotateY(180deg);
 }
-.mobile-card__face {
+.flipcard__face {
   position: absolute;
   inset: 0;
   display: block;
@@ -53,13 +46,13 @@
   -webkit-backface-visibility: hidden;
   transform-style: preserve-3d;
 }
-.mobile-card__face--front {
+.flipcard__face--front {
   transform: rotateY(0deg) translateZ(2px);
 }
-.mobile-card__face--back {
+.flipcard__face--back {
   transform: rotateY(180deg) translateZ(2px);
 }
-.mobile-card__inner::after {
+.flipcard__inner::after {
   content: "";
   position: absolute;
   top: 3%;
@@ -71,42 +64,28 @@
   transform: translateX(-50%) rotateY(90deg);
   box-shadow: 0 0 8px rgb(80 60 30 / 18%);
 }
-.mobile-card__face img {
+.flipcard__face img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: fill;
 }
-.mobile-card:focus-visible {
+.flipcard:focus-visible {
   outline: 3px solid var(--color-primary);
   outline-offset: 6px;
 }
 @media (hover: hover) {
-  .mobile-card:hover .mobile-card__inner {
+  .flipcard:hover .flipcard__inner {
     transform: translateY(-4px) rotateY(-4deg);
   }
-  .mobile-card--flipped:hover .mobile-card__inner {
+  .flipcard--flipped:hover .flipcard__inner {
     transform: translateY(-4px) rotateY(184deg);
   }
 }
-.mobile-card-page__hint {
-  margin-top: 20px;
-  color: var(--color-text-muted);
-  font-size: 13px;
-}
-.mobile-card-page__back {
-  margin-top: 16px;
-  color: var(--color-primary);
-  font-size: 14px;
-  font-weight: 600;
-}
-.mobile-card-page__back:hover {
-  text-decoration: underline;
-}
 @media (prefers-reduced-motion: reduce) {
-  .mobile-card__inner {
-    /* The global accessibility rule shortens all motion to 0.01ms. This flip is
-       the requested card interaction, so keep it visible in that environment. */
+  .flipcard__inner {
+    /* Global a11y rule shortens all motion to 0.01ms; the flip is the requested
+       interaction, so keep it visible here. */
     transition-property: transform !important;
     transition-duration: 900ms !important;
     transition-timing-function: cubic-bezier(.18, .72, .22, 1) !important;

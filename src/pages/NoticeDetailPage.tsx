@@ -28,8 +28,6 @@ export function NoticeDetailPage() {
         <h1 className="subpage-hero__title">공지사항</h1>
       </header>
 
-      <div className="notice-detail__rule" aria-hidden="true"><i /></div>
-
       <header className="notice-detail__head">
         <h2>{notice.title}</h2>
         <time>{notice.meta}</time>

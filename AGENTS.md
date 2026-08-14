@@ -6,6 +6,47 @@
 
 한글과 세종의 전통적 브랜드 인상을 유지하면서 카드 탐색부터 제작 신청, 조회, 고객지원까지 안정적으로 연결한다. 현재는 프론트엔드 데모와 실제 API 연동 코드가 공존하므로 두 경로를 구분해서 다뤄야 한다.
 
+## 프로젝트 구조
+
+React 18 + TypeScript 5.6 + Vite 5 단일 SPA다. 주요 디렉터리는 다음과 같다.
+
+```
+HC-netlify/
+├─ index.html                # Vite 진입 HTML
+├─ netlify.toml              # 빌드·배포·SPA 리다이렉트 설정
+├─ vite.config.ts            # Vite 설정
+├─ tsconfig.json             # TypeScript 설정
+├─ .env.example              # 환경 변수 예시 (VITE_API_BASE_URL 등)
+│
+├─ public/                   # 정적 자산 (빌드 시 그대로 /… 로 제공)
+│  ├─ _redirects             #   SPA fallback
+│  └─ images/                #   로고·배경·카드·십이지·협력기관 등 (README.md 참고)
+│
+├─ dist/                     # 빌드 산출물 — 직접 편집·커밋 금지
+│
+└─ src/
+   ├─ App.tsx                # 라우트 정의
+   ├─ main.tsx               # React 진입점
+   ├─ components/            # UI 컴포넌트
+   │  ├─ ui/                 #   공용 Button·Modal·toast·icons·ImagePlaceholder
+   │  ├─ layout/             #   PublicLayout·ScrollToTop
+   │  ├─ header/·footer/     #   공통 헤더·푸터
+   │  ├─ home/               #   홈 섹션 (Hero·MainDesigns·ServiceCore·Merchandise·Partners·Contact)
+   │  ├─ apply/              #   제작 신청 스텝퍼와 steps/*
+   │  ├─ brand/·gallery/     #   로고·샘플카드·십이지 아이콘·카드 캐러셀
+   │  └─ admin/              #   콘텐츠 관리 패널
+   ├─ pages/                 # 라우트별 페이지 컴포넌트(+개별 css)
+   ├─ features/              # 도메인 로직 (apply·auth·i18n)
+   ├─ services/api.ts        # 실제 서버 API 계약의 중심
+   ├─ config/                # company.ts(회사·계좌) · navigation.ts(메뉴)
+   ├─ data/                  # 반복 콘텐츠·데모 데이터 (cards·zodiac·reviews·nameResults.json 등)
+   ├─ lib/                   # 유틸 (postcode·shuffle)
+   └─ styles/               # 전역 스타일 (tokens·globals·reset·fonts·forms)
+```
+
+문서 안내: 구현 현황·제한은 `PROJECT_STATUS.md`, 최근 작업 기록은 `progress.md`,
+시각 규칙은 `DESIGN.md`, 배포는 `NETLIFY.md`, 개요는 `README.md`를 참고한다.
+
 ## 시작 전 확인
 
 1. `PROJECT_STATUS.md`에서 현재 구현 범위와 미완성 항목을 확인한다.
