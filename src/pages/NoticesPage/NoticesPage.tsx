@@ -1,9 +1,9 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { notices } from "./SupportPage";
-import "./SupportPage.css";
-import { useAuth } from "../features/auth/AuthContext";
-import { ContentAdminPanel, loadManagedContent, type ManagedContent } from "../components/admin/ContentAdminPanel";
+import { notices } from "../SupportPage/SupportPage";
+import "../SupportPage/SupportPage.css";
+import { useAuth } from "../../features/auth/AuthContext";
+import { ContentAdminPanel, loadManagedContent, type ManagedContent } from "../../components/admin/ContentAdminPanel";
 
 export function NoticesPage() {
   const { isAdmin } = useAuth();

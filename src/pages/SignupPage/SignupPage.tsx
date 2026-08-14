@@ -1,10 +1,10 @@
 // Sign-up page.
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Button } from "../components/ui/Button";
-import { useAuth } from "../features/auth/AuthContext";
-import { api } from "../services/api";
-import "./LoginPage.css";
+import { Button } from "../../components/ui/Button";
+import { useAuth } from "../../features/auth/AuthContext";
+import { api } from "../../services/api";
+import "../LoginPage/LoginPage.css";
 
 export function SignupPage() {
   const navigate = useNavigate();

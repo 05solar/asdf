@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button } from "../components/ui/Button";
-import { showToast } from "../components/ui/toast";
-import { useAuth } from "../features/auth/AuthContext";
-import { loadInquiries, saveInquiries, type InquiryRecord } from "../data/inquiries";
+import { Button } from "../../components/ui/Button";
+import { showToast } from "../../components/ui/toast";
+import { useAuth } from "../../features/auth/AuthContext";
+import { loadInquiries, saveInquiries, type InquiryRecord } from "../../data/inquiries";
 import "./InquiryPage.css";
 
 export function InquiryPage() {

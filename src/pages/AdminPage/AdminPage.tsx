@@ -1,9 +1,9 @@
 // Admin page: application records table (admin-only, redirects otherwise).
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
-import { useAuth } from "../features/auth/AuthContext";
-import { adminStatusLabels, loadApplications, saveApplications, type AdminApplication, type AdminStatus } from "../data/adminMock";
-import { loadInquiries, saveInquiries, type InquiryRecord } from "../data/inquiries";
+import { useAuth } from "../../features/auth/AuthContext";
+import { adminStatusLabels, loadApplications, saveApplications, type AdminApplication, type AdminStatus } from "../../data/adminMock";
+import { loadInquiries, saveInquiries, type InquiryRecord } from "../../data/inquiries";
 import "./AdminPage.css";
 
 const statusClass: Record<string, string> = {

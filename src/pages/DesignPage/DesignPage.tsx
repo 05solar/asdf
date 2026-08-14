@@ -2,9 +2,9 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import clsx from "clsx";
-import { cardCategories, type CardCategory } from "../data/cards";
-import { CardCarousel } from "../components/gallery/CardCarousel";
-import { ChevronLeft, ChevronRight } from "../components/ui/icons";
+import { cardCategories, type CardCategory } from "../../data/cards";
+import { CardCarousel } from "../../components/gallery/CardCarousel";
+import { ChevronLeft, ChevronRight } from "../../components/ui/icons";
 import "./DesignPage.css";
 
 const PAIRS_PER_PAGE = 3; // 앞면 3 + 뒷면 3 = 한 페이지당 3쌍

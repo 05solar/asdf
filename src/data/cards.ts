@@ -172,7 +172,7 @@ export const studentCards = makeSeries(
   },
   [
     widthPair("stu-pig", "png"),
-    lengthPair("student-horse", "jpg", "png"),
+    lengthPair("student-horse", "png"),
     lengthPair("student-dog", "png"),
     widthPair("stu-dog", "png"),
     lengthPair("student-sheep", "png"),
@@ -180,6 +180,7 @@ export const studentCards = makeSeries(
     widthPair("stu-chicken", "png"),
     lengthPair("student-pig", "png"),
     lengthPair("student-monkey", "png"),
+    widthPair("stu-monkey", "png"), // 4페이지 가로 1열
   ],
 );
 

@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
-import { Button } from "../components/ui/Button";
-import { showToast } from "../components/ui/toast";
-import { findReview, loadReviews, saveReviews } from "../data/reviews";
-import { useAuth } from "../features/auth/AuthContext";
-import { cardTypeLabels, type CardType } from "../data/cards";
+import { Button } from "../../components/ui/Button";
+import { showToast } from "../../components/ui/toast";
+import { findReview, loadReviews, saveReviews } from "../../data/reviews";
+import { useAuth } from "../../features/auth/AuthContext";
+import { cardTypeLabels, type CardType } from "../../data/cards";
 import "./ReviewEditorPage.css";
 
 export function ReviewEditorPage() {

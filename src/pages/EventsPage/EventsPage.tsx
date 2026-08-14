@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { useAuth } from "../features/auth/AuthContext";
-import { ContentAdminPanel, loadManagedContent, type ManagedContent } from "../components/admin/ContentAdminPanel";
-import { ImagePlaceholder } from "../components/ui/ImagePlaceholder";
-import { Modal } from "../components/ui/Modal";
-import "./ContentPages.css";
+import { useAuth } from "../../features/auth/AuthContext";
+import { ContentAdminPanel, loadManagedContent, type ManagedContent } from "../../components/admin/ContentAdminPanel";
+import { ImagePlaceholder } from "../../components/ui/ImagePlaceholder";
+import { Modal } from "../../components/ui/Modal";
+import "../../styles/ContentPages.css";
 import "./EventsPage.css";
 
 const programs = [

@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { PhoneIcon } from "../components/ui/icons";
-import { companyInfo } from "../config/company";
-import { faqs } from "./SupportPage";
-import "./SupportPage.css";
-import { useAuth } from "../features/auth/AuthContext";
-import { ContentAdminPanel, loadManagedContent, type ManagedContent } from "../components/admin/ContentAdminPanel";
+import { PhoneIcon } from "../../components/ui/icons";
+import { companyInfo } from "../../config/company";
+import { faqs } from "../SupportPage/SupportPage";
+import "../SupportPage/SupportPage.css";
+import { useAuth } from "../../features/auth/AuthContext";
+import { ContentAdminPanel, loadManagedContent, type ManagedContent } from "../../components/admin/ContentAdminPanel";
 
 export function FaqPage() {
   const navigate = useNavigate();

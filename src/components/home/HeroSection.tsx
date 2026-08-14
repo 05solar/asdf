@@ -13,7 +13,7 @@ const HERO_LANDSCAPE = [
 ] as const;
 
 const HERO_PORTRAIT = [
-  ["student-horse-front.jpg", "student-horse-back.png"],
+  ["student-horse-front.png", "student-horse-back.png"],
   ["visit-tiger-front.jpg", "visit-tiger-back.jpg"],
 ] as const;
 

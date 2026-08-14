@@ -1,9 +1,9 @@
 // Login page.
 import { useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { Button } from "../components/ui/Button";
-import { useAuth, demoUser } from "../features/auth/AuthContext";
-import { api } from "../services/api";
+import { Button } from "../../components/ui/Button";
+import { useAuth, demoUser } from "../../features/auth/AuthContext";
+import { api } from "../../services/api";
 import "./LoginPage.css";
 
 export function LoginPage() {

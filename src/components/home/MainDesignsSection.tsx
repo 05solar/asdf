@@ -26,7 +26,7 @@ const PORTRAIT_CARDS = [
   ["visit-rabbit-front.jpg", "visit-rabbit-back.jpg"],
   ["visit-dragon-front.jpg", "visit-dragron-back.jpg"],
   ["visit-snake-front.jpg", "visit-snake-back.jpg"],
-  ["student-horse-front.jpg", "student-horse-back.png"],
+  ["student-horse-front.png", "student-horse-back.png"],
   ["student-sheep-front.png", "student-sheep-back.png"],
   ["student-monkey-front.png", "student-monkey-back.png"],
   ["student-chicken-front.png", "student-chicken-back.png"],

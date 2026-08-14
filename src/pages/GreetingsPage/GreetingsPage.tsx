@@ -1,6 +1,6 @@
 import { useRef } from "react";
-import { useScrollReveal } from "../lib/useScrollReveal";
-import "./ContentPages.css";
+import { useScrollReveal } from "../../lib/useScrollReveal";
+import "../../styles/ContentPages.css";
 import "./GreetingsPage.css";
 
 const messages = [

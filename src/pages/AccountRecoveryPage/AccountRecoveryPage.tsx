@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { Button } from "../components/ui/Button";
-import "./LoginPage.css";
+import { Button } from "../../components/ui/Button";
+import "../LoginPage/LoginPage.css";
 
 type RecoveryType = "id" | "password";
 

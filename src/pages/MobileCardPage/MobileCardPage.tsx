@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { api, type CardDownload, type LookupResult } from "../services/api";
+import { api, type CardDownload, type LookupResult } from "../../services/api";
 import "./MobileCardPage.css";
 
 const CARD_FRONT = "/images/cards/width/kor-mouse-front.jpg";

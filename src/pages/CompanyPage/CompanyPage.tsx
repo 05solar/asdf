@@ -1,6 +1,6 @@
 import { useRef } from "react";
-import { companyInfo } from "../config/company";
-import { useScrollReveal } from "../lib/useScrollReveal";
+import { companyInfo } from "../../config/company";
+import { useScrollReveal } from "../../lib/useScrollReveal";
 import "./CompanyPage.css";
 
 const promises = [

@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
-import { useAuth } from "../features/auth/AuthContext";
-import { loadReviews } from "../data/reviews";
-import { loadInquiries } from "../data/inquiries";
-import { adminStatusLabels, loadApplications } from "../data/adminMock";
+import { useAuth } from "../../features/auth/AuthContext";
+import { loadReviews } from "../../data/reviews";
+import { loadInquiries } from "../../data/inquiries";
+import { adminStatusLabels, loadApplications } from "../../data/adminMock";
 import "./MyPage.css";
 import { useState } from "react";
-import { api } from "../services/api";
-import { Button } from "../components/ui/Button";
+import { api } from "../../services/api";
+import { Button } from "../../components/ui/Button";
 
 export function MyPage() {
   const { user, refreshProfile, logout } = useAuth();

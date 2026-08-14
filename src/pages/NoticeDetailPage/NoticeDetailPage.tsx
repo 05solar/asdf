@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router-dom";
-import { notices } from "./SupportPage";
+import { notices } from "../SupportPage/SupportPage";
 import "./NoticeDetailPage.css";
-import { loadManagedContent } from "../components/admin/ContentAdminPanel";
+import { loadManagedContent } from "../../components/admin/ContentAdminPanel";
 
 export function NoticeDetailPage() {
   const { noticeId } = useParams();

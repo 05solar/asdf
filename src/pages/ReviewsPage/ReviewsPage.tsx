@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { Button } from "../components/ui/Button";
-import { showToast } from "../components/ui/toast";
-import { useAuth } from "../features/auth/AuthContext";
-import { getReviewImageUrl, loadReviews } from "../data/reviews";
-import { cardTypeLabels, type CardType } from "../data/cards";
-import "./ContentPages.css";
-import "./SupportPage.css";
+import { Button } from "../../components/ui/Button";
+import { showToast } from "../../components/ui/toast";
+import { useAuth } from "../../features/auth/AuthContext";
+import { getReviewImageUrl, loadReviews } from "../../data/reviews";
+import { cardTypeLabels, type CardType } from "../../data/cards";
+import "../../styles/ContentPages.css";
+import "../SupportPage/SupportPage.css";
 import "./ReviewsPage.css";
 
 const PAGE_SIZE = 9;

@@ -1,10 +1,10 @@
 // 조회 페이지: 회원가입 없이, 발급받은 본인의 모바일 카드만 확인하는 독립 페이지.
 // 전화번호+이메일 또는 카드번호를 입력하면 본인 카드가 표시되고, 클릭하면 뒤집혀 뒷면이 보인다.
 import { useState } from "react";
-import { Button } from "../components/ui/Button";
-import { FlipCard } from "../components/ui/FlipCard";
-import { loadApplications } from "../data/adminMock";
-import { api } from "../services/api";
+import { Button } from "../../components/ui/Button";
+import { FlipCard } from "../../components/ui/FlipCard";
+import { loadApplications } from "../../data/adminMock";
+import { api } from "../../services/api";
 import "./LookupPage.css";
 
 type LookupMethod = "contact" | "card";

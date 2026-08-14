@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { companyInfo } from "../config/company";
-import { PhoneIcon, MailIcon, DocIcon, ChatIcon, ArrowUpRight } from "../components/ui/icons";
-import { Modal } from "../components/ui/Modal";
+import { companyInfo } from "../../config/company";
+import { PhoneIcon, MailIcon, DocIcon, ChatIcon, ArrowUpRight } from "../../components/ui/icons";
+import { Modal } from "../../components/ui/Modal";
 import "./SupportPage.css";
 
 export const notices = [

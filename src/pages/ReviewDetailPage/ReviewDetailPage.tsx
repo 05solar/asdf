@@ -1,10 +1,10 @@
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import { Button } from "../components/ui/Button";
-import { showToast } from "../components/ui/toast";
-import { findReview, loadReviews, saveReviews, type ReviewPost } from "../data/reviews";
-import { useAuth } from "../features/auth/AuthContext";
-import { cardTypeLabels } from "../data/cards";
-import "./NoticeDetailPage.css";
+import { Button } from "../../components/ui/Button";
+import { showToast } from "../../components/ui/toast";
+import { findReview, loadReviews, saveReviews, type ReviewPost } from "../../data/reviews";
+import { useAuth } from "../../features/auth/AuthContext";
+import { cardTypeLabels } from "../../data/cards";
+import "../NoticeDetailPage/NoticeDetailPage.css";
 import "./ReviewDetailPage.css";
 
 export function ReviewDetailPage() {

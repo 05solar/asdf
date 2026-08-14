@@ -11,7 +11,7 @@ import { StepInfo } from "../../components/apply/steps/StepInfo";
 import { StepFiles } from "../../components/apply/steps/StepFiles";
 import { StepReview } from "../../components/apply/steps/StepReview";
 import { StepComplete } from "../../components/apply/steps/StepComplete";
-import "./apply.css";
+import "./ApplyPage.css";
 import { useAuth } from "../../features/auth/AuthContext";
 import { api } from "../../services/api";
 import { showToast } from "../../components/ui/toast";
