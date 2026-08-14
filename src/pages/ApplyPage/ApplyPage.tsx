@@ -152,7 +152,7 @@ export function ApplyPage() {
           </div>
         </div>
 
-        <CardPreviewPanel design={design} logoOverlay={logoOverlay} sealOverlay={sealOverlay} />
+        <CardPreviewPanel design={design} orientation={draft.cardOrientation} logoOverlay={logoOverlay} sealOverlay={sealOverlay} />
       </div>
     </div>
   );

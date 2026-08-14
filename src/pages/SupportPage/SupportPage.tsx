@@ -56,7 +56,7 @@ export function SupportPage() {
 
   return (
     <div className="support">
-      <header className="support__hero subpage-hero page-container">
+      <header className="support__hero support__hero--art subpage-hero page-container">
         <div className="support__hero-copy">
           <p className="eyebrow">고객지원</p>
           <h1 className="support__title subpage-hero__title">고객지원</h1>

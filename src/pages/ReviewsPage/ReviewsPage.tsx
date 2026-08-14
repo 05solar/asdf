@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "../../components/ui/Button";
+import { SelectField } from "../../components/ui/SelectField";
 import { showToast } from "../../components/ui/toast";
 import { useAuth } from "../../features/auth/AuthContext";
-import { getReviewImageUrl, loadReviews } from "../../data/reviews";
+import { getReviewFallbackImageUrl, getReviewImageUrl, loadReviews } from "../../data/reviews";
 import { cardTypeLabels, type CardType } from "../../data/cards";
 import "../../styles/ContentPages.css";
 import "../SupportPage/SupportPage.css";
@@ -50,11 +51,11 @@ export function ReviewsPage() {
 
         <div className="reviews-board__tools">
           <div className="reviews-board__filters">
-            <label><span>보기</span><select value={photoFilter} onChange={(event) => setPhotoFilter(event.target.value as "all" | "photos")}><option value="all">전체 후기</option><option value="photos">사진 모아보기</option></select></label>
-            <label><span>카드 종류</span><select value={cardFilter} onChange={(event) => setCardFilter(event.target.value as "all" | CardType)}><option value="all">전체 카드</option>{(Object.entries(cardTypeLabels) as [CardType, string][]).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label>
+            <label><span>보기</span><SelectField ariaLabel="보기 필터" value={photoFilter} onChange={(value) => setPhotoFilter(value as "all" | "photos")} options={[{ value: "all", label: "전체 후기" }, { value: "photos", label: "사진 모아보기" }]} /></label>
+            <label><span>카드 종류</span><SelectField ariaLabel="카드 종류 필터" value={cardFilter} onChange={(value) => setCardFilter(value as "all" | CardType)} options={[{ value: "all", label: "전체 카드" }, ...(Object.entries(cardTypeLabels) as [CardType, string][]).map(([value, label]) => ({ value, label }))]} /></label>
           </div>
           <form className="notice-search" onSubmit={(event) => event.preventDefault()}>
-            <select value={searchBy} onChange={(event) => setSearchBy(event.target.value)} aria-label="검색 조건"><option>전체</option><option>제목</option><option>내용</option><option>작성자</option></select>
+            <SelectField ariaLabel="검색 조건" value={searchBy} onChange={setSearchBy} options={[{ value: "전체", label: "전체" }, { value: "제목", label: "제목" }, { value: "내용", label: "내용" }, { value: "작성자", label: "작성자" }]} />
             <label><span className="visually-hidden">검색어 입력</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="검색어를 입력하세요" /><button type="submit" aria-label="검색"><SearchGlyph /></button></label>
           </form>
         </div>
@@ -64,7 +65,16 @@ export function ReviewsPage() {
             const imageUrl = getReviewImageUrl(review);
             return (
               <Link className={`review-card${imageUrl ? "" : " review-card--text-only"}`} key={review.id} to={`/reviews/${encodeURIComponent(review.id)}`} state={{ review: { ...review, imageUrl } }}>
-                {imageUrl && <div className="review-card__visual"><img src={imageUrl} alt={`${review.title} 후기 이미지`} /></div>}
+                {imageUrl && <div className="review-card__visual"><img src={imageUrl} alt={`${review.title} 후기 이미지`} onError={(event) => {
+                  const img = event.currentTarget;
+                  const fallback = getReviewFallbackImageUrl(review.id);
+                  if (fallback && !img.dataset.fallbackApplied) {
+                    img.dataset.fallbackApplied = "1";
+                    img.src = fallback;
+                  } else {
+                    img.closest(".review-card__visual")?.remove();
+                  }
+                }} /></div>}
                 <div className="review-card__body"><div className="review-card__tags"><span>{review.applicantType === "organization" ? "단체" : "개인"}</span><span>{cardTypeLabels[review.cardType]}</span></div><h3>{review.title}</h3><p>{review.content}</p><footer><strong>{review.author}</strong><time dateTime={review.createdAt}>{review.createdAt.replace(/-/g, ".")}</time></footer></div>
               </Link>
             );

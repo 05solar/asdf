@@ -215,6 +215,11 @@
 .form-grid--single {
   grid-template-columns: 1fr;
 }
+/* 학생증 개인 신청: 발급 유형 + 카드 방향을 같은 행에 나란히. */
+.form-grid--pair {
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+}
 .form-block {
   min-width: 0;
   margin: 0;
@@ -632,6 +637,15 @@
 }
 .apply-preview__row--single .apply-preview__card {
   width: min(100%, 348px);
+}
+/* Portrait front/back samples sit side by side in one horizontal row. */
+.apply-preview__row--horizontal {
+  flex-direction: row;
+  align-items: flex-start;
+}
+.apply-preview__row--horizontal .apply-preview__card {
+  flex: 1 1 0;
+  width: auto;
 }
 .apply-preview__img {
   width: 100%;

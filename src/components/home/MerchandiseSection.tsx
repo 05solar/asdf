@@ -95,7 +95,7 @@ export function MerchandiseSection() {
           label="디지털 카드 결과물 보기"
           summary={<>디지털<br />명예한국인증 · 명예시민증<br />학생증 · 방문증<br />결과물</>}
         >
-          <img className="info-card__result-image" src="/images/merchandise/sample.jpg" alt="디지털 카드 결과물" />
+          <img className="info-card__result-image" src="/images/common/sample-card.jpg" alt="디지털 카드 결과물" />
         </InfoCard>
 
         <InfoCard

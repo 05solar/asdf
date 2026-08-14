@@ -42,7 +42,7 @@
 }
 .design__cat-title {
   padding-left: 14px;
-  border-left: 5px solid var(--color-wordmark);
+  border-left: 5px solid var(--color-accent-bar);
   font-family: var(--font-serif);
   font-weight: 300;
   color: var(--color-wordmark);
