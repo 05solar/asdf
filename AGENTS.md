@@ -35,13 +35,13 @@ HC-netlify/
    │  ├─ apply/              #   제작 신청 스텝퍼와 steps/*
    │  ├─ brand/·gallery/     #   로고·샘플카드·십이지 아이콘·카드 캐러셀
    │  └─ admin/              #   콘텐츠 관리 패널
-   ├─ pages/                 # 라우트별 페이지 컴포넌트(+개별 css)
+   ├─ pages/                 # 라우트별 페이지. 페이지마다 폴더: pages/PageName/PageName.tsx(+ PageName.css)
    ├─ features/              # 도메인 로직 (apply·auth·i18n)
    ├─ services/api.ts        # 실제 서버 API 계약의 중심
    ├─ config/                # company.ts(회사·계좌) · navigation.ts(메뉴)
-   ├─ data/                  # 반복 콘텐츠·데모 데이터 (cards·zodiac·reviews·nameResults.json 등)
-   ├─ lib/                   # 유틸 (postcode·shuffle)
-   └─ styles/               # 전역 스타일 (tokens·globals·reset·fonts·forms)
+   ├─ data/                  # 반복 콘텐츠·데모 데이터 (cards·zodiac·reviews·inquiries·nameResults.json 등)
+   ├─ lib/                   # 유틸 (postcode·shuffle·useScrollReveal·cardDownload)
+   └─ styles/               # 전역·공유 스타일 (tokens·globals·reset·fonts·forms·ContentPages)
 ```
 
 문서 안내: 구현 현황·제한은 `PROJECT_STATUS.md`, 최근 작업 기록은 `progress.md`,
@@ -61,6 +61,8 @@ HC-netlify/
 - 공통 버튼, 모달, 토스트, 아이콘은 `src/components/ui`의 기존 구현을 우선 재사용한다.
 - 페이지 폭은 `.page-container`, 서브페이지 도입부는 `.subpage-hero` 규칙을 우선 사용한다.
 - 라우트는 `src/App.tsx`, 메뉴는 `src/config/navigation.ts`에서 관리한다.
+- 새 페이지는 `src/pages/PageName/` 폴더에 `PageName.tsx`와 `PageName.css`를 함께 둔다. 여러
+  페이지가 공유하는 스타일은 `src/styles`에 둔다(예: `ContentPages.css`).
 - 회사·계좌 정보는 `src/config/company.ts`, 반복 콘텐츠는 `src/data`에서 관리한다.
 - 빌드 산출물인 `dist`와 설치 의존성인 `node_modules`를 직접 편집하거나 커밋하지 않는다.
 - 사용자의 관련 없는 변경사항을 되돌리거나 덮어쓰지 않는다.

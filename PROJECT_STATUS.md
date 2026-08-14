@@ -1,6 +1,6 @@
 # 프로젝트 진행 상황
 
-최종 점검일: 2026-08-11
+최종 점검일: 2026-08-14
 
 ## 1. 프로젝트 개요
 
@@ -10,6 +10,7 @@
 
 - React 18, TypeScript 5.6, Vite 5
 - React Router 6 기반 SPA
+- 페이지는 `src/pages/PageName/`에 `PageName.tsx`와 `PageName.css`를 함께 두는 폴더 구조
 - CSS 파일과 CSS Custom Properties 기반 디자인 시스템
 - API 통신: `src/services/api.ts`
 - 배포: `netlify.toml`, `public/_redirects`
@@ -24,17 +25,18 @@
 | 메인 페이지 | 구현 | 독립 카드 순환, 십이지 선택 연동 주요 디자인, 서비스 핵심, 기념품, 문의, 협력기관 |
 | 디자인 갤러리 | 구현 | 실제 카드 앞·뒷면 이미지, 유형별 페이지네이션과 신청 화면 연결 |
 | 제작 신청 | 구현 | 5단계 입력, 유형별 견본품, 파일 첨부, 완료 화면 |
-| 신청 조회·모바일 카드 | 부분 연동 | API 우선 호출 후 데모 데이터로 대체 가능 |
+| 신청 조회·모바일 카드 | 부분 연동 | API 우선 호출 후 데모 데이터로 대체 가능, 조회 결과 카드 이미지 다운로드(합성 PNG·앞/뒷면) |
 | 로그인·회원가입·계정 찾기 | 부분 연동 | OAuth/API 진입점과 로컬 데모 인증이 함께 존재 |
-| 마이페이지 | 부분 연동 | API 프로필과 로컬 활동 데이터 혼용, 본인 후기 수정 연결 |
+| 마이페이지 | 부분 연동 | API 프로필과 로컬 활동 데이터 혼용, 본인 후기 수정·문의 상세 열람 연결 |
 | 후기 | 구현(로컬 데이터) | 작성·본인/관리자 수정, 사진/텍스트 카드, 검색·필터·페이지네이션 |
-| 문의·공지·FAQ·행사 | 구현(로컬 데이터) | 행사 부스·브랜드 협업 갤러리, 브라우저 `localStorage` 기반 관리 |
-| 관리자 화면 | 데모 구현 | 프론트엔드 권한 가드와 로컬 신청·문의 데이터 사용 |
+| 문의 | 구현(로컬 데이터) | 접수·상세 열람(본인/관리자)·관리자 답변 등록(`answer`/`answeredAt`) |
+| 공지·FAQ·행사 | 구현(로컬 데이터) | 행사 부스·브랜드 협업 갤러리, 브라우저 `localStorage` 기반 관리 |
+| 관리자 화면 | 데모 구현 | 프론트엔드 권한 가드, 로컬 신청 상태·문의 답변 관리 |
 | 회사 소개·인사말·고객지원 | 구현 | 찾아오시는 길 약도 포함, 일부 회사 정보와 콘텐츠는 확정 필요 |
 | 다국어 상태 | 기반만 구현 | 언어 선택 상태는 있으나 전체 번역 체계는 미완성 |
 | Netlify 배포 설정 | 구현 | `npm run build`, `dist`, SPA fallback 설정 |
 
-현재 등록된 주요 경로는 `/`, `/design`, `/apply/*`, `/lookup`, `/mobile-card`, `/support`, `/inquiry`, `/faq`, `/notices`, `/mypage`, `/login`, `/signup`, `/account-recovery`, `/company`, `/greetings`, `/reviews`, `/events`, `/admin`이다.
+현재 등록된 주요 경로는 `/`, `/design`, `/apply/*`, `/lookup`, `/mobile-card`, `/support`, `/inquiry`, `/faq`, `/notices`, `/notices/:noticeId`, `/mypage`, `/mypage/inquiry/:inquiryId`, `/login`, `/signup`, `/account-recovery`, `/company`, `/greetings`, `/reviews`, `/reviews/new`, `/reviews/:reviewId`, `/reviews/:reviewId/edit`, `/events`, `/admin`이다.
 
 ## 4. 데이터와 백엔드 연동 상태
 
@@ -65,14 +67,14 @@
 
 ## 5. 확인된 품질 상태
 
-2026-08-11 기준 `npm run build`가 성공했다.
+2026-08-14 기준 `npm run build`가 성공했다.
 
 - TypeScript 검사 성공
 - Vite 프로덕션 번들 생성 성공
-- 132개 모듈 변환
-- 행사 이미지 12개는 WebP로 최적화되어 약 702 kB
+- 136개 모듈 변환
+- 행사 이미지는 WebP로 최적화되어 제공
 
-자동화 테스트와 린트 스크립트가 없으므로 현재 빌드 성공만으로 화면 동작 전체를 보장하지는 않는다.
+자동화 테스트와 린트 스크립트가 없으므로 현재 빌드 성공만으로 화면 동작 전체를 보장하지는 않는다. 조회 결과 이미지 다운로드와 canvas 합성, 문의 답변 저장·열람 흐름은 브라우저에서 별도 확인이 필요하다.
 
 ## 6. 다음 우선순위
 

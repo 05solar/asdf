@@ -17,8 +17,10 @@ description: 한글과 세종(HC-netlify) 프론트엔드 데모 작업 가이�
 
 ## 핵심 위치
 - 라우트: `src/App.tsx` · 메뉴: `src/config/navigation.ts`
+- 페이지: `src/pages/PageName/PageName.tsx`(+ 같은 폴더 `PageName.css`). 공유 스타일은 `src/styles`
 - 회사/계좌 정보: `src/config/company.ts` · 반복 콘텐츠: `src/data`
-- 공용 UI(버튼/모달/토스트/아이콘): `src/components/ui`
+- 공용 UI(버튼/모달/토스트/아이콘/플립카드): `src/components/ui`
+- 유틸: `src/lib` (postcode·shuffle·useScrollReveal·cardDownload)
 - 색상 등 디자인 토큰: `src/styles/tokens.css` (하드코딩 금지, 변수 사용)
 - 페이지 폭: `.page-container`, 서브페이지 도입부: `.subpage-hero`
 
@@ -29,7 +31,7 @@ description: 한글과 세종(HC-netlify) 프론트엔드 데모 작업 가이�
 - 호버 시 네이비로 채우는 버튼 패턴: 배경 `--color-primary`, 글자 `--color-primary-foreground`.
 
 ## 제작 신청 플로우
-- 위치: `src/pages/apply/ApplyPage.tsx`, 단계별 컴포넌트 `src/components/apply/steps/*`,
+- 위치: `src/pages/ApplyPage/ApplyPage.tsx`, 단계별 컴포넌트 `src/components/apply/steps/*`,
   상태 타입 `src/features/apply/types.ts`, 초안 훅 `useApplicationDraft.ts`.
 - 5단계: 유형 선택 → 정보 입력 → 사진/파일 → 최종 확인 → 신청 완료.
 - **입력 항목과 업로드는 신청 유형(개인 / 법인·단체)으로 분기**한다. 카드 종류(cardType)는

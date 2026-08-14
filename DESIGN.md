@@ -11,8 +11,11 @@
 | `src/styles/reset.css` | 브라우저 기본값 초기화 |
 | `src/styles/fonts.css` | Pretendard·은평사가독서체 폰트 로드 |
 | `src/styles/forms.css` | 입력·폼 공통 스타일 |
+| `src/styles/ContentPages.css` | 여러 콘텐츠 페이지가 공유하는 스타일(Events·Greetings·Reviews) |
 
-페이지·컴포넌트별 세부 스타일은 각 `*.css`(예: `home.css`, `Button.css`)에 둔다.
+페이지별 세부 스타일은 각 페이지 폴더의 `PageName.css`(예: `src/pages/LookupPage/LookupPage.css`)에,
+컴포넌트별 스타일은 컴포넌트 옆 `*.css`(예: `Button.css`, `home.css`)에 둔다. 여러 페이지가 함께
+쓰는 스타일만 `src/styles`로 올린다.
 
 ## 1. 디자인 방향
 

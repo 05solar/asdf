@@ -27,11 +27,11 @@ npm run preview
 | `/` | 메인 카드, 십이지 디자인 선택, 서비스·기념품·협력기관 |
 | `/design` | 카드 유형별 실제 디자인 갤러리 |
 | `/apply/*` | 개인·단체 제작 신청 5단계와 유형별 견본품 |
-| `/lookup`, `/mobile-card` | 신청 조회와 발급 카드 확인 |
+| `/lookup`, `/mobile-card` | 신청 조회, 발급 카드 확인·이미지 다운로드(합성 PNG·앞/뒷면) |
 | `/reviews` | 후기 검색·필터·작성 및 본인 후기 수정 |
 | `/support`, `/inquiry`, `/faq`, `/notices` | 고객지원 |
 | `/company`, `/greetings`, `/events` | 회사 소개·인사말·행사사업 |
-| `/mypage`, `/admin` | 사용자 활동 내역과 데모 관리자 화면 |
+| `/mypage`, `/mypage/inquiry/:id`, `/admin` | 사용자 활동 내역·문의 상세, 데모 관리자 화면 |
 
 ## 데이터와 API
 
