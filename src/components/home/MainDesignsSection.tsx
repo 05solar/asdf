@@ -7,7 +7,7 @@ const DESIGN_CHANGE_DELAY = 4000;
 const LANDSCAPE_CARDS = [
   ["kor-mouse-front.jpg", "kor-mouse-back.jpg"],
   ["kor-cow-front.jpg", "kor-cow-back.jpg"],
-  ["kor-tiger-front.jpg", "kor-tiger-back.jpg"],
+  ["kor-tiger-front.png", "kor-tiger-back.jpg"],
   ["kor-rabbit-front.jpg", "kor-rabbit-back.jpg"],
   ["city-dragon2-front.jpg", "city-dragon2-back.jpg"],
   ["city-snake-front.jpg", "city-snake-back.jpg"],

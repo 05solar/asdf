@@ -97,7 +97,7 @@ export const honoraryKoreanCards = makeSeries(
   },
   monkeyReading,
   [
-    widthPair("kor-tiger"),
+    { front: "/images/cards/width/kor-tiger-front.png", back: "/images/cards/width/kor-tiger-back.jpg" },
     widthPair("kor-cow"),
     widthPair("kor-cow2"),
     widthPair("kor-rabbit"),
