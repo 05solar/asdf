@@ -102,7 +102,7 @@ export const honoraryKoreanCards = makeSeries(
     widthPair("kor-cow2"),
     widthPair("kor-rabbit"),
     widthPair("kor-monkey"),
-    widthPair("kor-mouse"),
+    { front: "/images/cards/width/kor-mouse-front.png", back: "/images/cards/width/kor-mouse-back.jpg" },
   ],
 );
 
@@ -220,7 +220,7 @@ export const visitorCards = makeSeries(
       front: "/images/cards/length/visit-dragon-front.jpg",
       back: "/images/cards/length/visit-dragron-back.jpg",
     },
-    lengthPair("visit-mouse", "jpg"),
+    lengthPair("visit-mouse", "png", "jpg"),
   ],
 );
 

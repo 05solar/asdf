@@ -5,7 +5,7 @@ import { zodiacSigns } from "../../data/zodiac";
 const DESIGN_CHANGE_DELAY = 4000;
 
 const LANDSCAPE_CARDS = [
-  ["kor-mouse-front.jpg", "kor-mouse-back.jpg"],
+  ["kor-mouse-front.png", "kor-mouse-back.jpg"],
   ["kor-cow-front.jpg", "kor-cow-back.jpg"],
   ["kor-tiger-front.png", "kor-tiger-back.jpg"],
   ["kor-rabbit-front.jpg", "kor-rabbit-back.jpg"],
@@ -20,7 +20,7 @@ const LANDSCAPE_CARDS = [
 ] as const;
 
 const PORTRAIT_CARDS = [
-  ["visit-mouse-front.jpg", "visit-mouse-back.jpg"],
+  ["visit-mouse-front.png", "visit-mouse-back.jpg"],
   ["visit-cow-front.jpg", "visit-cow-back.jpg"],
   ["visit-tiger-front.jpg", "visit-tiger-back.jpg"],
   ["visit-rabbit-front.jpg", "visit-rabbit-back.jpg"],
