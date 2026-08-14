@@ -985,6 +985,11 @@
   .merch__top {
     grid-template-columns: 1fr;
   }
+  /* 데스크톱에서 카드 행에 맞추려 올려둔 -92px가, 1열로 접히면 헤더/태그라인과
+     겹치므로 모바일에서는 해제한다. */
+  .hero__eyebrow {
+    margin-top: 0;
+  }
   .service-core__windows {
     grid-template-columns: 1fr;
   }
@@ -1016,6 +1021,10 @@
   .hero__card-float--portrait {
     width: 34%;
     margin-top: 28px;
+  }
+  /* 카드가 작아진 만큼 스테이지가 남기던 빈 여백을 없앤다. */
+  .hero__stage {
+    min-height: 0;
   }
 }
 

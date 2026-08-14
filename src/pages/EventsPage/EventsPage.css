@@ -1,6 +1,12 @@
 .events-page .page-container {
   width: min(100% - clamp(48px, 15vw, 240px), var(--page-max));
 }
+/* 타이틀 구분선(subpage-hero 하단 hairline)을 카드 섹션보다 더 길게, 좌우 여백
+   안쪽까지 확장한다. (뷰포트를 넘지 않는 범위) */
+.events-page .subpage-hero::after {
+  left: calc(-1 * clamp(8px, 1.5vw, 24px));
+  right: calc(-1 * clamp(8px, 1.5vw, 24px));
+}
 .event-feature__head {
   max-width: 760px;
   margin-bottom: clamp(28px, 4vw, 48px);
@@ -244,6 +250,15 @@
   /* Stack the featured card on narrow screens. */
   .event-card.event-card--wide { grid-template-columns: 1fr; min-height: 0; }
   .event-card--wide .event-card__media { aspect-ratio: 16 / 9; height: auto; }
+  /* 데스크톱에서 절대배치로 하단에 고정된 "자세히 보기"가, 카드가 접히면 본문
+     텍스트 위에 겹친다. 모바일에서는 일반 흐름으로 되돌려 본문 아래에 둔다. */
+  .event-card--wide .event-card__body { justify-content: flex-start; }
+  .event-card--wide .event-card__more {
+    position: static;
+    align-self: flex-end;
+    margin-top: 16px;
+    padding-top: 0;
+  }
 }
 @media (max-width: 560px) {
   .event-card-grid { grid-template-columns: 1fr; }

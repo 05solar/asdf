@@ -24,14 +24,13 @@
   opacity: .94;
   pointer-events: none;
 }
-/* Hero 이미지(.support__hero-art)가 hero 하단 밖으로 살짝 내려오면서 타이틀
-   구분선(subpage-hero::after/::before)과 겹친다. 구분선을 이미지 하단보다 더
-   아래로 내려 겹치지 않게 한다. (이미지 오버행 + 여유 16px)
+/* Hero 이미지(.support__hero-art)가 hero 하단 밖으로 살짝 내려온다. 구분선을
+   이미지 하단(오버행) 위치에 정확히 맞춰 이미지 가장 아랫부분과 딱 맞닿게 한다.
    ※ 이미지가 있는 메인 고객지원 hero(.support__hero--art)에만 적용한다. 공지사항·
      후기·FAQ 등 이미지가 없는 hero는 기본 구분선 위치를 유지한다. */
 .support__hero--art.subpage-hero::after,
 .support__hero--art.subpage-hero::before {
-  bottom: calc((clamp(24px, 3vw, 49px) + 16px) * -1);
+  bottom: calc(clamp(24px, 3vw, 49px) * -1);
 }
 .support__title {
   margin: 10px 0 8px;
@@ -424,6 +423,14 @@
   }
   .notice-search {
     grid-template-columns: 1fr;
+  }
+  /* 제목이 길어져도 "더보기" 버튼이 밀려 넘치지 않도록 축소 방지. */
+  .notice-summary__head {
+    gap: 12px;
+  }
+  .notice-summary__head button {
+    flex: none;
+    white-space: nowrap;
   }
   .notice-table__head,
   .notice-table__row {

@@ -187,3 +187,13 @@
   height: 18px;
   accent-color: var(--color-primary);
 }
+
+/* 모바일: 입력 폰트를 16px 이상으로 올려 iOS Safari가 포커스 시 화면을 확대(zoom)
+   하는 현상을 막는다. 데스크톱 레이아웃에는 영향을 주지 않는다. */
+@media (max-width: 600px) {
+  .field__input,
+  .field__select,
+  .field__textarea {
+    font-size: 16px;
+  }
+}

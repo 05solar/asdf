@@ -14,11 +14,11 @@
   opacity: .94;
   pointer-events: none;
 }
-/* Hero 이미지가 hero 하단 밖으로 내려오면서 타이틀 구분선과 겹친다. 구분선을
-   이미지 하단보다 더 아래로 내려 겹치지 않게 한다. (이미지 오버행 + 여유 16px) */
+/* Hero 이미지가 hero 하단 밖으로 내려온다. 구분선을 이미지 하단(오버행) 위치에
+   정확히 맞춰 이미지 가장 아랫부분과 딱 맞닿게 한다. */
 .mypage__hero.subpage-hero::after,
 .mypage__hero.subpage-hero::before {
-  bottom: calc((clamp(10px, 1.5vw, 20px) + 16px) * -1);
+  bottom: calc(clamp(10px, 1.5vw, 20px) * -1);
 }
 /* Top-right actions above the profile info (수정 › text link, 회원 탈퇴). */
 .mypage__actions { max-width: 1100px; margin-inline: auto; margin-top: clamp(32px, 4vw, 48px); display: flex; justify-content: flex-end; align-items: center; gap: 22px; }
@@ -58,6 +58,7 @@
   .mypage__profile { grid-template-columns: 1fr; }
   .mypage__profile > div { border-right: 0; border-bottom: 1px solid var(--color-border-soft); }
   .mypage__profile > div:last-child { border-bottom: 0; }
+  .mypage__profile strong { overflow-wrap: anywhere; }
   .mypage-list__head { display: none; }
   .mypage-list--production article, .mypage-list--activity article { grid-template-columns: 1fr auto; gap: 8px 16px; padding-block: 14px; }
   .mypage-list--production article span, .mypage-list--production article time { grid-column: 1; }

@@ -201,4 +201,9 @@
   .footer__copyright {
     text-align: left;
   }
+  /* 정책 링크 4개가 한 줄을 넘겨 가로 스크롤이 생기지 않도록 줄바꿈 허용. */
+  .footer__policies {
+    flex-wrap: wrap;
+    row-gap: 10px;
+  }
 }
