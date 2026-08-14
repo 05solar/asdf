@@ -23,6 +23,7 @@ import { ReviewsPage } from "./pages/ReviewsPage/ReviewsPage";
 import { ReviewDetailPage } from "./pages/ReviewDetailPage/ReviewDetailPage";
 import { ReviewEditorPage } from "./pages/ReviewEditorPage/ReviewEditorPage";
 import { InquiryPage } from "./pages/InquiryPage/InquiryPage";
+import { InquiryDetailPage } from "./pages/InquiryDetailPage/InquiryDetailPage";
 import { EventsPage } from "./pages/EventsPage/EventsPage";
 import { ApplyPage } from "./pages/ApplyPage/ApplyPage";
 
@@ -43,6 +44,7 @@ export default function App() {
           <Route path="/notices" element={<NoticesPage />} />
           <Route path="/notices/:noticeId" element={<NoticeDetailPage />} />
           <Route path="/mypage" element={<MyPage />} />
+          <Route path="/mypage/inquiry/:inquiryId" element={<InquiryDetailPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/account-recovery" element={<AccountRecoveryPage />} />

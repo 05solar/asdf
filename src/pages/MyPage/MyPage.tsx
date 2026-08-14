@@ -71,7 +71,7 @@ export function MyPage() {
 
       <MySection title="문의 내역" action={<Link to="/inquiry">문의하기 ›</Link>}>
         <div className="mypage-list mypage-list--activity">
-          {myInquiries.map((inquiry) => <article key={inquiry.id}><strong>{inquiry.title}</strong><span className={`mypage-answer ${inquiry.status === "PENDING" ? "is-waiting" : ""}`}>{inquiry.status === "COMPLETED" ? "문의 완료" : "답변 대기"}</span><time>{new Date(inquiry.createdAt).toLocaleDateString("ko-KR")}</time></article>)}
+          {myInquiries.map((inquiry) => <article key={inquiry.id}><Link to={`/mypage/inquiry/${encodeURIComponent(inquiry.id)}`}><strong>{inquiry.title}</strong></Link><span className={`mypage-answer ${inquiry.status === "PENDING" ? "is-waiting" : ""}`}>{inquiry.status === "COMPLETED" ? "문의 완료" : "답변 대기"}</span><time>{new Date(inquiry.createdAt).toLocaleDateString("ko-KR")}</time></article>)}
           {myInquiries.length === 0 && <p className="mypage-list__empty">접수한 문의가 없습니다.</p>}
         </div>
       </MySection>

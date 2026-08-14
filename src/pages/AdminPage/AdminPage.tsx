@@ -52,6 +52,20 @@ export function AdminPage() {
     });
   };
 
+  const [answerDraft, setAnswerDraft] = useState<Record<string, string>>({});
+  const answerInquiry = (id: string) => {
+    const text = (answerDraft[id] ?? "").trim();
+    setInquiries((items) => {
+      const updated = items.map((item) =>
+        item.id === id
+          ? { ...item, answer: text, answeredAt: new Date().toISOString(), status: (text ? "COMPLETED" : item.status) as InquiryRecord["status"] }
+          : item,
+      );
+      saveInquiries(updated);
+      return updated;
+    });
+  };
+
   // Front-end guard only — the server must also enforce admin access.
   if (!isAdmin) return <Navigate to="/login?returnTo=%2Fadmin" replace />;
 
@@ -117,7 +131,7 @@ export function AdminPage() {
               {inquiries.map((inquiry) => (
                 <tr key={inquiry.id} className={openInquiryId === inquiry.id ? "is-open" : undefined}>
                   <td><span className="admin__badge is-inquiry">{inquiry.category}</span></td>
-                  <td><button className="admin__inquiry-title" onClick={() => setOpenInquiryId(openInquiryId === inquiry.id ? null : inquiry.id)} aria-expanded={openInquiryId === inquiry.id}>{inquiry.title}</button>{openInquiryId === inquiry.id && <div className="admin__inquiry-content"><b>문의 내용</b><p>{inquiry.content}</p></div>}</td>
+                  <td><button className="admin__inquiry-title" onClick={() => setOpenInquiryId(openInquiryId === inquiry.id ? null : inquiry.id)} aria-expanded={openInquiryId === inquiry.id}>{inquiry.title}</button>{openInquiryId === inquiry.id && <div className="admin__inquiry-content"><b>문의 내용</b><p>{inquiry.content}</p><b>답변</b><textarea className="admin__inquiry-answer" rows={4} placeholder="답변 내용을 입력하세요." value={answerDraft[inquiry.id] ?? inquiry.answer ?? ""} onChange={(e) => setAnswerDraft((draft) => ({ ...draft, [inquiry.id]: e.target.value }))} /><button type="button" className="admin__inquiry-answer-save" onClick={() => answerInquiry(inquiry.id)}>답변 저장</button></div>}</td>
                   <td>{inquiry.name}</td><td>{inquiry.email}</td><td className="admin__mono">{inquiry.phone}</td><td>{new Date(inquiry.createdAt).toLocaleDateString("ko-KR")}</td>
                   <td><StatusMenu id={`inquiry-${inquiry.id}`} value={inquiry.status} options={[{ value: "PENDING", label: "답변 대기", className: "is-waiting" }, { value: "COMPLETED", label: "문의 완료", className: "is-completed" }]} open={openStatusMenu === `inquiry-${inquiry.id}`} onToggle={() => setOpenStatusMenu(openStatusMenu === `inquiry-${inquiry.id}` ? null : `inquiry-${inquiry.id}`)} onChange={(status) => { changeInquiryStatus(inquiry.id, status as InquiryRecord["status"]); setOpenStatusMenu(null); }} /></td>
                 </tr>
