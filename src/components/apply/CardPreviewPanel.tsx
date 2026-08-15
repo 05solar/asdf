@@ -13,33 +13,33 @@ type SampleImage = { src: string; side: string };
 
 const sampleImages: Record<CardDesign["cardType"], SampleImage[]> = {
   "honorary-korean": [
-    { src: "/images/cards/width/kor-tiger-front.png", side: "앞면" },
-    { src: "/images/cards/width/kor-tiger-back.jpg", side: "뒷면" },
+    { src: "/images/cards/width/kor-tiger-front.webp", side: "앞면" },
+    { src: "/images/cards/width/kor-tiger-back.webp", side: "뒷면" },
   ],
   "honorary-citizen": [
-    { src: "/images/cards/width/city-dragon2-front.jpg", side: "앞면" },
-    { src: "/images/cards/width/city-dragon2-back.jpg", side: "뒷면" },
+    { src: "/images/cards/width/city-dragon2-front.webp", side: "앞면" },
+    { src: "/images/cards/width/city-dragon2-back.webp", side: "뒷면" },
   ],
   // 학생증은 방향(가로/세로)에 따라 아래 studentSamples에서 다시 선택한다.
   student: [
-    { src: "/images/cards/length/student-pig-front.png", side: "앞면" },
-    { src: "/images/cards/length/student-pig-back.png", side: "뒷면" },
+    { src: "/images/cards/length/student-pig-front.webp", side: "앞면" },
+    { src: "/images/cards/length/student-pig-back.webp", side: "뒷면" },
   ],
   visitor: [
-    { src: "/images/cards/example-visit.png", side: "앞면" },
-    { src: "/images/cards/example-visit-back.png", side: "뒷면" },
+    { src: "/images/cards/example-visit.webp", side: "앞면" },
+    { src: "/images/cards/example-visit-back.webp", side: "뒷면" },
   ],
 };
 
 // 학생증 전용: 가로형/세로형 견본 세트.
 const studentSamples: Record<"landscape" | "portrait", SampleImage[]> = {
   landscape: [
-    { src: "/images/cards/width/stu-pig-front.png", side: "앞면" },
-    { src: "/images/cards/width/stu-pig-back.png", side: "뒷면" },
+    { src: "/images/cards/width/stu-pig-front.webp", side: "앞면" },
+    { src: "/images/cards/width/stu-pig-back.webp", side: "뒷면" },
   ],
   portrait: [
-    { src: "/images/cards/length/student-pig-front.png", side: "앞면" },
-    { src: "/images/cards/length/student-pig-back.png", side: "뒷면" },
+    { src: "/images/cards/length/student-pig-front.webp", side: "앞면" },
+    { src: "/images/cards/length/student-pig-back.webp", side: "뒷면" },
   ],
 };
 

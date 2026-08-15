@@ -148,14 +148,14 @@
   z-index: -3;
   /* Reaches up behind the transparent header. Smaller letter texture, tiled. */
   top: -200px;
-  background: url("/images/background/main-bg-letter.png") center top / 40% auto repeat;
+  background: url("/images/background/main-bg-letter.webp") center top / 40% auto repeat;
   opacity: 0.1;
 }
 .hero__inner::after {
   z-index: -2;
   /* Full-width light wash that begins flush at the very top of the header. */
   top: calc(-125px - clamp(28px, 4vw, 56px));
-  background: url("/images/background/main-bg-shade.png") center top / 100% auto no-repeat;
+  background: url("/images/background/main-bg-shade.webp") center top / 100% auto no-repeat;
   opacity: 0.55;
 }
 /* 세종대왕 — behind the copy / cards, left of centre. The source PNG has ~144px
@@ -170,7 +170,7 @@
   transform: translateX(-50%);
   width: var(--sejong-w);
   aspect-ratio: 1560 / 1122;
-  background: url("/images/background/sejong.png") center bottom / contain no-repeat;
+  background: url("/images/background/sejong.webp") center bottom / contain no-repeat;
   opacity: 0.5;
   pointer-events: none;
 }
@@ -555,10 +555,10 @@
   transform-style: preserve-3d;
 }
 .window--names {
-  background-image: url("/images/common/hanok-window-names-bg.png");
+  background-image: url("/images/common/hanok-window-names-bg.webp");
 }
 .window--principles {
-  background-image: url("/images/common/hanok-window-principles-bg.png");
+  background-image: url("/images/common/hanok-window-principles-bg.webp");
 }
 .window__name-scroll {
   position: absolute;
@@ -650,7 +650,7 @@
   border: 0;
   /* Both shutters show one shared door image, cropped into exact left/right
      halves. This keeps the lattice continuous across the centre while closed. */
-  background-image: url("/images/common/hanok-window.png");
+  background-image: url("/images/common/hanok-window.webp");
   background-repeat: no-repeat;
   background-size: 200% 100%;
   backface-visibility: hidden;
