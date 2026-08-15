@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "../../components/ui/Button";
+import { Modal } from "../../components/ui/Modal";
 import { SelectField } from "../../components/ui/SelectField";
 import { showToast } from "../../components/ui/toast";
 import { useAuth } from "../../features/auth/AuthContext";
-import { getReviewFallbackImageUrl, getReviewImageUrl, loadReviews } from "../../data/reviews";
+import { getReviewFallbackImageUrl, getReviewImageUrl, loadReviews, type ReviewPost } from "../../data/reviews";
 import { cardTypeLabels, type CardType } from "../../data/cards";
 import "../../styles/ContentPages.css";
 import "../SupportPage/SupportPage.css";
@@ -20,6 +21,7 @@ export function ReviewsPage() {
   const [photoFilter, setPhotoFilter] = useState<"all" | "photos">("all");
   const [cardFilter, setCardFilter] = useState<"all" | CardType>("all");
   const [page, setPage] = useState(1);
+  const [activeReview, setActiveReview] = useState<(ReviewPost & { resolvedImageUrl?: string }) | null>(null);
 
   const filteredReviews = useMemo(() => {
     const keyword = query.trim().toLowerCase();
@@ -64,7 +66,12 @@ export function ReviewsPage() {
           {visibleReviews.length === 0 ? <p className="review-grid__empty">검색 결과가 없습니다.</p> : visibleReviews.map((review) => {
             const imageUrl = getReviewImageUrl(review);
             return (
-              <Link className={`review-card${imageUrl ? "" : " review-card--text-only"}`} key={review.id} to={`/reviews/${encodeURIComponent(review.id)}`} state={{ review: { ...review, imageUrl } }}>
+              <button
+                type="button"
+                className={`review-card${imageUrl ? "" : " review-card--text-only"}`}
+                key={review.id}
+                onClick={() => setActiveReview({ ...review, resolvedImageUrl: imageUrl })}
+              >
                 {imageUrl && <div className="review-card__visual"><img src={imageUrl} alt={`${review.title} 후기 이미지`} onError={(event) => {
                   const img = event.currentTarget;
                   const fallback = getReviewFallbackImageUrl(review.id);
@@ -76,7 +83,7 @@ export function ReviewsPage() {
                   }
                 }} /></div>}
                 <div className="review-card__body"><div className="review-card__tags"><span>{review.applicantType === "organization" ? "단체" : "개인"}</span><span>{cardTypeLabels[review.cardType]}</span></div><h3>{review.title}</h3><p>{review.content}</p><footer><strong>{review.author}</strong><time dateTime={review.createdAt}>{review.createdAt.replace(/-/g, ".")}</time></footer></div>
-              </Link>
+              </button>
             );
           })}
         </div>
@@ -85,10 +92,53 @@ export function ReviewsPage() {
       </section>
 
       <section className="reviews-apply-banner page-container"><div><p>나만의 한국 이름과 카드를 만들어보세요</p><h2>당신만의 특별한 한국 이야기를 카드에 담아보세요.</h2></div><div className="reviews-apply-banner__actions">{(Object.entries(cardTypeLabels) as [CardType, string][]).map(([type, label]) => <Link key={type} to={`/apply/${type}`}>{label} 신청</Link>)}</div></section>
+
+      <Modal open={activeReview !== null} onClose={() => setActiveReview(null)} title={activeReview?.title ?? "후기"} className="review-modal">
+        {activeReview && <ReviewModalContent review={activeReview} />}
+      </Modal>
     </div>
   );
 }
 
 function SearchGlyph() {
   return <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="11" cy="11" r="6.5" /><path d="m16 16 4 4" /></svg>;
+}
+
+function ReviewModalContent({ review }: { review: ReviewPost & { resolvedImageUrl?: string } }) {
+  const { isAdmin } = useAuth();
+  return (
+    <article className="review-modal__content">
+      <header className="review-modal__head">
+        <div className="review-card__tags">
+          <span>{review.applicantType === "organization" ? "단체" : "개인"}</span>
+          <span>{cardTypeLabels[review.cardType]}</span>
+        </div>
+        <div className="review-modal__meta">
+          <strong>{review.author}</strong>
+          <time dateTime={review.createdAt}>{review.createdAt.replace(/-/g, ".")}</time>
+        </div>
+      </header>
+      {review.resolvedImageUrl && (
+        <img
+          className="review-modal__image"
+          src={review.resolvedImageUrl}
+          alt={`${review.title} 후기 이미지`}
+          onError={(event) => {
+            const img = event.currentTarget;
+            const fallback = getReviewFallbackImageUrl(review.id);
+            if (fallback && !img.dataset.fallbackApplied) {
+              img.dataset.fallbackApplied = "1";
+              img.src = fallback;
+            } else {
+              img.style.display = "none";
+            }
+          }}
+        />
+      )}
+      <div className="review-modal__body">
+        {review.content.split("\n").map((line, index) => <p key={`${index}-${line}`}>{line || "\u00a0"}</p>)}
+      </div>
+      {isAdmin && <div className="review-modal__actions"><Button variant="outline" to={`/reviews/${review.id}/edit`}>수정</Button></div>}
+    </article>
+  );
 }

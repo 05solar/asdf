@@ -20,6 +20,8 @@ interface FeedPost {
   title: string;
   place: string;
   host: string;
+  company?: string;
+  logoUrl?: string;
   cardLabel: string;
   text: string;
   image?: string;
@@ -44,13 +46,15 @@ const BOOTH_GALLERY = [
 ];
 
 // 법인·단체 협업 — 해외 선수단·단체에 한국 이름과 카드를 발급하고 협업 사실을 기록한다.
-const COLLAB_TEXT =
-  "해외 참가자에게 한글 이름을 지어 방문증·명예한국인증을 발급하고, 함께한 인증 사진으로 협업을 기록합니다. 발급한 카드와 참여 인원은 협업 단위로 관리됩니다.";
 const collabPosts: FeedPost[] = [
-  { date: "2026. 11", title: "국제 태권도 협회 초청 선수단", place: "○○ 태권도 협회", host: "세계태권도연맹", cardLabel: "명예한국인증 · 방문증", text: COLLAB_TEXT, image: "/images/events/collaboration-3.webp" },
-  { date: "2026. 09", title: "해외 대학 교류 사절단", place: "△△ 대학교", host: "△△ 대학교 국제교류처", cardLabel: "학생증", text: COLLAB_TEXT, image: "/images/events/collaboration-2.webp" },
-  { date: "2026. 07", title: "글로벌 기업 임직원 초청", place: "□□ 컨퍼런스", host: "□□ 그룹", cardLabel: "명예시민증", text: COLLAB_TEXT, image: "/images/events/collaboration-7.webp" },
-  { date: "2026. 05", title: "국제 문화교류 사절단", place: "◇◇ 문화교류협회", host: "◇◇ 문화교류협회", cardLabel: "명예한국인증", text: COLLAB_TEXT, image: "/images/events/collaboration-5.webp" },
+  { date: "2027.01.15", company: "Samsung", logoUrl: "/images/company-logos/samsung-wordmark.svg", title: "삼성 글로벌 임직원 한국 이름 체험", place: "삼성전자 글로벌 캠퍼스", host: "Samsung", cardLabel: "명예한국인증 · 방문증", text: "해외 임직원 온보딩 행사에 한글 이름 추천과 명예한국인증 발급 체험을 연계했습니다.", image: "/images/events/corporate-samsung.png" },
+  { date: "2027.01.08", company: "NAVER", logoUrl: "/images/company-logos/naver-wordmark.svg", title: "네이버 글로벌 파트너 문화 프로그램", place: "네이버 1784", host: "NAVER", cardLabel: "명예시민증", text: "글로벌 파트너 방문 일정에 맞춰 한국 이름 카드와 디지털 기념 콘텐츠를 제공했습니다.", image: "/images/events/corporate-naver.png" },
+  { date: "2026.12.22", company: "Hyundai", logoUrl: "/images/company-logos/hyundai-wordmark.svg", title: "현대 모빌리티 초청 고객 행사", place: "현대 모터스튜디오", host: "Hyundai", cardLabel: "방문증", text: "해외 초청 고객에게 한글 이름 방문증을 발급하고 브랜드 투어 경험과 연결했습니다.", image: "/images/events/corporate-hyundai.png" },
+  { date: "2026.12.12", company: "Kakao", logoUrl: "/images/company-logos/kakao-wordmark.svg", title: "카카오 외국인 크리에이터 밋업", place: "카카오 판교 아지트", host: "Kakao", cardLabel: "명예한국인증", text: "콘텐츠 크리에이터 교류 행사에서 한글 이름 카드 제작 부스를 운영했습니다.", image: "/images/events/corporate-kakao.png" },
+  { date: "2026.11.26", company: "LG", logoUrl: "/images/company-logos/lg-wordmark.svg", title: "LG 글로벌 고객 초청 문화 체험", place: "LG 사이언스파크", host: "LG", cardLabel: "명예시민증", text: "글로벌 고객 초청 행사에 한국 이름 풀이와 카드 수령 경험을 더했습니다.", image: "/images/events/collaboration-5.webp" },
+  { date: "2026.11.18", company: "Kia", logoUrl: "/images/company-logos/kia-wordmark.svg", title: "기아 해외 딜러 네트워크 교류회", place: "기아 브랜드 체험관", host: "Kia", cardLabel: "방문증", text: "해외 딜러 초청 프로그램에서 참가자별 한글 이름 방문증을 제작했습니다.", image: "/images/events/collaboration-6.webp" },
+  { date: "2026.10.30", company: "LINE", logoUrl: "/images/company-logos/line.svg", title: "라인 글로벌 팀 문화 교류 행사", place: "라인 오피스 라운지", host: "LINE", cardLabel: "학생증 · 방문증", text: "다국적 팀 교류 행사에서 한글 이름 카드와 팀별 기념 촬영을 연계했습니다.", image: "/images/events/collaboration-7.webp" },
+  { date: "2026.10.14", company: "Google", logoUrl: "/images/company-logos/google-wordmark.svg", title: "구글 스타트업 캠퍼스 파트너 데이", place: "스타트업 캠퍼스", host: "Google", cardLabel: "명예한국인증", text: "해외 창업가 네트워킹 행사에 한국 이름 추천 카드 체험을 구성했습니다.", image: "/images/events/collaboration-8.webp" },
 ];
 const COLLAB_GALLERY = [
   "/images/events/collaboration-1.webp",
@@ -117,6 +121,7 @@ export function EventsPage() {
         tagline="현장에서 고객과 직접 만나 정성을 담은 서비스를 제공합니다"
         posts={collabPosts}
         gallery={COLLAB_GALLERY}
+        layout="collaboration"
       />
 
       <section className="event-inquiry page-container">
@@ -132,24 +137,40 @@ export function EventsPage() {
 }
 
 /** A single record card (photo on top, content below). */
-function EventCard({ post, onOpen, wide = false }: { post: FeedPost; onOpen: (post: FeedPost) => void; wide?: boolean }) {
+function EventCard({ post, onOpen, wide = false, compact = false }: { post: FeedPost; onOpen: (post: FeedPost) => void; wide?: boolean; compact?: boolean }) {
   return (
-    <article className={`event-card${wide ? " event-card--wide" : ""}`}>
+    <article className={`event-card${wide ? " event-card--wide" : ""}${compact ? " event-card--compact" : ""}`}>
       <div className="event-card__media">
         {post.image
           ? <img src={post.image} alt={`${post.title} 사진`} loading="lazy" />
           : <ImagePlaceholder label={`${post.title} 사진`} />}
       </div>
       <div className="event-card__body">
+        {compact && (
+          <span className={`event-card__logo${post.logoUrl ? ` event-card__logo--${post.logoUrl.split("/").pop()?.replace(".svg", "")}` : ""}`}>
+            {post.logoUrl ? <img src={post.logoUrl} alt={post.company ?? post.host} /> : post.company ?? post.cardLabel}
+          </span>
+        )}
         <h3>{post.title}</h3>
-        <div className="event-card__meta">
-          <time>{post.date}</time>
-          <span className="event-card__label">{post.cardLabel}</span>
-        </div>
+        {!compact && (
+          <div className="event-card__meta">
+            <time>{post.date}</time>
+            <span className="event-card__label">{post.cardLabel}</span>
+          </div>
+        )}
         <p className={`event-card__text${wide ? " event-card__text--full" : ""}`}>{post.text}</p>
-        <button type="button" className="event-card__more" onClick={() => onOpen(post)}>
-          자세히 보기<span aria-hidden="true"> →</span>
-        </button>
+        {compact ? (
+          <footer className="event-card__foot">
+            <time>{post.date}</time>
+            <button type="button" className="event-card__more" onClick={() => onOpen(post)}>
+              자세히 보기<span aria-hidden="true"> →</span>
+            </button>
+          </footer>
+        ) : (
+          <button type="button" className="event-card__more" onClick={() => onOpen(post)}>
+            자세히 보기<span aria-hidden="true"> →</span>
+          </button>
+        )}
       </div>
     </article>
   );
@@ -160,27 +181,29 @@ function EventCard({ post, onOpen, wide = false }: { post: FeedPost; onOpen: (po
  * 대표 기록 1개를 상단에 사진 60% / 글 40% 와이드 카드로, 나머지는 한 행에 3개 카드로 배열한다.
  * 카드 하단의 "자세히 보기"를 누르면 상세 팝업이 뜬다.
  */
-function EventFeed({ title, tagline, posts, gallery }: {
+function EventFeed({ title, tagline, posts, gallery, layout = "featured" }: {
   title: string;
   tagline: string;
   posts: FeedPost[];
   gallery: string[];
+  layout?: "featured" | "collaboration";
 }) {
   const [active, setActive] = useState<FeedPost | null>(null);
   const [featured, ...rest] = posts;
+  const isCollaboration = layout === "collaboration";
 
   return (
-    <section className="event-feed page-container">
+    <section className={`event-feed page-container${isCollaboration ? " event-feed--collaboration" : ""}`}>
       <header className="event-feed__head">
         <h2 className="event-feed__title">{title}</h2>
         <span className="event-feed__rule" aria-hidden="true" />
         <p className="event-feed__tagline">{tagline}</p>
       </header>
 
-      {featured && <EventCard post={featured} onOpen={setActive} wide />}
+      {!isCollaboration && featured && <EventCard post={featured} onOpen={setActive} wide />}
 
-      <div className="event-card-grid">
-        {rest.map((post) => <EventCard key={post.title} post={post} onOpen={setActive} />)}
+      <div className={isCollaboration ? "event-card-grid event-card-grid--collaboration" : "event-card-grid"}>
+        {(isCollaboration ? posts : rest).map((post) => <EventCard key={post.title} post={post} onOpen={setActive} compact={isCollaboration} />)}
       </div>
 
       <Modal open={active !== null} onClose={() => setActive(null)} title={active?.title ?? ""} className="event-modal">

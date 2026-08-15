@@ -148,7 +148,18 @@
   transition: opacity var(--ease);
 }
 .social__hover {
+  position: absolute;
+  inset: 0;
   opacity: 0;
+}
+.social__hover svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.social:hover,
+.social:focus-visible {
+  border-color: transparent;
 }
 .social:hover .social__default,
 .social:focus-visible .social__default {

@@ -6,15 +6,18 @@
 
 /* Tagline strip: flush under the header, led by a horizontal rule. */
 .home-tagline {
+  position: relative;
+  z-index: 70;
   display: flex;
   align-items: center;
   gap: clamp(12px, 1.4vw, 20px);
   padding-top: clamp(6px, 1vw, 12px);
   padding-bottom: clamp(2px, 0.6vw, 6px);
   font-size: clamp(13px, 1.2vw, 16px);
-  color: var(--color-text-secondary);
+  color: var(--color-wordmark);
   font-weight: 500;
   letter-spacing: 0.02em;
+  text-shadow: 0 1px 0 var(--color-bg-top), 0 0 6px var(--color-bg-top);
 }
 .home-tagline::before {
   content: "";
@@ -162,7 +165,7 @@
   --sejong-w: clamp(320px, 38vw, 600px);
   position: absolute;
   z-index: -1;
-  bottom: calc(-1 * (var(--band-gap) + var(--sejong-w) * 0.092) + 28px);
+  bottom: calc(-1 * (var(--band-gap) + var(--sejong-w) * 0.092));
   left: 37%;
   transform: translateX(-50%);
   width: var(--sejong-w);
@@ -177,11 +180,10 @@
   font-weight: 600;
   font-size: clamp(21px, 2.4vw, 33px);
   margin-bottom: 16px;
-  /* Outlined text: transparent fill inside, coloured stroke only. */
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: 1px var(--color-title-accent);
-  text-stroke: 1px var(--color-title-accent);
+  color: var(--color-wordmark);
+  -webkit-text-fill-color: var(--color-wordmark);
+  -webkit-text-stroke: 0;
+  text-stroke: 0;
 }
 .hero__title {
   font-family: var(--font-serif);

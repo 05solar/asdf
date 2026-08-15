@@ -31,6 +31,13 @@ function WindowCard({ label, variant }: { label: string; variant: "names" | "pri
   const [hasOpened, setHasOpened] = useState(false);
 
   const open = () => setIsOpen(true);
+  const toggle = () => {
+    setIsOpen((value) => {
+      if (!value) return true;
+      setHasOpened(false);
+      return false;
+    });
+  };
 
   return (
     <button
@@ -38,7 +45,7 @@ function WindowCard({ label, variant }: { label: string; variant: "names" | "pri
       aria-label={`${label} — ${hasOpened ? "열림" : "열어보기"}`}
       onMouseEnter={open}
       onFocus={open}
-      onClick={open}
+      onClick={toggle}
     >
       {variant === "names" && (
         <span className="window__name-scroll" aria-hidden="true">

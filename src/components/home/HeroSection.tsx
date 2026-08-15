@@ -4,7 +4,7 @@ import { zodiacSigns } from "../../data/zodiac";
 import { ZodiacIcon } from "../brand/ZodiacIcon";
 import { Trigram } from "./Trigram";
 
-const HERO_CHANGE_DELAY = 4000;
+const HERO_CHANGE_DELAY = 7000;
 
 const HERO_LANDSCAPE = [
   ["kor-tiger-front.png", "kor-tiger-back.jpg"],

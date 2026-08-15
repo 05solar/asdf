@@ -1,11 +1,8 @@
 .events-page .page-container {
   width: min(100% - clamp(48px, 15vw, 240px), var(--page-max));
 }
-/* 타이틀 구분선(subpage-hero 하단 hairline)을 카드 섹션보다 더 길게, 좌우 여백
-   안쪽까지 확장한다. (뷰포트를 넘지 않는 범위) */
-.events-page .subpage-hero::after {
-  left: calc(-1 * clamp(8px, 1.5vw, 24px));
-  right: calc(-1 * clamp(8px, 1.5vw, 24px));
+.events-page .event-programs {
+  padding-inline: clamp(14px, 2vw, 28px);
 }
 .event-feature__head {
   max-width: 760px;
@@ -63,6 +60,7 @@
   align-items: stretch;
   min-height: clamp(300px, 34vw, 440px);
   margin-bottom: clamp(18px, 2.4vw, 30px);
+  background: var(--color-background);
 }
 .event-card--wide .event-card__media { aspect-ratio: auto; height: 100%; }
 /* Text block on the right, vertically centered within the card height.
@@ -90,14 +88,21 @@
   grid-template-columns: repeat(3, 1fr);
   gap: clamp(18px, 2.4vw, 30px);
 }
+.event-card-grid--collaboration {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(14px, 1.8vw, 22px);
+}
 .event-card {
   display: flex;
   flex-direction: column;
   min-width: 0;
   border: 0;
-  border-radius: var(--radius-card-preview);
+  border-radius: 0;
   overflow: hidden;
   background: var(--color-warm-beige); /* #F2E9DF */
+}
+.event-feed--collaboration .event-card {
+  background: var(--color-background);
 }
 .event-card__media { aspect-ratio: 4 / 3; }
 .event-card__media img,
@@ -146,14 +151,105 @@
   font-weight: 600;
   font-size: 13px;
 }
-.event-card__more:hover { text-decoration: underline; }
+.event-card__more:hover {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+.event-card--compact .event-card__body {
+  min-height: 210px;
+  align-items: stretch;
+  padding-top: 10px;
+  padding-inline: 0;
+}
+.event-card__logo {
+  display: inline-flex;
+  width: 114px;
+  height: 22px;
+  align-self: flex-start;
+  align-items: center;
+  justify-content: flex-start;
+  color: var(--color-primary);
+  font-size: 10.5px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+.event-card__logo img {
+  display: block;
+  width: 100%;
+  height: 21px;
+  object-fit: contain;
+  object-position: left center;
+}
+.event-card__logo--samsung img,
+.event-card__logo--hyundai img,
+.event-card__logo--naver img,
+.event-card__logo--google img,
+.event-card__logo--samsung-wordmark img,
+.event-card__logo--hyundai-wordmark img,
+.event-card__logo--naver-wordmark img,
+.event-card__logo--google-wordmark img,
+.event-card__logo--kakao-wordmark img,
+.event-card__logo--lg-wordmark img,
+.event-card__logo--kia-wordmark img {
+  height: 20px;
+}
+.event-card__logo--samsung,
+.event-card__logo--hyundai,
+.event-card__logo--samsung-wordmark,
+.event-card__logo--hyundai-wordmark {
+  width: 154px;
+}
+.event-card__logo--naver,
+.event-card__logo--google,
+.event-card__logo--naver-wordmark,
+.event-card__logo--google-wordmark,
+.event-card__logo--kakao-wordmark,
+.event-card__logo--kia-wordmark {
+  width: 136px;
+}
+.event-card__logo--lg-wordmark {
+  width: 86px;
+}
+.event-card__logo--kakao img,
+.event-card__logo--line img,
+.event-card__logo--lg img,
+.event-card__logo--kia img {
+  height: 23px;
+}
+.event-card--compact h3 {
+  margin-top: 7px;
+}
+.event-card--compact .event-card__text {
+  -webkit-line-clamp: 4;
+}
+.event-card__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  margin-top: auto;
+  padding-top: 16px;
+}
+.event-card__foot time {
+  color: #BC996E;
+  font-size: 12.5px;
+  white-space: nowrap;
+}
+.event-card__foot .event-card__more {
+  align-self: auto;
+  margin-top: 0;
+  padding-top: 0;
+  text-align: right;
+  white-space: nowrap;
+}
 
 /* ---- Detail popup — large, gallery (left) + info (right) ----------------- */
 .modal__dialog.event-modal {
   width: min(100%, 1040px);
   height: min(86vh, 680px);
   max-height: 92vh;
-  background: var(--color-warm-beige); /* #F2E9DF — same as the grid cards */
+  background: #fff;
 }
 /* Drop the header bar; float the close button over the top-right corner. */
 .event-modal .modal__header {
@@ -183,14 +279,14 @@
   min-width: 0;
   min-height: 0;
   padding: clamp(14px, 1.6vw, 20px);
-  background: var(--color-warm-beige); /* #F2E9DF — same as the info side */
+  background: #fff;
 }
 .event-modal__main {
   flex: 1;
   min-height: 0;
-  border-radius: 4px;
+  border-radius: 0;
   overflow: hidden;
-  background: var(--color-warm-beige);
+  background: #fff;
 }
 .event-modal__main img,
 .event-modal__main .img-ph { width: 100%; height: 100%; object-fit: cover; }
@@ -242,6 +338,7 @@
 
 @media (max-width: 860px) {
   .event-card-grid { grid-template-columns: repeat(2, 1fr); }
+  .event-card-grid--collaboration { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 720px) {
   .event-feed__head { flex-wrap: wrap; gap: 10px; }
@@ -262,4 +359,5 @@
 }
 @media (max-width: 560px) {
   .event-card-grid { grid-template-columns: 1fr; }
+  .event-card-grid--collaboration { grid-template-columns: 1fr; }
 }

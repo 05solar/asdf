@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { zodiacSigns } from "../../data/zodiac";
 
-const DESIGN_CHANGE_DELAY = 4000;
+const DESIGN_CHANGE_DELAY = 7000;
 
 const LANDSCAPE_CARDS = [
   ["kor-mouse-front.png", "kor-mouse-back.jpg"],
