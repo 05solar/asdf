@@ -4,7 +4,7 @@ import { Button } from "../../components/ui/Button";
 import { Modal } from "../../components/ui/Modal";
 import { SelectField } from "../../components/ui/SelectField";
 import { useAuth } from "../../features/auth/AuthContext";
-import { getReviewFallbackImageUrl, getReviewImageUrl, loadReviews, type ReviewPost } from "../../data/reviews";
+import { getReviewFallbackImageUrl, getReviewImageUrl, getReviewImageUrls, loadReviews, type ReviewPost } from "../../data/reviews";
 import { cardTypeLabels, type CardType } from "../../data/cards";
 import "../../styles/ContentPages.css";
 import "../SupportPage/SupportPage.css";
@@ -20,12 +20,12 @@ export function ReviewsPage() {
   const [photoFilter, setPhotoFilter] = useState<"all" | "photos">("all");
   const [cardFilter, setCardFilter] = useState<"all" | CardType>("all");
   const [page, setPage] = useState(1);
-  const [activeReview, setActiveReview] = useState<(ReviewPost & { resolvedImageUrl?: string }) | null>(null);
+  const [activeReview, setActiveReview] = useState<(ReviewPost & { resolvedImageUrls: string[] }) | null>(null);
 
   const filteredReviews = useMemo(() => {
     const keyword = query.trim().toLowerCase();
     return reviews.filter((review) => {
-      if (photoFilter === "photos" && !review.imageUrl) return false;
+      if (photoFilter === "photos" && getReviewImageUrls(review).length === 0) return false;
       if (cardFilter !== "all" && review.cardType !== cardFilter) return false;
       if (!keyword) return true;
       if (searchBy === "제목") return review.title.toLowerCase().includes(keyword);
@@ -64,12 +64,13 @@ export function ReviewsPage() {
         <div className="review-grid" aria-label="후기 목록">
           {visibleReviews.length === 0 ? <p className="review-grid__empty">검색 결과가 없습니다.</p> : visibleReviews.map((review) => {
             const imageUrl = getReviewImageUrl(review);
+            const imageUrls = getReviewImageUrls(review);
             return (
               <button
                 type="button"
                 className={`review-card${imageUrl ? "" : " review-card--text-only"}`}
                 key={review.id}
-                onClick={() => setActiveReview({ ...review, resolvedImageUrl: imageUrl })}
+                onClick={() => setActiveReview({ ...review, resolvedImageUrls: imageUrls })}
               >
                 {imageUrl && <div className="review-card__visual"><img src={imageUrl} alt={`${review.title} 후기 이미지`} onError={(event) => {
                   const img = event.currentTarget;
@@ -103,8 +104,12 @@ function SearchGlyph() {
   return <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="11" cy="11" r="6.5" /><path d="m16 16 4 4" /></svg>;
 }
 
-function ReviewModalContent({ review }: { review: ReviewPost & { resolvedImageUrl?: string } }) {
+function ReviewModalContent({ review }: { review: ReviewPost & { resolvedImageUrls: string[] } }) {
   const { isAdmin } = useAuth();
+  const [imageIndex, setImageIndex] = useState(0);
+  const images = review.resolvedImageUrls;
+  const currentImage = images[imageIndex];
+  const moveImage = (delta: number) => setImageIndex((index) => (index + delta + images.length) % images.length);
   return (
     <article className="review-modal__content">
       <header className="review-modal__head">
@@ -117,22 +122,37 @@ function ReviewModalContent({ review }: { review: ReviewPost & { resolvedImageUr
           <time dateTime={review.createdAt}>{review.createdAt.replace(/-/g, ".")}</time>
         </div>
       </header>
-      {review.resolvedImageUrl && (
-        <img
-          className="review-modal__image"
-          src={review.resolvedImageUrl}
-          alt={`${review.title} 후기 이미지`}
-          onError={(event) => {
-            const img = event.currentTarget;
-            const fallback = getReviewFallbackImageUrl(review.id);
-            if (fallback && !img.dataset.fallbackApplied) {
-              img.dataset.fallbackApplied = "1";
-              img.src = fallback;
-            } else {
-              img.style.display = "none";
-            }
-          }}
-        />
+      {currentImage && (
+        <div className="review-modal__gallery">
+          <div className="review-modal__image-wrap">
+            {images.length > 1 && <button type="button" className="review-modal__arrow review-modal__arrow--prev" aria-label="이전 사진" onClick={() => moveImage(-1)}>‹</button>}
+            <img
+              className="review-modal__image"
+              src={currentImage}
+              alt={`${review.title} 후기 이미지 ${imageIndex + 1}`}
+              onError={(event) => {
+                const img = event.currentTarget;
+                const fallback = getReviewFallbackImageUrl(review.id);
+                if (fallback && !img.dataset.fallbackApplied) {
+                  img.dataset.fallbackApplied = "1";
+                  img.src = fallback;
+                } else {
+                  img.style.display = "none";
+                }
+              }}
+            />
+            {images.length > 1 && <button type="button" className="review-modal__arrow review-modal__arrow--next" aria-label="다음 사진" onClick={() => moveImage(1)}>›</button>}
+          </div>
+          {images.length > 1 && (
+            <div className="review-modal__thumbs" aria-label="후기 이미지 미리보기">
+              {images.map((src, index) => (
+                <button type="button" key={`${src}-${index}`} className={index === imageIndex ? "is-current" : ""} aria-label={`${index + 1}번째 사진 보기`} aria-current={index === imageIndex ? "true" : undefined} onClick={() => setImageIndex(index)}>
+                  <img src={src} alt="" />
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
       )}
       <div className="review-modal__body">
         {review.content.split("\n").map((line, index) => <p key={`${index}-${line}`}>{line || "\u00a0"}</p>)}
