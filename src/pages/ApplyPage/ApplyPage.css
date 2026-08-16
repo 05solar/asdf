@@ -9,12 +9,14 @@
   grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
   gap: clamp(28px, 4vw, 64px);
   align-items: start;
+  margin-top: clamp(28px, 4vw, 48px);
 }
 .apply__title {
   margin: 10px 0 12px;
 }
 .apply-login-required {
   max-width: 760px;
+  margin-top: clamp(28px, 4vw, 48px);
   margin-inline: auto;
   padding: clamp(28px, 4vw, 46px);
   background: var(--color-background);

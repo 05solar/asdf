@@ -11,7 +11,7 @@
 .support__hero-art {
   position: absolute;
   z-index: 0;
-  right: max(0px, calc((100% - 1180px) / 2));
+  right: 0;
   bottom: 0;
   /* 마이페이지 hero 이미지(.mypage__hero-art)와 동일한 크기. */
   height: clamp(170px, 22vw, 280px);
@@ -447,5 +447,17 @@
   }
   .ccard:last-child {
     border-bottom: 0;
+  }
+}
+
+@media (min-width: 1081px) and (max-width: 1480px) {
+  .support__hero-art {
+    right: 64px;
+  }
+}
+
+@media (min-width: 1481px) and (max-width: 1608px) {
+  .support__hero-art {
+    right: calc(84px - ((100vw - 1440px) / 2));
   }
 }

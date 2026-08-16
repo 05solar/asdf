@@ -58,10 +58,11 @@ body {
   position: relative;
   --subpage-rule-height: 2px;
   box-sizing: border-box;
-  min-height: clamp(198px, 18vw, 242px);
+  height: clamp(198px, 18vw, 242px);
   padding-block: clamp(40px, 6vw, 72px) clamp(28px, 3.4vw, 42px);
   padding-inline: clamp(14px, 2vw, 28px);
   text-align: left;
+  overflow: visible;
 }
 /* Unified title divider: a full-width hairline directly under the hero,
    with a thick brown accent (matching the title emphasis marker) set slightly

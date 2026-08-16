@@ -6,7 +6,7 @@
   /* 고객 지원 페이지(.support__hero-art)와 동일한 위치: 우측 하단 앵커. */
   position: absolute;
   z-index: 0;
-  right: max(0px, calc((100% - 1180px) / 2));
+  right: 0;
   bottom: 0;
   height: clamp(170px, 22vw, 280px);
   width: auto;
@@ -59,4 +59,16 @@
   .mypage-list--activity article time { grid-column: 1; grid-row: 2; }
   .mypage-list--activity article .mypage-list__edit { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
   .mypage-status { grid-column: 2; grid-row: 1; }
+}
+
+@media (min-width: 1081px) and (max-width: 1480px) {
+  .mypage__hero-art {
+    right: 64px;
+  }
+}
+
+@media (min-width: 1481px) and (max-width: 1608px) {
+  .mypage__hero-art {
+    right: calc(84px - ((100vw - 1440px) / 2));
+  }
 }
