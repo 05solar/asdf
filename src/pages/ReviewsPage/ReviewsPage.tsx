@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { Button } from "../../components/ui/Button";
 import { Modal } from "../../components/ui/Modal";
 import { SelectField } from "../../components/ui/SelectField";
-import { showToast } from "../../components/ui/toast";
 import { useAuth } from "../../features/auth/AuthContext";
 import { getReviewFallbackImageUrl, getReviewImageUrl, loadReviews, type ReviewPost } from "../../data/reviews";
 import { cardTypeLabels, type CardType } from "../../data/cards";
@@ -87,7 +86,7 @@ export function ReviewsPage() {
             );
           })}
         </div>
-        <div className="reviews-board__footer"><nav className="support-pagination" aria-label="후기 페이지"><button aria-label="이전 페이지" disabled={page === 1} onClick={() => setPage((value) => Math.max(1, value - 1))}>‹</button>{Array.from({ length: totalPages }, (_, index) => index + 1).map((number) => <button className={number === page ? "is-current" : ""} aria-current={number === page ? "page" : undefined} key={number} onClick={() => setPage(number)}>{number}</button>)}<button aria-label="다음 페이지" disabled={page === totalPages} onClick={() => setPage((value) => Math.min(totalPages, value + 1))}>›</button></nav><div className="reviews-board__write">{user ? <Button to="/reviews/new">후기 작성</Button> : <Button onClick={() => showToast("로그인 후 이용할 수 있습니다.")}>후기 작성</Button>}</div></div>
+        <div className="reviews-board__footer"><nav className="support-pagination" aria-label="후기 페이지"><button aria-label="이전 페이지" disabled={page === 1} onClick={() => setPage((value) => Math.max(1, value - 1))}>‹</button>{Array.from({ length: totalPages }, (_, index) => index + 1).map((number) => <button className={number === page ? "is-current" : ""} aria-current={number === page ? "page" : undefined} key={number} onClick={() => setPage(number)}>{number}</button>)}<button aria-label="다음 페이지" disabled={page === totalPages} onClick={() => setPage((value) => Math.min(totalPages, value + 1))}>›</button></nav><div className="reviews-board__write">{user ? <Button to="/reviews/new">후기 작성</Button> : <Button to={`/login?returnTo=${encodeURIComponent("/reviews/new")}`}>후기 작성</Button>}</div></div>
         {!user && <p className="reviews-board__login">후기를 작성하려면 <Link to={`/login?returnTo=${encodeURIComponent("/reviews/new")}`}>로그인</Link>해 주세요.</p>}
       </section>
 

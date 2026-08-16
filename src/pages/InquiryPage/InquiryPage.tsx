@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "../../components/ui/Button";
 import { SelectField } from "../../components/ui/SelectField";
 import { showToast } from "../../components/ui/toast";
@@ -10,6 +10,7 @@ import "./InquiryPage.css";
 export function InquiryPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [agreed, setAgreed] = useState(false);
   const [category, setCategory] = useState("");
 
@@ -39,6 +40,23 @@ export function InquiryPage() {
     setCategory("");
     window.setTimeout(() => navigate("/support#contact"), 700);
   };
+
+  if (!user) {
+    return (
+      <main className="inquiry-page">
+        <header className="subpage-hero page-container inquiry-page__hero">
+          <p className="eyebrow">고객지원 · 상담 문의</p>
+          <h1 className="subpage-hero__title">1:1 문의하기</h1>
+          <p className="section-lead">1:1 문의 접수는 로그인 후 이용할 수 있습니다.</p>
+        </header>
+        <section className="inquiry-login-required page-container">
+          <h2>로그인이 필요합니다</h2>
+          <p>문의 접수 내역과 답변을 안전하게 확인하기 위해 로그인한 회원만 1:1 문의를 남길 수 있습니다.</p>
+          <Button to={`/login?returnTo=${encodeURIComponent(location.pathname + location.search)}`}>로그인하기</Button>
+        </section>
+      </main>
+    );
+  }
 
   return (
     <main className="inquiry-page">

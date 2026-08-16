@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { companyInfo } from "../../config/company";
 import { PhoneIcon, MailIcon, DocIcon, ChatIcon, ArrowUpRight } from "../../components/ui/icons";
 import { Modal } from "../../components/ui/Modal";
+import { useAuth } from "../../features/auth/AuthContext";
 import "./SupportPage.css";
 
 export const notices = [
@@ -44,6 +45,8 @@ const stories = [
 export function SupportPage() {
   const { hash } = useLocation();
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const inquiryPath = user ? "/inquiry" : `/login?returnTo=${encodeURIComponent("/inquiry")}`;
   const [storyIndex, setStoryIndex] = useState<number | null>(null);
 
   useEffect(() => {
@@ -119,7 +122,7 @@ export function SupportPage() {
             <a href={`mailto:${companyInfo.email}`} className="support__link">{companyInfo.email}</a>
           </ContactCard>
           <ContactCard icon={<DocIcon />} title="1:1 문의" lines={["문의를 남겨주시면", "영업일 기준 1~2일 내 답변 드립니다"]}>
-            <button className="support__link" onClick={() => navigate("/inquiry")}>1:1 문의하기　›</button>
+            <button className="support__link" onClick={() => navigate(inquiryPath)}>1:1 문의하기　›</button>
           </ContactCard>
           <ContactCard icon={<ChatIcon />} title="카카오톡 문의" lines={[companyInfo.businessHours, `(${companyInfo.lunchHours})`]}>
             <a href="https://pf.kakao.com/" target="_blank" rel="noreferrer noopener" className="support__link">
