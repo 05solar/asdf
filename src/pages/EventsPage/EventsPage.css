@@ -1,6 +1,9 @@
 .events-page .page-container {
   width: min(100% - clamp(48px, 15vw, 240px), var(--page-max));
 }
+.events-page > .subpage-hero.page-container {
+  width: min(100% - (var(--page-gutter) * 2), var(--page-max));
+}
 .events-page .event-programs {
   padding-inline: clamp(14px, 2vw, 28px);
 }

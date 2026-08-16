@@ -56,7 +56,10 @@ body {
 /* Shared top treatment for every routed subpage. */
 .subpage-hero {
   position: relative;
-  padding-block: clamp(40px, 6vw, 76px) clamp(20px, 3vw, 36px);
+  --subpage-rule-height: 2px;
+  box-sizing: border-box;
+  min-height: clamp(198px, 18vw, 242px);
+  padding-block: clamp(40px, 6vw, 72px) clamp(28px, 3.4vw, 42px);
   padding-inline: clamp(14px, 2vw, 28px);
   text-align: left;
 }
@@ -70,7 +73,7 @@ body {
   left: clamp(14px, 2vw, 28px);
   right: clamp(14px, 2vw, 28px);
   bottom: 0;
-  height: 2px;
+  height: var(--subpage-rule-height);
   background: var(--color-surface-soft);
 }
 .subpage-hero::before {
@@ -79,7 +82,7 @@ body {
   left: calc(clamp(14px, 2vw, 28px) + 32px);
   bottom: 0;
   width: 56px;
-  height: 2px;
+  height: var(--subpage-rule-height);
   background: var(--color-accent-bar);
   z-index: 1;
 }
@@ -88,6 +91,8 @@ body {
 }
 .subpage-hero .section-lead {
   max-width: 720px;
+  min-height: 1.7em;
+  margin-top: 0;
   margin-right: auto;
 }
 .subpage-hero__title {
@@ -96,7 +101,7 @@ body {
   color: var(--color-text-title);
   font-size: clamp(26px, 3.2vw, 38px);
   line-height: 1.25;
-  margin: 10px 0 8px;
+  margin: 10px 0 12px;
 }
 
 /* ---- Scroll reveal ------------------------------------------------------- */

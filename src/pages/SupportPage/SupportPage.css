@@ -3,8 +3,6 @@
 }
 .support__hero {
   position: relative;
-  padding-block: clamp(34px, 5vw, 62px) clamp(4px, 0.8vw, 10px);
-  min-height: clamp(150px, 15vw, 210px);
 }
 .support__hero-copy {
   position: relative;
@@ -14,9 +12,7 @@
   position: absolute;
   z-index: 0;
   right: max(0px, calc((100% - 1180px) / 2));
-  /* 지원 hero는 마이페이지 hero보다 낮다. 위치를 맞추되 아래 콘텐츠와 겹치지 않도록
-     살짝 위로 올리고, 겹침은 아래 섹션의 padding-top으로 해소한다. */
-  bottom: calc(clamp(24px, 3vw, 49px) * -1);
+  bottom: 0;
   /* 마이페이지 hero 이미지(.mypage__hero-art)와 동일한 크기. */
   height: clamp(170px, 22vw, 280px);
   width: auto;
@@ -24,29 +20,14 @@
   opacity: .94;
   pointer-events: none;
 }
-/* Hero 이미지(.support__hero-art)가 hero 하단 밖으로 살짝 내려온다. 구분선을
-   이미지 하단(오버행) 위치에 정확히 맞춰 이미지 가장 아랫부분과 딱 맞닿게 한다.
-   ※ 이미지가 있는 메인 고객지원 hero(.support__hero--art)에만 적용한다. 공지사항·
-     후기·FAQ 등 이미지가 없는 hero는 기본 구분선 위치를 유지한다. */
-.support__hero--art.subpage-hero::after,
-.support__hero--art.subpage-hero::before {
-  bottom: calc(clamp(24px, 3vw, 49px) * -1);
-}
 .support__title {
-  margin: 10px 0 8px;
+  margin: 10px 0 12px;
 }
 .support__section {
   padding-block: clamp(28px, 4vw, 54px);
   scroll-margin-top: 110px;
 }
-.support__hero + .support__section {
-  padding-top: clamp(10px, 1.5vw, 20px);
-}
-/* 고객지원 메인(SupportPage)만 hero에 이미지가 있다. 이미지가 아래로 내려오면서
-   구분선/공지사항과 겹치지 않도록 첫 섹션을 더 내린다. (공지사항 목록 .notices-page 제외) */
-.support:not(.notices-page) .support__hero + .support__section {
-  padding-top: clamp(64px, 7vw, 104px);
-}
+.support__hero + .support__section { padding-top: clamp(28px, 4vw, 54px); }
 .support-rule {
   position: relative;
   width: 100%;
