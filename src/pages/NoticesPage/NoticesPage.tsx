@@ -8,7 +8,7 @@ import { SelectField } from "../../components/ui/SelectField";
 
 export function NoticesPage() {
   const { isAdmin } = useAuth();
-  const defaults: ManagedContent[] = notices.map((notice) => ({ id: notice.id, title: notice.title, content: notice.content, meta: notice.date }));
+  const defaults: ManagedContent[] = notices.map((notice) => ({ id: notice.id, title: notice.title, content: notice.content, meta: notice.date, attachment: notice.attachment }));
   const [managedNotices, setManagedNotices] = useState(() => loadManagedContent("notices", defaults));
   const updateNotices = (items: ManagedContent[]) => { localStorage.setItem("managed-content:notices", JSON.stringify(items)); setManagedNotices(items); };
   const [query, setQuery] = useState("");
@@ -31,7 +31,7 @@ export function NoticesPage() {
       </header>
 
       <section className="support__section page-container">
-        {isAdmin && <ContentAdminPanel label="공지사항" items={managedNotices} onChange={updateNotices} />}
+        {isAdmin && <ContentAdminPanel label="공지사항" items={managedNotices} onChange={updateNotices} allowAttachment />}
         <h2 className="support__heading">공지사항</h2>
 
         <form className="notice-search" onSubmit={(event) => event.preventDefault()}>

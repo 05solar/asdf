@@ -8,7 +8,7 @@
   z-index: 0;
   right: 0;
   bottom: 0;
-  height: clamp(170px, 22vw, 280px);
+  height: clamp(154px, 19.5vw, 252px);
   width: auto;
   object-fit: contain;
   opacity: .94;
@@ -48,7 +48,7 @@
 .mypage--guest p { color: var(--color-text-muted); }
 .mypage--guest a { padding: 10px 34px; background: var(--color-primary); color: var(--color-primary-foreground); }
 @media (max-width: 680px) {
-  .mypage__hero-art { right: 0; height: clamp(110px, 26vw, 150px); width: auto; opacity: .55; }
+  .mypage__hero-art { right: 0; height: clamp(100px, 23vw, 136px); width: auto; opacity: .55; }
   .mypage__profile { grid-template-columns: 1fr; }
   .mypage__profile > div { border-right: 0; border-bottom: 1px solid var(--color-border-soft); }
   .mypage__profile > div:last-child { border-bottom: 0; }

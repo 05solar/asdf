@@ -14,7 +14,7 @@
   right: 0;
   bottom: 0;
   /* 마이페이지 hero 이미지(.mypage__hero-art)와 동일한 크기. */
-  height: clamp(170px, 22vw, 280px);
+  height: clamp(154px, 19.5vw, 252px);
   width: auto;
   object-fit: contain;
   opacity: .94;
@@ -398,7 +398,7 @@
   }
   .support__hero-art {
     right: 0;
-    height: clamp(110px, 26vw, 150px);
+    height: clamp(100px, 23vw, 136px);
     width: auto;
     opacity: .55;
   }
