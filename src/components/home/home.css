@@ -24,7 +24,7 @@
   flex: none;
   width: clamp(44px, 4.4vw, 84px);
   height: 1.5px;
-  background: var(--color-border-accent);
+  background: currentColor;
 }
 
 .home > section {
